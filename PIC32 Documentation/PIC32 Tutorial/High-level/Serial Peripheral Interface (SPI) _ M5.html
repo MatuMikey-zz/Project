@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Serial Peripheral Interface (SPI) | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Serial Peripheral Interface (SPI) Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Serial Peripheral Interface (SPI) _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./Serial Peripheral Interface (SPI) _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Serial Peripheral Interface (SPI) _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./Serial Peripheral Interface (SPI) _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Serial Peripheral Interface (SPI) _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./Serial Peripheral Interface (SPI) _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2814">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fspi">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fspi&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2814 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2814" class="post-2814 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">Serial Peripheral Interface (SPI)</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p>SPI is an interface used to connect external chips to a microcontroller. A huge variety of chips use SPI including sensors, displays, external memory, networking devices, control devices, etc. It’s a four-wire synchronous protocol with one master and any number of slaves. SPI is capable of full-duplex mode (receiving and transmitting data at the same time) and can have higher throughputs than other related protocols like I2C. However, SPI will also often occupy more pins on the master/slave IC’s than related protocols. </p>
+<p>A SPI bus consists of the following four data lines:<br>
+<strong>MOSI</strong> (Master Out Slave In): data line produced by master and received by slaves<br>
+<strong>MISO</strong> (Master In Slave Out): data line produced by slave but its generation is initiated by the master<br>
+<strong>SCK</strong> (Serial Clock): synchronizing clock generated by master<br>
+<strong>SS</strong> (Slave Select): select slave chip to communicate with (active LOW). The SPI master must have a separate slave select line for each slave.</p>
+<p>The PIC32 can be in master or slave mode. This means that in master mode, the SDOx (serial data out) pin is MOSI and the SDIx (serial data in) pin is MISO. In slave mode, the reverse is true. SDOx pin is MISO and SDIx is MOSI.</p>
+<p>When configuring the SPI pins, <a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/peripheral-pin-select-pps" title="PPS" target="_blank">peripheral pin select</a> handles the SDOx and SDIx pins. The slave select (SS) wire is dealt with manually as a general purpose I/O line. The Serial Clock (SCK) line is the only pin hardwired on PIC32MX220 microcontrollers. PIC32MX220’s have two SPI modules and the SCKx line for both of these is boxed in the pinout below.<br>
+<a href="./Serial Peripheral Interface (SPI) _ M5_files/SPI-SCK-pinout.png"><img src="./Serial Peripheral Interface (SPI) _ M5_files/SPI-SCK-pinout.png" alt="" title="SPI SCK pinout" width="844" height="313" class="aligncenter size-full wp-image-3116" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-SCK-pinout.png 844w, http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-SCK-pinout-300x111.png 300w" sizes="(max-width: 844px) 100vw, 844px"></a></p>
+<p>All SPI devices, masters and slaves, contain a single serial shift register. A SPI data transfer works as follow:</p>
+<ol>
+<li>The master selects a slave by setting that slave’s SS pin LOW</li>
+<li>The master writes data to be transferred to its SPI shift register</li>
+<li>The serial clock becomes active</li>
+<li>In synchronicity with the clock, data will be pushed out of the master’s shift register onto the MOSI line and into the slave’s shift register at the same time that data is pushed out of the slaves shift register onto the MISO line and into the master’s shift register. That is, as a bit is pushed out of either the master or slave’s shift register, a new bit is pushed in. The shift registers never really empty, they just exchange their contents.</li>
+<li>The master either releases the chip by bring the SS pin HIGH or begins another data transfer</li>
+</ol>
+<p>Since the slave chip will generally need time to perform some action based on the received data, SPI writes and reads are often split up. Generally, during a SPI write the master sends out a command and ignores the incoming message. During a SPI read, the master sends out a dummy byte and then reads the contents of its SPI shift register. When programming, the same function can be used to transmit and receive SPI data!</p>
+<p>If we were doing 8-bit SPI transfers using the PIC32’s SPI1 module, the following function is able to transmit and receive data.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">char</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> b<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    SPI1BUF <span style="color: #339933;">=</span> b<span style="color: #339933;">;</span>                     <span style="color: #666666; font-style: italic;">// write to shift register to begin transmission</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #339933;">!</span>SPI1STATbits.<span style="color: #202020;">SPIRBF</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// wait for transfer to complete</span>
+    <span style="color: #b1b100;">return</span> SPI1BUF<span style="color: #339933;">;</span>                  <span style="color: #666666; font-style: italic;">// read the shift register value</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">char SPI1_transfer( char b)
+{
+    SPI1BUF = b;                     // write to shift register to begin transmission
+    while( !SPI1STATbits.SPIRBF);    // wait for transfer to complete
+    return SPI1BUF;                  // read the shift register value
+}</p></div>
+
+<p>Here, the SPI1BUF is the SFR that is directly associated with the SPI1 shift register. This means we would write to and read from the SPIxBUF register. The bit <em>SPIRBF</em> in the SFR <em>SPIxSTAT</em> is the “SPI Receive Buffer Full Status Bit”. This bit is cleared if the receive buffer is not full and set if the receive buffer is full. Since there is only one SPI shift register, data is being shifted out while data is coming in and the receive buffer is full when a transfer/receive operation is complete.</p>
+<p>The following demonstrates how you could use this function, SPI1_transfer(), to send a data request to a slave chip and then read it’s response. Since the PIC32 doesn’t automatically deal with the slave select line, we’ll use pin RB4 and write to it manually. We’re assuming the slave select line can remain LOW during the entire TX/RX operation which is generally the case.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">LATBbits.<span style="color: #202020;">LATB4</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                  <span style="color: #666666; font-style: italic;">// select slave device</span>
+SPI1_transfer<span style="color: #009900;">(</span> tx_data<span style="color: #009900;">)</span><span style="color: #339933;">;</span>             <span style="color: #666666; font-style: italic;">// transmit byte tx_data</span>
+<span style="color: #993333;">char</span> response <span style="color: #339933;">=</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// send dummy byte and read response</span>
+LATBbits.<span style="color: #202020;">LATB4</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                  <span style="color: #666666; font-style: italic;">// release slave device</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">LATBbits.LATB4 = 0;                  // select slave device
+SPI1_transfer( tx_data);             // transmit byte tx_data
+char response = SPI1_transfer( 0);   // send dummy byte and read response
+LATBbits.LATB4 = 1;                  // release slave device</p></div>
+
+<p>Below is the PIC32 SPI block diagram from the datasheet. Intimidating but super useful if you take time to understand it! Remember that the PIC32 can be a master or a slave and so the data lines are labelled SDIx (Serial Data In) and SDOx (Serial Data Out) instead of MOSI and MISO.</p>
+<p><a href="./Serial Peripheral Interface (SPI) _ M5_files/SPI-block-diagram.png"><img class="aligncenter size-full wp-image-2860" title="SPI block diagram" src="./Serial Peripheral Interface (SPI) _ M5_files/SPI-block-diagram.png" alt="" width="628" height="492" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/SPI-block-diagram.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/05/SPI-block-diagram-300x235.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+<h2>SPI Configuration</h2>
+<p>The SFR <em>SPIxCON</em> does most of the standard SPI configuration while the register <em>SPIxCON2</em> deals with special SPI interrupts and SPI audio capabilities (can implement I2S, left/right justified audio, or PCM).</p>
+<p>Important <span style="text-decoration: underline;">SPIxCON</span> bits for basic functionality include:<br>
+bit 15, ON: SPI on bit<br>
+bit 8, CKE: Clock Edge Select bit<br>
+bit 6, CKP: Clock Polarity Select bit<br>
+bit 5, MSTEN: Master Mode Enable bit</p>
+<p>The <em>ON</em> and <em>MSTEN</em> bits are self explanatory. The <em>CKP</em> bit selects whether the clock (SCK) is LOW or HIGH when no SPI data is being transmitted (when <em>idle</em>). The <em>CKE</em> bit configures whether the SPI data will be read on a HIGH to LOW clock transition or a LOW to HIGH transition.</p>
+<p>The SPIxCON register also contains bits to configure something called <i>frame mode</i>. I won’t go into details here but frame mode allows the slave select pin to be controlled and synchronized by the SPI module for precision timing events. </p>
+<p>The <em>SPIxBRG</em> SFR configures the baud rate of the serial clock. Assuming the clock used is the peripheral bus clock (Pbclk), the baud rate is calculated by:</p>
+<p style="text-align: center;">Baud = Frequency_Pbclk / ( 2*( SPIxBRG+1))</p>
+<p>The following example configures SPI to be in master mode, have the serial clock idle LOW, receive data when the clock transitions from LOW to HIGH, and turn on. Assuming Pbclk is set to be the same frequency as SYSCLK running at 40MHz (true for most of the M5 tutorials), the baud rate will be configured to 4MHz.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// CKP (clock polarity control) = 0</span>
+<span style="color: #666666; font-style: italic;">// CKE (clock edge control) = 1</span>
+<span style="color: #666666; font-style: italic;">// 8-bit, Master Mode</span>
+<span style="color: #666666; font-style: italic;">// Baud = 4MHz = Fpb/( 2*( SPI1BRG+1)) = 40MHz/( 2*( 4+1))</span>
+SPI1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8120</span><span style="color: #339933;">;</span>                   
+SPI1BRG <span style="color: #339933;">=</span> <span style="color: #208080;">0x0004</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">// CKP (clock polarity control) = 0
+// CKE (clock edge control) = 1
+// 8-bit, Master Mode
+// Baud = 4MHz = Fpb/( 2*( SPI1BRG+1)) = 40MHz/( 2*( 4+1))
+SPI1CON = 0x8120;                   
+SPI1BRG = 0x0004;</p></div>
+
+<p>The logic snapshot below uses these configurations. The master sends out a value of ‘5’ and gets a response of ‘3’ before the SS line is brought HIGH. The arrows on the serial clock line (SCK), indicate when a bit is being sampled. In this case from the LOW to HIGH transition.<br>
+<a href="./Serial Peripheral Interface (SPI) _ M5_files/SPI-logic2.png"><img src="./Serial Peripheral Interface (SPI) _ M5_files/SPI-logic2.png" alt="" title="SPI logic" width="937" height="283" class="aligncenter size-full wp-image-3095" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-logic2.png 937w, http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-logic2-300x90.png 300w" sizes="(max-width: 937px) 100vw, 937px"></a></p>
+<p>As with using any PIC321xx/2xx peripheral like SPI, don’t forget to configure PPS as well!</p>
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			2 thoughts on “<span>Serial Peripheral Interface (SPI)</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-11082" class="comment even thread-even depth-1">
+			<article id="div-comment-11082" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Serial Peripheral Interface (SPI) _ M5_files/2f16ca9d2eec36b772ef5acb4994cd94.png" srcset="http://2.gravatar.com/avatar/2f16ca9d2eec36b772ef5acb4994cd94?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="https://www.facebook.com/phoenixrecording" rel="external nofollow" class="url">music producers in Hollywood</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi#comment-11082">
+							<time datetime="2014-07-08T06:53:01+00:00">
+								8 July 2014 at 06:53							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>I believe what you published made a bunch of sense.<br>
+However, what about this? what if you wrote a catchier post title?<br>
+I am not suggesting your content isn’t good., but suppose you added something to possibly grab people’s attention? I mean Serial Peripheral<br>
+Interface (SPI) | M5 is kinda vanilla. You ought to look at<br>
+Yahoo’s front page and watch how they create post headlines to get<br>
+people to click. You might add a video or a related pic or two to get people excited about everything’ve<br>
+got to say. Just my opinion, it could bring your posts a little bit more<br>
+interesting.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi?replytocom=11082#respond" onclick="return addComment.moveForm( &quot;div-comment-11082&quot;, &quot;11082&quot;, &quot;respond&quot;, &quot;2814&quot; )" aria-label="Reply to music producers in Hollywood">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-42087" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-42087" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Serial Peripheral Interface (SPI) _ M5_files/2c5f5b831dfc4c613d034bef41aded18.png" srcset="http://2.gravatar.com/avatar/2c5f5b831dfc4c613d034bef41aded18?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="https://www.robolinkmarket.com/" rel="external nofollow" class="url">Sefa Soysal</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi#comment-42087">
+							<time datetime="2015-11-23T15:43:34+00:00">
+								23 November 2015 at 15:43							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>can we use any gpio ss pin for harwdare spi?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi?replytocom=42087#respond" onclick="return addComment.moveForm( &quot;div-comment-42087&quot;, &quot;42087&quot;, &quot;respond&quot;, &quot;2814&quot; )" aria-label="Reply to Sefa Soysal">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2814" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="d398ab7cd5"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266111444"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./Serial Peripheral Interface (SPI) _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>

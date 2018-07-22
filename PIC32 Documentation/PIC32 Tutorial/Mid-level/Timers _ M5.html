@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Timers | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Timers Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Timers _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./Timers _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Timers _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./Timers _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Timers _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./Timers _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Timers _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2483">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Ftimers">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Ftimers&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2483 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2483" class="post-2483 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">Timers</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p>This tutorial will try to explain how timers work in a PIC32 and give some simple delay functions.</p>
+<p>The PIC32MX220 has five timer peripherals. The basic concept is very simple: the timer counts from ‘0’ to a certain value and then resets and repeats ad infinitum. Since we are dealing with a PIC microcontroller, there are plenty of options past this basic functionality if you need them. We’re only going to deal with enough timer information here to set up a basic delay function and understand the difference between some of the timers.</p>
+<h2>Timer SFRs</h2>
+<p>There are three main timer special function registers: TMRx, TxCON, and PRx.</p>
+<h4>TMRx</h4>
+<p>This SFR is readable and writable and contains the current timer value. Note that if you write a value of ‘0’ to <code>TMR1</code> (for Timer1), assuming Timer1 is ON, the value contained at <code>TMR1</code> will count upwards independent of any other code or what the CPU is doing. Hence, the timers are peripheral hardware units and can their job without taking up CPU power just like any other hardware peripheral.</p>
+<h4>TxCON</h4>
+<p>TxCON is the timer control register. It controls the activation and functionality of the timer. The following bits are relevant to all five timers and used in most applications.</p>
+<ul>
+<li>ON bit: enables or disables the timer</li>
+<li>Prescaler bits: the timer frequency equals the input clock frequency divided by the prescaler. Possible prescalers are 1:1, 1:8, 1:64, and 1:256 for Timer1 and all powers of 2 up to 256 (excluding 128) for timers 2-5.</li>
+<li>Timer clock source bit. The source can be a clock on an external pin (TxCK) or the peripheral bus clock (same as SYSCLK unless otherwise specified).</li>
+</ul>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">T1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8030</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// Turn on Timer1, prescaler is 256, source is peripheral bus clock</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">T1CON = 0x8030;    // Turn on Timer1, prescaler is 256, source is peripheral bus clock</p></div>
+
+<h4>PRx</h4>
+<p>PRx is the timer period register. It is the maximum value the timer will count to before reseting back to ‘0’. It is a readable and writeable register.</p>
+<h2>Timer1</h2>
+<p>Timer1 is a 16-bit timer that can be used with the low-power secondary oscillator for real-time clock applications and in sleep mode. The low-power operation makes it the choice for any application in which the PIC32 will be deployed for a long duration and needs to use as little power as possible. As a 16-bit timer, the period of Timer1 corresponding to its maximum count value before being reset, can be no greater than 2^16-1 or 65,535. Note that if PBclk = SYSCLK = 40MHz, and the largest prescaler of 1:256, the timer will be reset every 1/40e6 * 256 * 65535 = 0.419s.</p>
+<p>The datasheet section 12.0 has more information about Timer1.<br>
+<a href="./Timers _ M5_files/Timer1-Block-Diagram.png"><img class="aligncenter size-full wp-image-2785" title="Timer1 Block Diagram" src="./Timers _ M5_files/Timer1-Block-Diagram.png" alt="" width="618" height="370" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/Timer1-Block-Diagram.png 618w, http://umassamherstm5.org/wp-content/uploads/2012/05/Timer1-Block-Diagram-300x179.png 300w" sizes="(max-width: 618px) 100vw, 618px"></a></p>
+<p style="text-align: center;">Fig 1: Block Diagram for Timer1</p>
+<h2>Timers 2-5</h2>
+<p>Timers 2-5 are also all 16-bit timers. They, however, cannot be used with the low-power oscillator for real-time clock applications. Instead, timers 2/3 and timers 4/5 can be combined to form 32-bit timers. This means the maximum period value can be 2^32-1 or about 4.29 x 10^9.</p>
+<p>The datasheet section 13.0 has more information about timers 2-5.<br>
+<a href="./Timers _ M5_files/Timer2345-Block-Diagram.png"><img class="aligncenter size-full wp-image-2786" title="Timer2345 Block Diagram" src="./Timers _ M5_files/Timer2345-Block-Diagram.png" alt="" width="615" height="396" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/Timer2345-Block-Diagram.png 615w, http://umassamherstm5.org/wp-content/uploads/2012/05/Timer2345-Block-Diagram-300x193.png 300w" sizes="(max-width: 615px) 100vw, 615px"></a></p>
+<p style="text-align: center;">Fig 2: Block Diagram for Timers 2-5</p>
+<h2>Delay Functions</h2>
+<h4>Millisecond Delay</h4>
+<p>The following is a self-contained, blocking millisecond delay function. It’s self-contained in the sense that no configuration is required prior to calling the function since the timer is enabled and disabled within the function itself. It’s blocking since no other non-interrupt activity can be processed by the CPU until the delay function has completed.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Assumes the SYSCLK and PBCLK frequencies are the same</span>
+<span style="color: #666666; font-style: italic;">// Occupies Timer1</span>
+<span style="color: #993333;">void</span> delay_ms<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> t<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    T1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// enable Timer1, source PBCLK, 1:1 prescaler</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t<span style="color: #339933;">--</span><span style="color: #009900;">)</span>
+    <span style="color: #009900;">{</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">1000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// wait 1ms</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// disable Timer1</span>
+    T1CONCLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">// Assumes the SYSCLK and PBCLK frequencies are the same
+// Occupies Timer1
+void delay_ms( unsigned t)
+{
+    T1CON = 0x8000;     // enable Timer1, source PBCLK, 1:1 prescaler
+    while( t--)
+    {
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/1000); // wait 1ms
+    }
+
+    // disable Timer1
+    T1CONCLR = 0x8000;
+}</p></div>
+
+<h4>Microsecond Delay</h4>
+<p>The following is a self-contained, blocking microsecond delay function. The general setup is similar to the millisecond delay function. Note that any line of code that isn’t directly comparing <code>TMR1</code> to a constant adds to the function latency. This latency isn’t noticeable in <code>delay_ms()</code> but can be damaging on the microsecond scale. The function below uses a “trickle down” system to reduce time spent in lines that add unwanted time. Even with this precaution, the following function is still simple and not incredibly accurate for delays less than about 10us. It does operate over a wide variety of system clock frequencies though.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// Assumes the SYSCLK and PBCLK frequencies are the same</span>
+<span style="color: #666666; font-style: italic;">// Occupies Timer1</span>
+<span style="color: #993333;">void</span> delay_us<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> t<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    T1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// enable Timer1, source PBCLK, 1:1 prescaler</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 100us per loop until less than 100us remain</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;=</span> <span style="color: #0000dd;">100</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        t<span style="color: #339933;">-=</span><span style="color: #0000dd;">100</span><span style="color: #339933;">;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">10000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// wait 100us</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 10us per loop until less than 10us remain</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;=</span> <span style="color: #0000dd;">10</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        t<span style="color: #339933;">-=</span><span style="color: #0000dd;">10</span><span style="color: #339933;">;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">100000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// wait 10us</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 1us per loop until finished</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;</span> <span style="color: #0000dd;">0</span><span style="color: #009900;">)</span>
+    <span style="color: #009900;">{</span>
+        t<span style="color: #339933;">--;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">1000000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// wait 1us</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// disable Timer1</span>
+    T1CONCLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">// Assumes the SYSCLK and PBCLK frequencies are the same
+// Occupies Timer1
+void delay_us( unsigned t)
+{
+    T1CON = 0x8000;     // enable Timer1, source PBCLK, 1:1 prescaler
+
+    // delay 100us per loop until less than 100us remain
+    while( t &gt;= 100){
+        t-=100;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/10000); // wait 100us
+    }
+
+    // delay 10us per loop until less than 10us remain
+    while( t &gt;= 10){
+        t-=10;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/100000); // wait 10us
+    }
+
+    // delay 1us per loop until finished
+    while( t &gt; 0)
+    {
+        t--;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/1000000); // wait 1us
+    }
+
+    // disable Timer1
+    T1CONCLR = 0x8000;
+}</p></div>
+
+<h2>LED Blink Example</h2>
+<p><a href="./Timers _ M5_files/PIC32-LED_scaled.jpg"><img src="./Timers _ M5_files/PIC32-LED_scaled.jpg" alt="" title="PIC32 LED_scaled" width="798" height="548" class="aligncenter size-full wp-image-2955" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/PIC32-LED_scaled.jpg 798w, http://umassamherstm5.org/wp-content/uploads/2012/05/PIC32-LED_scaled-300x206.jpg 300w" sizes="(max-width: 798px) 100vw, 798px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// The following code will blink an LED connected to pin RB5 at a rate</span>
+<span style="color: #666666; font-style: italic;">// equal to once every BLINK_DELAY ms</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Include Header Files</span>
+<span style="color: #339933;">#include &lt;p32xxxx.h&gt;                // include chip specific header file</span>
+<span style="color: #339933;">#include &lt;plib.h&gt;                   // include peripheral library functions</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Configuration Bits</span>
+<span style="color: #339933;">#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL</span>
+<span style="color: #339933;">#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)</span>
+                                    <span style="color: #666666; font-style: italic;">// see figure 8.1 in datasheet for more info</span>
+<span style="color: #339933;">#pragma config FWDTEN = OFF         // Watchdog Timer Disabled</span>
+<span style="color: #339933;">#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select</span>
+<span style="color: #339933;">#pragma config JTAGEN = OFF         // Disable JTAG</span>
+<span style="color: #339933;">#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Defines</span>
+<span style="color: #339933;">#define SYSCLK 40000000L</span>
+<span style="color: #339933;">#define BLINK_DELAY 500             // LED toggle delay in ms</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    SYSTEMConfigPerformance<span style="color: #009900;">(</span>SYSCLK<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    TRISBbits.<span style="color: #202020;">TRISB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// RB5 -&gt; Output</span>
+&nbsp;
+    T1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// TMR1 on, prescaler 1:1</span>
+    PR1 <span style="color: #339933;">=</span> <span style="color: #208080;">0xffff</span><span style="color: #339933;">;</span>                   <span style="color: #666666; font-style: italic;">// Set timer 1 period to its max (2^16-1)</span>
+&nbsp;
+    <span style="color: #993333;">int</span> t <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        <span style="color: #666666; font-style: italic;">// delay by BLINK_DELAY ms</span>
+        t <span style="color: #339933;">=</span> BLINK_DELAY<span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t<span style="color: #339933;">--</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+            TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                   <span style="color: #666666; font-style: italic;">// reset timer 1</span>
+            <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">1000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// delay 1ms</span>
+        <span style="color: #009900;">}</span>
+&nbsp;
+        <span style="color: #666666; font-style: italic;">// invert pin RB5</span>
+        LATBINV <span style="color: #339933;">=</span> <span style="color: #208080;">0x0020</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">// The following code will blink an LED connected to pin RB5 at a rate
+// equal to once every BLINK_DELAY ms
+
+// Include Header Files
+#include &lt;p32xxxx.h&gt;                // include chip specific header file
+#include &lt;plib.h&gt;                   // include peripheral library functions
+
+// Configuration Bits
+#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL
+#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)
+#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)
+#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)
+                                    // see figure 8.1 in datasheet for more info
+#pragma config FWDTEN = OFF         // Watchdog Timer Disabled
+#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select
+#pragma config JTAGEN = OFF         // Disable JTAG
+#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator
+
+// Defines
+#define SYSCLK 40000000L
+#define BLINK_DELAY 500             // LED toggle delay in ms
+
+int main(){
+    SYSTEMConfigPerformance(SYSCLK);
+
+    TRISBbits.TRISB5 = 0;           // RB5 -&gt; Output
+
+    T1CON = 0x8000;                 // TMR1 on, prescaler 1:1
+    PR1 = 0xffff;                   // Set timer 1 period to its max (2^16-1)
+
+    int t = 0;
+    while( 1){
+        // delay by BLINK_DELAY ms
+        t = BLINK_DELAY;
+        while( t--){
+            TMR1 = 0;                   // reset timer 1
+            while( TMR1 &lt; SYSCLK/1000); // delay 1ms
+        }
+
+        // invert pin RB5
+        LATBINV = 0x0020;
+    }
+
+    return 1;
+}</p></div>
+
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			5 thoughts on “<span>Timers</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-2181" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-2181" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Timers _ M5_files/ed2168c0d7078210b7f8af937507f01c.png" srcset="http://2.gravatar.com/avatar/ed2168c0d7078210b7f8af937507f01c?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="http://studenteditors.org/node/8#comment-26017" rel="external nofollow" class="url">Jones sabo i had been sort surprised by where quell</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#comment-2181">
+							<time datetime="2013-05-03T09:44:15+00:00">
+								3 May 2013 at 09:44							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Excellent site. A lot of helpful info here. I am sending it to a few buddies ans additionally sharing in delicious. And of course, thank you on your effort!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers?replytocom=2181#respond" onclick="return addComment.moveForm( &quot;div-comment-2181&quot;, &quot;2181&quot;, &quot;respond&quot;, &quot;2483&quot; )" aria-label="Reply to Jones sabo i had been sort surprised by where quell">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2194" class="comment byuser comment-author-sklaiber bypostauthor odd alt depth-2">
+			<article id="div-comment-2194" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Timers _ M5_files/a4c3314bd6143b789e08ad760f86c035.png" srcset="http://1.gravatar.com/avatar/a4c3314bd6143b789e08ad760f86c035?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Sean Klaiber</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#comment-2194">
+							<time datetime="2013-05-05T10:09:14+00:00">
+								5 May 2013 at 10:09							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks a whole big bunch (to everyone else who has been supportive as well)! It really means a lot to know that people are reading these, enjoying them, and most importantly, learning something!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers?replytocom=2194#respond" onclick="return addComment.moveForm( &quot;div-comment-2194&quot;, &quot;2194&quot;, &quot;respond&quot;, &quot;2483&quot; )" aria-label="Reply to Sean Klaiber">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-3417" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-3417" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Timers _ M5_files/5330ab1a7c041f90f00e3783ed69a305.png" srcset="http://2.gravatar.com/avatar/5330ab1a7c041f90f00e3783ed69a305?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Anonymous</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#comment-3417">
+							<time datetime="2013-08-25T11:07:29+00:00">
+								25 August 2013 at 11:07							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Awesome site.<br>
+Thank you for organizing this info like this and explaining everything so clearly.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers?replytocom=3417#respond" onclick="return addComment.moveForm( &quot;div-comment-3417&quot;, &quot;3417&quot;, &quot;respond&quot;, &quot;2483&quot; )" aria-label="Reply to Anonymous">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-3420" class="comment byuser comment-author-sklaiber bypostauthor odd alt depth-2">
+			<article id="div-comment-3420" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Timers _ M5_files/a4c3314bd6143b789e08ad760f86c035.png" srcset="http://1.gravatar.com/avatar/a4c3314bd6143b789e08ad760f86c035?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Sean Klaiber</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#comment-3420">
+							<time datetime="2013-08-25T14:19:48+00:00">
+								25 August 2013 at 14:19							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Our pleasure! Glad you enjoyed it <img draggable="false" class="emoji" alt="🙂" src="./Timers _ M5_files/1f642.svg"></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers?replytocom=3420#respond" onclick="return addComment.moveForm( &quot;div-comment-3420&quot;, &quot;3420&quot;, &quot;respond&quot;, &quot;2483&quot; )" aria-label="Reply to Sean Klaiber">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-3418" class="comment even thread-even depth-1">
+			<article id="div-comment-3418" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Timers _ M5_files/5330ab1a7c041f90f00e3783ed69a305.png" srcset="http://2.gravatar.com/avatar/5330ab1a7c041f90f00e3783ed69a305?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Anonymous</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#comment-3418">
+							<time datetime="2013-08-25T11:07:29+00:00">
+								25 August 2013 at 11:07							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Awesome site.<br>
+Thank you for organizing this info like this and explaining everything so clearly.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers?replytocom=3418#respond" onclick="return addComment.moveForm( &quot;div-comment-3418&quot;, &quot;3418&quot;, &quot;respond&quot;, &quot;2483&quot; )" aria-label="Reply to Anonymous">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/timers#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2483" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="3a358f4f98"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266106841"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./Timers _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./Timers _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>

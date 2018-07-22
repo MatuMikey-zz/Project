@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!-- saved from url=(0100)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220 -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Basic Digital I/O | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Basic Digital I/O Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Basic Digital I_O _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./Basic Digital I_O _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Basic Digital I_O _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./Basic Digital I_O _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Basic Digital I_O _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./Basic Digital I_O _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2473">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2F1-basic-digital-io-220">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2F1-basic-digital-io-220&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2473 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2473" class="post-2473 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">Basic Digital I/O</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p>This tutorial demonstrates how to toggle and LED with a button. Subtopics discussed include:</p>
+<ul>
+<li>Digital control with TRISx, LATx, and PORTx</li>
+<li>Disabling analog mode with ANSELx</li>
+<li>Fast Bit Manipulation with CLR, SET, and INV</li>
+</ul>
+<p>Programming a microcontroller to toggle an LED with the push of a button may seem like a trivial feat to an observer but can be so very satisfying to the builder. It involves writing code, dealing with an IDE (integrated development environment – MPLAB X in our case), somehow getting that code onto the target microcontroller, and having a working circuit set up. That’s a lot! </p>
+<p>There are multiple tutorials on the M5 site to get you to the point of functionality. Note that this one only discusses some of the code. The configuration bit and include file parts (just about everything before <code>main()</code> in the code below) is discussed in a previous tutorial. </p>
+<h2>Digital control with TRISx, LATx, and PORTx</h2>
+<p>TRISx, LATx, and PORTx are what is called “Special Function Registers” or “SFRs” in the PIC world. An SFR is just a word in memory that controls or monitors some aspect of the PIC32’s functionality. Note that to provide compatibility with previous generation of PICs, all I/O pins on the PIC32 are grouped into ports named in alphabetical order from A-H. The PIC32MX220F032B only uses ports A and B due to the number of pins it has. The ‘x’ in TRISx, LATx, and PORTx is a placeholder for the port name of either ‘A’ or ‘B’. On the PIC32 pinout, pins with digital I/O capabilities are labelled RAn and RBn where n is some number. These are boxed below. Note that pin 14 would be referred to as RB5 when programmed as a digital I/O pin.<br>
+<a href="./Basic Digital I_O _ M5_files/Basic-IO-pinout.png"><img src="./Basic Digital I_O _ M5_files/Basic-IO-pinout.png" alt="" title="Basic IO pinout" width="844" height="313" class="aligncenter size-full wp-image-2751" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/Basic-IO-pinout.png 844w, http://umassamherstm5.org/wp-content/uploads/2012/05/Basic-IO-pinout-300x111.png 300w" sizes="(max-width: 844px) 100vw, 844px"></a></p>
+<p><strong>TRISx</strong><br>
+TRISx sets the direction of the pin. Corresponding port pin is an input<br>
+when the bit is set (1), output when the bit is cleared (0).<br>
+Think 1=I(nput) and 0=O(utput). For example:</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">TRISA <span style="color: #339933;">=</span> <span style="color: #208080;">0x000C</span><span style="color: #339933;">;</span>         <span style="color: #666666; font-style: italic;">// configure pins RA2 and RA3 to inputs, rest of PortA as outputs</span>
+TRISBbits.<span style="color: #202020;">TRISB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// configure pin RB5 as an output</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">TRISA = 0x000C;         // configure pins RA2 and RA3 to inputs, rest of PortA as outputs
+TRISBbits.TRISB5 = 0;   // configure pin RB5 as an output</p></div>
+
+<p><strong>LATx</strong><br>
+LATx sets the output value at that particular port.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">LATA <span style="color: #339933;">=</span> <span style="color: #208080;">0x003E</span><span style="color: #339933;">;</span>          <span style="color: #666666; font-style: italic;">// sets RA1 through RA5 HIGH, all else on PortA LOW</span>
+LATBbits.<span style="color: #202020;">LATB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// set pin RB5 HIGH</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">LATA = 0x003E;          // sets RA1 through RA5 HIGH, all else on PortA LOW
+LATBbits.LATB5 = 1;     // set pin RB5 HIGH</p></div>
+
+<p><strong>PORTx</strong><br>
+PORTx holds the value at that port’s pin, which can then be read. Pins near 3.3V will have a value of ‘1’ while pins near ground will have a value of ‘0’.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">int</span> val<span style="color: #339933;">;</span>
+val <span style="color: #339933;">=</span> PORTA<span style="color: #339933;">;</span>            <span style="color: #666666; font-style: italic;">// writes the values of all pins on PortA to val</span>
+val <span style="color: #339933;">=</span> PORTAbits.<span style="color: #202020;">RA3</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// writes the value of pin RA3 to val</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">int val;
+val = PORTA;            // writes the values of all pins on PortA to val
+val = PORTAbits.RA3;    // writes the value of pin RA3 to val</p></div>
+
+<h2>Disabling analog mode with ANSELx</h2>
+<p>ANSELx is an SFR that controls whether a pin is in analog or digital mode. Certain pins are in analog mode by default and will not work properly (write operations may still work but read operations never will) without turning off analog mode for that pin. You will know if a specific pin defaults to analog mode if the pinout has the signifier <i>ANx</i> next to it. Analog pins are boxed below.<br>
+<a href="./Basic Digital I_O _ M5_files/Basic-IO-Analog-pinout.png"><img src="./Basic Digital I_O _ M5_files/Basic-IO-Analog-pinout.png" alt="" title="Basic IO Analog pinout" width="844" height="313" class="aligncenter size-full wp-image-2758" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/Basic-IO-Analog-pinout.png 844w, http://umassamherstm5.org/wp-content/uploads/2012/05/Basic-IO-Analog-pinout-300x111.png 300w" sizes="(max-width: 844px) 100vw, 844px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">ANSELB <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>             <span style="color: #666666; font-style: italic;">// Sets all or PortB as digital</span>
+ANSELBbits.<span style="color: #202020;">ANSB3</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// sets pin RB3 as digital</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">ANSELB = 0;             // Sets all or PortB as digital
+ANSELBbits.ANSB3 = 0;   // sets pin RB3 as digital</p></div>
+
+<h2>Fast Bit Manipulation with CLR, SET, and INV</h2>
+<p>A majority of SFRs have three additional registers that provide a very fast way of modifying the registers contents. These are the CLR, SET, and INV registers.</p>
+<p>Just how fast? When using these registers, the entire read-modify-write operation is performed in a single clock cycle. These operations are thus ‘atomic’ or guaranteed to be completely finished once started. There is no chance for any interrupt related concurrency issue.</p>
+<p>To use the CLR, SET, and INV registers, just add the identifier as a suffix to whatever register is being modified. This new register can only be written to. Wherever a ‘1’ is found in the write value, the appropriate action will be taken on that bit. Wherever a ‘0’ is found in the write value, those bits will be ignored. For example:</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">TRISB <span style="color: #339933;">=</span> <span style="color: #208080;">0x0101</span><span style="color: #339933;">;</span>        <span style="color: #666666; font-style: italic;">// pins RB8 and RB0 are the only inputs on PortB</span>
+TRISBCLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0100</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// TRISB = 0x0001;</span>
+TRISBSET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0002</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// TRISB = 0x0003;</span>
+TRISBINV <span style="color: #339933;">=</span> <span style="color: #208080;">0x0103</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// TRISB = 0x0100;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">TRISB = 0x0101;        // pins RB8 and RB0 are the only inputs on PortB
+TRISBCLR = 0x0100;     // TRISB = 0x0001;
+TRISBSET = 0x0002;     // TRISB = 0x0003;
+TRISBINV = 0x0103;     // TRISB = 0x0100;</p></div>
+
+<p>To find out if a particular SFR has corresponding CLR, SET, and INV registers, the “Register Map” in the PIC32 datasheet will have a note at the bottom saying something similar to <i>“Note 1: All registers in this table have corresponding CLR, SET and INV registers at their virtual addresses, plus offsets of 0x4, 0x8 and 0xC, respectively. See Section 11.2 “CLR, SET and INV Registers” for more information.”</i></p>
+<h2>Hardware</h2>
+<p><a href="./Basic Digital I_O _ M5_files/PIC32_button.jpg"><img src="./Basic Digital I_O _ M5_files/PIC32_button.jpg" alt="" title="PIC32_button" width="800" height="513" class="aligncenter size-full wp-image-2990" srcset="http://umassamherstm5.org/wp-content/uploads/2012/05/PIC32_button.jpg 800w, http://umassamherstm5.org/wp-content/uploads/2012/05/PIC32_button-300x192.jpg 300w" sizes="(max-width: 800px) 100vw, 800px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #666666; font-style: italic;">// This example code will toggle an LED on pin RB5 when a </span>
+<span style="color: #666666; font-style: italic;">// N/O (normally open) button connected to pin RB3 is pressed</span>
+&nbsp;
+<span style="color: #339933;">#include &lt;p32xxxx.h&gt;                // include chip specific header file</span>
+<span style="color: #339933;">#include &lt;plib.h&gt;                   // include peripheral library functions</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Configuration Bits </span>
+<span style="color: #339933;">#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL</span>
+<span style="color: #339933;">#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)</span>
+                                    <span style="color: #666666; font-style: italic;">// see figure 8.1 in datasheet for more info</span>
+<span style="color: #339933;">#pragma config FWDTEN = OFF         // Watchdog Timer Disabled</span>
+<span style="color: #339933;">#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select</span>
+<span style="color: #339933;">#pragma config JTAGEN = OFF         // Disable JTAG</span>
+<span style="color: #339933;">#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator</span>
+&nbsp;
+<span style="color: #339933;">#define SYSCLK 40000000L</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span> <span style="color: #993333;">void</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    <span style="color: #666666; font-style: italic;">// Configure PIC32 for maximum performance given the system clock frequency</span>
+    <span style="color: #666666; font-style: italic;">// : included in plib.h</span>
+    SYSTEMConfigPerformance<span style="color: #009900;">(</span>SYSCLK<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    ANSELB <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                     <span style="color: #666666; font-style: italic;">// Set all of PortB as digital</span>
+    TRISBbits.<span style="color: #202020;">TRISB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// RB5 -&gt; Output</span>
+    TRISBbits.<span style="color: #202020;">TRISB3</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// RB3 -&gt; Input</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Loop here while power remains since there isn’t really an</span>
+    <span style="color: #666666; font-style: italic;">//   operating system to return to…</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span>
+    <span style="color: #009900;">{</span>
+        <span style="color: #666666; font-style: italic;">// Set the LED pin HIGH while the button is pressed</span>
+	LATBbits.<span style="color: #202020;">LATB5</span> <span style="color: #339933;">=</span> ~PORTBbits.<span style="color: #202020;">RB3</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// should never get to this line</span>
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">// This example code will toggle an LED on pin RB5 when a 
+// N/O (normally open) button connected to pin RB3 is pressed
+
+#include &lt;p32xxxx.h&gt;                // include chip specific header file
+#include &lt;plib.h&gt;                   // include peripheral library functions
+
+// Configuration Bits 
+#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL
+#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)
+#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)
+#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)
+                                    // see figure 8.1 in datasheet for more info
+#pragma config FWDTEN = OFF         // Watchdog Timer Disabled
+#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select
+#pragma config JTAGEN = OFF         // Disable JTAG
+#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator
+
+#define SYSCLK 40000000L
+
+int main( void)
+{
+    // Configure PIC32 for maximum performance given the system clock frequency
+    // : included in plib.h
+    SYSTEMConfigPerformance(SYSCLK);
+
+    ANSELB = 0;                     // Set all of PortB as digital
+    TRISBbits.TRISB5 = 0;           // RB5 -&gt; Output
+    TRISBbits.TRISB3 = 1;           // RB3 -&gt; Input
+
+    // Loop here while power remains since there isn’t really an
+    //   operating system to return to…
+    while( 1)
+    {
+        // Set the LED pin HIGH while the button is pressed
+	LATBbits.LATB5 = ~PORTBbits.RB3;
+    }
+
+    // should never get to this line
+    return 1;
+}</p></div>
+
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			7 thoughts on “<span>Basic Digital I/O</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-1849" class="comment even thread-even depth-1">
+			<article id="div-comment-1849" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/9a8ad233a54dbb09ddb633b7a30037f4.png" srcset="http://0.gravatar.com/avatar/9a8ad233a54dbb09ddb633b7a30037f4?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Venkat</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-1849">
+							<time datetime="2013-03-16T12:24:01+00:00">
+								16 March 2013 at 12:24							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>HI,<br>
+I am trying to output a 8 bit number to a an 8 bit D/A converter. I connected RB0,RB1,RB2,RB3,RB4,RB5,R7,R8,R9 to the D/A converter.<br>
+When I count from 0 to 255 I don’t get a clean sawtooth wave form. If I only restrict to the bits from RB0-RB5 by outputting from 0 to 63 the sawtooth is fine.  In the first case it almost looks like it’s  the RB7-RB9 outputs are changing differently. Any help is appreciated. </p>
+<p>Venkat</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=1849#respond" onclick="return addComment.moveForm( &quot;div-comment-1849&quot;, &quot;1849&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to Venkat">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-3269" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-3269" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/73addcd5865bc9bda94fef14f76702d0.png" srcset="http://1.gravatar.com/avatar/73addcd5865bc9bda94fef14f76702d0?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="http://betterware-poland.com.pl/" rel="external nofollow" class="url">betterware-poland</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-3269">
+							<time datetime="2013-08-13T01:13:51+00:00">
+								13 August 2013 at 01:13							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Right here is the perfect webpage for anybody who hopes to understand this<br>
+topic. You know a whole lot its almost hard to argue with<br>
+you (not that I really would want to…HaHa).<br>
+You definitely put a fresh spin on a subject which has been discussed for years.<br>
+Great stuff, just great!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=3269#respond" onclick="return addComment.moveForm( &quot;div-comment-3269&quot;, &quot;3269&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to betterware-poland">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-4845" class="comment even thread-even depth-1">
+			<article id="div-comment-4845" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/3eda6fcd3204ef285fa52176c28c4d3e.png" srcset="http://0.gravatar.com/avatar/3eda6fcd3204ef285fa52176c28c4d3e?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Annon</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-4845">
+							<time datetime="2013-11-18T04:01:39+00:00">
+								18 November 2013 at 04:01							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Saying Thank You will not even come close to the time you have saved <img draggable="false" class="emoji" alt="🙂" src="./Basic Digital I_O _ M5_files/1f642.svg"> Thanks anyways <img draggable="false" class="emoji" alt="🙂" src="./Basic Digital I_O _ M5_files/1f642.svg"></p>
+<p>Could you write an article about the USB features of this chip ?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=4845#respond" onclick="return addComment.moveForm( &quot;div-comment-4845&quot;, &quot;4845&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to Annon">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-4846" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-4846" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/3eda6fcd3204ef285fa52176c28c4d3e.png" srcset="http://0.gravatar.com/avatar/3eda6fcd3204ef285fa52176c28c4d3e?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Annon</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-4846">
+							<time datetime="2013-11-18T04:01:39+00:00">
+								18 November 2013 at 04:01							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Saying Thank You will not even come close to the time you have saved <img draggable="false" class="emoji" alt="🙂" src="./Basic Digital I_O _ M5_files/1f642.svg"> Thanks anyways <img draggable="false" class="emoji" alt="🙂" src="./Basic Digital I_O _ M5_files/1f642.svg"></p>
+<p>Could you write an article about the USB features of this chip ?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=4846#respond" onclick="return addComment.moveForm( &quot;div-comment-4846&quot;, &quot;4846&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to Annon">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-5667" class="comment even thread-even depth-1">
+			<article id="div-comment-5667" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/c9e45711238de8cf5bfabd19f0e43709.png" srcset="http://0.gravatar.com/avatar/c9e45711238de8cf5bfabd19f0e43709?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Bill</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-5667">
+							<time datetime="2013-12-28T14:39:22+00:00">
+								28 December 2013 at 14:39							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nice page. Description of the process of building something using this technology is spot on. I would also add, there are many little gotchas that are poorly documented by manufacturer. Like setting config  JTAGEN = OFF when you want to use Port B, pin 8 as a digital output. It’s only doing searches on Google that found that problem (and also got me to your nice page).</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=5667#respond" onclick="return addComment.moveForm( &quot;div-comment-5667&quot;, &quot;5667&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to Bill">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-6346" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-6346" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/4a5b8527e3f356a8e6112926b2e18ac5.png" srcset="http://1.gravatar.com/avatar/4a5b8527e3f356a8e6112926b2e18ac5?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="http://windykacjapl.blog.com/proces-windykacja-naleznosci/" rel="external nofollow" class="url">windykacja należności</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-6346">
+							<time datetime="2014-02-06T01:36:39+00:00">
+								6 February 2014 at 01:36							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This paragraph is actually a nice one it helps new the web users, who are wishing in<br>
+favor of blogging.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=6346#respond" onclick="return addComment.moveForm( &quot;div-comment-6346&quot;, &quot;6346&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to windykacja należności">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-7770" class="comment even thread-even depth-1">
+			<article id="div-comment-7770" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Basic Digital I_O _ M5_files/907056a993ef66e3e826a8413cd3bc13.png" srcset="http://0.gravatar.com/avatar/907056a993ef66e3e826a8413cd3bc13?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn"><a href="http://www.tahmidmc.blogspot.com/" rel="external nofollow" class="url">Syed Tahmid Mahbub</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#comment-7770">
+							<time datetime="2014-04-02T00:43:52+00:00">
+								2 April 2014 at 00:43							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Simple and clear explanation!</p>
+<p>I feel like it would also be great if you could cover a bit more of the IO stuff that truly make the PIC32 so awesome. Like the configurable pull-up/pull-down, open-drain and the pin interrupts. I’m currently working on the PIC32MX250F128B and am myself writing some tutorials for it. I’d be more than glad to write some for this page as the tutorials here look nice and I’d love to contribute!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220?replytocom=7770#respond" onclick="return addComment.moveForm( &quot;div-comment-7770&quot;, &quot;7770&quot;, &quot;respond&quot;, &quot;2473&quot; )" aria-label="Reply to Syed Tahmid Mahbub">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/1-basic-digital-io-220#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2473" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="8e18a6c4b4"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266106214"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./Basic Digital I_O _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./Basic Digital I_O _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>

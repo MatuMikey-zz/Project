@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Analog to Digital Conversion (ADC) | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Analog to Digital Conversion (ADC) Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Analog to Digital Conversion (ADC) _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./Analog to Digital Conversion (ADC) _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Analog to Digital Conversion (ADC) _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./Analog to Digital Conversion (ADC) _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Analog to Digital Conversion (ADC) _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./Analog to Digital Conversion (ADC) _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2999">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fadc">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fadc&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2999 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2999" class="post-2999 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">Analog to Digital Conversion (ADC)</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p>The PIC32’s Analog to Digital Converter (ADC) is surprisingly difficult to set up if you’re using it for the first time. Like so many of the PIC peripherals, the number of configuration options seem endless. This tutorial will help you to understand some of the fundamental ADC options and configure the ADC in two different ways.</p>
+<h2>PIC32 ADC Basics</h2>
+<p><a href="./Analog to Digital Conversion (ADC) _ M5_files/ADC-Block-Diagram-outlined-removed.png"><img class="aligncenter size-full wp-image-3016" title="ADC Block Diagram outlined" src="./Analog to Digital Conversion (ADC) _ M5_files/ADC-Block-Diagram-outlined-removed.png" alt="" width="683" height="413" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/ADC-Block-Diagram-outlined-removed.png 683w, http://umassamherstm5.org/wp-content/uploads/2012/06/ADC-Block-Diagram-outlined-removed-300x181.png 300w" sizes="(max-width: 683px) 100vw, 683px"></a></p>
+<p style="text-align: center;">Fig. 1: ADC block diagram, figure 21-1 in datasheet</p>
+<p>The 10-bit ADC can be split into two sections: Acquisition and Conversion.</p>
+<h4>Acquisition</h4>
+<p>The acquisition or sampling section of the block diagram is highlighted in purple. Acquisition is when a capacitor is filled to match the input analog voltage. After a specified amount of time (hopefully when the voltage across the capacitor matches the input pin voltage), the capacitor is released from the acquisition circuit and the voltage is considered to be sampled. This <em>“sample and hold”</em> (SHA) capacitor and switch is outlined in orange in the block diagram.</p>
+<h4>Conversion</h4>
+<p>The conversion circuit is outlined in blue in the block diagram. Conversion is when the voltage in the <em>sample and hold</em> capacitor is converted into a binary representation usable in software. For PIC32’s, the conversion is done by means of a <em>successive approximation register (SAR)</em>. A successive approximation ADC compares the pins voltage to an internal analog voltage generated by an internal DAC (digital-to-analog converter of course!). The DAC voltage will be incremented until a match is found. When this happens, the 10-bit value used to drive the DAC becomes the 10-bit analog value. </p>
+<p>The PIC32 ADC has its own clock with a configurable period. Acquisition takes a minimum of 132 ns and the minimum ADC clock period (TAD) is listed as being 65 ns. Since conversion takes 12 TAD (one per bit plus a start/stop bit), in theory, the fastest the ADC can complete one sample/convert sequence is 912 ns. I’ve found that increasing these times also increases the ADC’s accuracy and will do so below. The higher the input impedance, the longer the acquisition/conversion times should be. See table 29-33 in the datasheet for more timing information.</p>
+<p>When configuring the ADC, pins will generally be referenced by their analog pin number. This is not the same pin number often used for the I/O registers and the <code>ANSELx</code> special function register. Analog pin numbers are highlighted in purple below.<br>
+<a href="./Analog to Digital Conversion (ADC) _ M5_files/Basic-IO-Analog-pinout.png"><img src="./Analog to Digital Conversion (ADC) _ M5_files/Basic-IO-Analog-pinout.png" alt="" title="Basic IO Analog pinout" width="844" height="313" class="aligncenter size-full wp-image-3019" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/Basic-IO-Analog-pinout.png 844w, http://umassamherstm5.org/wp-content/uploads/2012/06/Basic-IO-Analog-pinout-300x111.png 300w" sizes="(max-width: 844px) 100vw, 844px"></a></p>
+<h2>Manual Mode Configuration</h2>
+<p>In manual mode, the programmer must make an individual request every time the ADC starts a sample. In the version presented here, the acquisition is started manually by setting <code>AD1CON1bits.SAMP</code> HIGH. Conversion will then start automatically after an amount of time specified in the <code>AD1CON3</code> SFR. When acquisition is finished, the <code>SAMP</code> bit will go LOW. When conversion is done, the <code>AD1CON1bits.DONE</code> bit will go HIGH. The result will be stored in one of the <i>ADC1BUFx</i> registers. </p>
+<p>Since we’re only requesting the analog value of one pin at a time in this manual mode, the result is always stored in the first buffer register or <code>ADC1BUF0</code>. </p>
+<p>The <code>AD1CHS</code> is the channel select SFR. Of importance to us is that <i>AD1CHS&lt;16:19&gt;</i> control which pin is being input to the ADC. </p>
+<p>With this information, we can make a simple function that takes as input an analog pin number and returns the 10-bit analog voltage as an int from 0-1023 as follows.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">int</span> analogRead<span style="color: #009900;">(</span><span style="color: #993333;">char</span> analogPIN<span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    AD1CHS <span style="color: #339933;">=</span> analogPIN <span style="color: #339933;">&lt;&lt;</span> <span style="color: #0000dd;">16</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// AD1CHS&lt;16:19&gt; controls which analog pin goes to the ADC</span>
+&nbsp;
+    AD1CON1bits.<span style="color: #202020;">SAMP</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// Begin sampling</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> AD1CON1bits.<span style="color: #202020;">SAMP</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>      <span style="color: #666666; font-style: italic;">// wait until acquisition is done</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #339933;">!</span> AD1CON1bits.<span style="color: #202020;">DONE</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// wait until conversion done</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> ADC1BUF0<span style="color: #339933;">;</span>                <span style="color: #666666; font-style: italic;">// result stored in ADC1BUF0</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">int analogRead(char analogPIN){
+    AD1CHS = analogPIN &lt;&lt; 16;       // AD1CHS&lt;16:19&gt; controls which analog pin goes to the ADC
+
+    AD1CON1bits.SAMP = 1;           // Begin sampling
+    while( AD1CON1bits.SAMP );      // wait until acquisition is done
+    while( ! AD1CON1bits.DONE );    // wait until conversion done
+
+    return ADC1BUF0;                // result stored in ADC1BUF0
+}</p></div>
+
+<p>To configure for this mode, we set the conversion to trigger automatically after acquisition is done by setting the SSRC bits found at <i>AD1CON1&lt;5:7&gt;</i>. Choosing manual mode is also found in this register. In <i>AD1CON3</i>, we will set the source of the ADC clock, how long a period (TAD) is, and how many periods of this clock per acquisition. Conversion is always 12 TAD cycles long. In our program, we’ll set the analog clock period to be four times the peripheral bus clock period which will be equal to SYSCLK. That is, TAD = 4*TPB. At FPB = 40MHz, TAD = 4*TPB = 100ns. To be on the safe side, we’ll configure the acquisition period as 15*TAD = 1.5us. Thus, the entire analog-to-digital conversion takes 27*TAD = 2.7us. The configuration is shown below.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> adcConfigureManual<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    AD1CON1CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// disable ADC before configuration</span>
+&nbsp;
+    AD1CON1 <span style="color: #339933;">=</span> <span style="color: #208080;">0x00E0</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// internal counter ends sampling and starts conversion (auto-convert), manual sample</span>
+    AD1CON2 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>            <span style="color: #666666; font-style: italic;">// AD1CON2&lt;15:13&gt; set voltage reference to pins AVSS/AVDD</span>
+    AD1CON3 <span style="color: #339933;">=</span> <span style="color: #208080;">0x0f01</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// TAD = 4*TPB, acquisition time = 15*TAD </span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">void adcConfigureManual(){
+    AD1CON1CLR = 0x8000;    // disable ADC before configuration
+ 
+    AD1CON1 = 0x00E0;       // internal counter ends sampling and starts conversion (auto-convert), manual sample
+    AD1CON2 = 0;            // AD1CON2&lt;15:13&gt; set voltage reference to pins AVSS/AVDD
+    AD1CON3 = 0x0f01;       // TAD = 4*TPB, acquisition time = 15*TAD 
+}</p></div>
+
+<p>With this configuration, a call to our <code>analogRead()</code> function takes a tested time of 4us. This is relatively slow for the PIC32 but is very stable and fast enough for many applications. If faster times are desired, one solution is to use the automatic configuration as described below. </p>
+<p>Before we get into that whole business though, here’s some code and the corresponding circuit to make a poor man’s theremin with a 4-11kohm CdS photocell and piezo buzzer. There’s a pushbutton between pin RB5 and the piezo buzzer for your sanity. Although this little circuit can be fun, don’t expect to sound like Clara Rockmore when playing it. </p>
+<h2>Poor Man’s Theremin Hardware and Code</h2>
+<p><a href="./Analog to Digital Conversion (ADC) _ M5_files/ADC-theremin-circuit.jpg"><img src="./Analog to Digital Conversion (ADC) _ M5_files/ADC-theremin-circuit.jpg" alt="" title="ADC theremin circuit" width="800" height="600" class="aligncenter size-full wp-image-3048" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/ADC-theremin-circuit.jpg 800w, http://umassamherstm5.org/wp-content/uploads/2012/06/ADC-theremin-circuit-300x225.jpg 300w" sizes="(max-width: 800px) 100vw, 800px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">/* Reads the analog voltage at pin RB3 and modifies the output frequency of a square wave
+ * output to pin RB5 with this value
+ *
+ * Input is expected to be a CdS photocell in a voltage divide configuration
+ * Output is expected to be a piezo buzzer
+ */</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// include header files</span>
+<span style="color: #339933;">#include &lt;plib.h&gt;</span>
+<span style="color: #339933;">#include &lt;p32xxxx.h&gt;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Config Bits</span>
+<span style="color: #339933;">#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL</span>
+<span style="color: #339933;">#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)</span>
+                                    <span style="color: #666666; font-style: italic;">// see figure 8.1 in datasheet for more info</span>
+<span style="color: #339933;">#pragma config FWDTEN = OFF         // Watchdog Timer Disabled</span>
+<span style="color: #339933;">#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)</span>
+<span style="color: #339933;">#pragma config JTAGEN = OFF         // Disable JTAG</span>
+<span style="color: #339933;">#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Defines</span>
+<span style="color: #339933;">#define SYSCLK (40000000)</span>
+&nbsp;
+<span style="color: #993333;">int</span> analogRead<span style="color: #009900;">(</span><span style="color: #993333;">char</span> analogPIN<span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    AD1CHS <span style="color: #339933;">=</span> analogPIN <span style="color: #339933;">&lt;&lt;</span> <span style="color: #0000dd;">16</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// AD1CHS&lt;16:19&gt; controls which analog pin goes to the ADC</span>
+&nbsp;
+    AD1CON1bits.<span style="color: #202020;">SAMP</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// Begin sampling</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> AD1CON1bits.<span style="color: #202020;">SAMP</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>      <span style="color: #666666; font-style: italic;">// wait until acquisition is done</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #339933;">!</span> AD1CON1bits.<span style="color: #202020;">DONE</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// wait until conversion done</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> ADC1BUF0<span style="color: #339933;">;</span>                <span style="color: #666666; font-style: italic;">// result stored in ADC1BUF0</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #993333;">void</span> delay_us<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> t<span style="color: #009900;">)</span>          <span style="color: #666666; font-style: italic;">// See Timers tutorial for more info on this function</span>
+<span style="color: #009900;">{</span>
+    T1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// enable Timer1, source PBCLK, 1:1 prescaler</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 100us per loop until less than 100us remain</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;=</span> <span style="color: #0000dd;">100</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        t<span style="color: #339933;">-=</span><span style="color: #0000dd;">100</span><span style="color: #339933;">;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">10000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 10us per loop until less than 10us remain</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;=</span> <span style="color: #0000dd;">10</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        t<span style="color: #339933;">-=</span><span style="color: #0000dd;">10</span><span style="color: #339933;">;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">100000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// delay 1us per loop until finished</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> t <span style="color: #339933;">&gt;</span> <span style="color: #0000dd;">0</span><span style="color: #009900;">)</span>
+    <span style="color: #009900;">{</span>
+        t<span style="color: #339933;">--;</span>
+        TMR1 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+        <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> TMR1 <span style="color: #339933;">&lt;</span> SYSCLK<span style="color: #339933;">/</span><span style="color: #0000dd;">1000000</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// turn off Timer1 so function is self-contained</span>
+    T1CONCLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END delay_us()</span>
+&nbsp;
+<span style="color: #993333;">void</span> adcConfigureManual<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    AD1CON1CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// disable ADC before configuration</span>
+&nbsp;
+    AD1CON1 <span style="color: #339933;">=</span> <span style="color: #208080;">0x00E0</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// internal counter ends sampling and starts conversion (auto-convert), manual sample</span>
+    AD1CON2 <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>            <span style="color: #666666; font-style: italic;">// AD1CON2&lt;15:13&gt; set voltage reference to pins AVSS/AVDD</span>
+    AD1CON3 <span style="color: #339933;">=</span> <span style="color: #208080;">0x0f01</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// TAD = 4*TPB, acquisition time = 15*TAD</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END adcConfigureManual()</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span> <span style="color: #993333;">void</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+	SYSTEMConfigPerformance<span style="color: #009900;">(</span>SYSCLK<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+        <span style="color: #666666; font-style: italic;">// Configure pins as analog inputs</span>
+        ANSELBbits.<span style="color: #202020;">ANSB3</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// set RB3 (AN5) to analog</span>
+        TRISBbits.<span style="color: #202020;">TRISB3</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// set RB3 as an input</span>
+        TRISBbits.<span style="color: #202020;">TRISB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// set RB5 as an output (note RB5 is a digital only pin)</span>
+&nbsp;
+        adcConfigureManual<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// Configure ADC</span>
+        AD1CON1SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// Enable ADC</span>
+&nbsp;
+        <span style="color: #993333;">int</span> foo<span style="color: #339933;">;</span>
+	<span style="color: #b1b100;">while</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span>
+	<span style="color: #009900;">{</span>
+            foo <span style="color: #339933;">=</span> analogRead<span style="color: #009900;">(</span> <span style="color: #0000dd;">5</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// note that we call pin AN5 (RB3) by it's analog number</span>
+            delay_us<span style="color: #009900;">(</span> foo<span style="color: #009900;">)</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// delay according to the voltage at RB3 (AN5)</span>
+            LATBINV <span style="color: #339933;">=</span> <span style="color: #208080;">0x0020</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// invert the state of RB5</span>
+	<span style="color: #009900;">}</span>
+&nbsp;
+	<span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">/* Reads the analog voltage at pin RB3 and modifies the output frequency of a square wave
+ * output to pin RB5 with this value
+ *
+ * Input is expected to be a CdS photocell in a voltage divide configuration
+ * Output is expected to be a piezo buzzer
+ */
+
+// include header files
+#include &lt;plib.h&gt;
+#include &lt;p32xxxx.h&gt;
+
+// Config Bits
+#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL
+#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)
+#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)
+#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)
+                                    // see figure 8.1 in datasheet for more info
+#pragma config FWDTEN = OFF         // Watchdog Timer Disabled
+#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)
+#pragma config JTAGEN = OFF         // Disable JTAG
+#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator
+
+// Defines
+#define SYSCLK (40000000)
+
+int analogRead(char analogPIN){
+    AD1CHS = analogPIN &lt;&lt; 16;       // AD1CHS&lt;16:19&gt; controls which analog pin goes to the ADC
+
+    AD1CON1bits.SAMP = 1;           // Begin sampling
+    while( AD1CON1bits.SAMP );      // wait until acquisition is done
+    while( ! AD1CON1bits.DONE );    // wait until conversion done
+
+    return ADC1BUF0;                // result stored in ADC1BUF0
+}
+
+void delay_us( unsigned t)          // See Timers tutorial for more info on this function
+{
+    T1CON = 0x8000;                 // enable Timer1, source PBCLK, 1:1 prescaler
+
+    // delay 100us per loop until less than 100us remain
+    while( t &gt;= 100){
+        t-=100;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/10000);
+    }
+
+    // delay 10us per loop until less than 10us remain
+    while( t &gt;= 10){
+        t-=10;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/100000);
+    }
+
+    // delay 1us per loop until finished
+    while( t &gt; 0)
+    {
+        t--;
+        TMR1 = 0;
+        while( TMR1 &lt; SYSCLK/1000000);
+    }
+
+    // turn off Timer1 so function is self-contained
+    T1CONCLR = 0x8000;
+} // END delay_us()
+
+void adcConfigureManual(){
+    AD1CON1CLR = 0x8000;    // disable ADC before configuration
+ 
+    AD1CON1 = 0x00E0;       // internal counter ends sampling and starts conversion (auto-convert), manual sample
+    AD1CON2 = 0;            // AD1CON2&lt;15:13&gt; set voltage reference to pins AVSS/AVDD
+    AD1CON3 = 0x0f01;       // TAD = 4*TPB, acquisition time = 15*TAD
+} // END adcConfigureManual()
+
+int main( void)
+{
+	SYSTEMConfigPerformance(SYSCLK);
+
+        // Configure pins as analog inputs
+        ANSELBbits.ANSB3 = 1;   // set RB3 (AN5) to analog
+        TRISBbits.TRISB3 = 1;   // set RB3 as an input
+        TRISBbits.TRISB5 = 0;   // set RB5 as an output (note RB5 is a digital only pin)
+        
+        adcConfigureManual();   // Configure ADC
+        AD1CON1SET = 0x8000;    // Enable ADC
+
+        int foo;
+	while ( 1)
+	{
+            foo = analogRead( 5); // note that we call pin AN5 (RB3) by it's analog number
+            delay_us( foo);       // delay according to the voltage at RB3 (AN5)
+            LATBINV = 0x0020;     // invert the state of RB5
+	}
+
+	return 0;
+}</p></div>
+
+<h2>Automatic Scan Configuration</h2>
+<p>In the automatic scan mode we’ll be using, the ADC peripheral will be sampling and converting a specified number of analog pins as long as the ADC has power. Whenever the processor then requests the 10-bit voltage representation of some of these pins, the ADC peripheral will give the most recent completed conversion. </p>
+<p>With this method, ADC call latency is severely reduced! Once the ADC is configured and running, every additional pin request is as simple as a single assignment line. However, this method uses slightly more power as the ADC is constantly sampling and converting voltages. Also, while the ADC call time is very short, there is a minimum time between calls to make sure new analog voltages have been sampled. We’re only talking a few microseconds and even this can be reduced by careful planning of the ADC clock (TAD) and how many cycles are necessary for sampling in your particular application!</p>
+<p>For our example, we’ll scan the analog pins RB1 (AN3), RB2 (AN4), and RB3 (AN5). During every scan cycle, the voltage of RB1 will be sampled and converted because it has the lowest analog pin number (AN3). After conversion ends, RB2 will immediately be sampled/converted followed by RB3. Once all conversions are done, the ADC interrupt flag will be set. Even if an ISR isn’t entered, this flag will signify that an entire scan has been complete. Scans will continue like this until the ADC is shut off or reconfigured. </p>
+<p>When accessing the ADC buffers, it’s important to not request a buffer that is being written to as it’s being accessed. We instead configure the ADC such that scans alternate between writing to buffers ADC1BUF0 – ADC1BUF7 and buffers ADC1BUF8 – ADC1BUFF. The bit <code>AD1CON2bits.BUFS</code> keeps track of which set of buffers is being written to. </p>
+<p>The last precaution before reading the buffers in this automatic scan mode is to temporarily shut down the ADC. Knowing which set of buffers is being written to is meaningless if the ADC can switch the set while we’re reading from them! We do this by clearing the automatic sample bit <code>AD1CON1bits.ASAM</code> while accessing the buffers. </p>
+<p>The following code will read the stable ADC buffers for three analog pins where the lower number buffer corresponds with the lower number analog pin. Note that the ADC interrupt flag must be cleared manually. If this code is not entered continuously, there should be no wait time while checking the interrupt flag. If desired remove it and the chance will exist that analog values will be re-read twice in a row. Not really a bad thing to do but the flag is here for reference.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">int</span> an1<span style="color: #339933;">,</span> an2<span style="color: #339933;">,</span> an3<span style="color: #339933;">;</span>
+<span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #339933;">!</span> IFS0bits.<span style="color: #202020;">AD1IF</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// wait until buffers contain new samples</span>
+AD1CON1bits.<span style="color: #202020;">ASAM</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// stop automatic sampling (essentially shut down ADC in this mode)</span>
+&nbsp;
+<span style="color: #b1b100;">if</span><span style="color: #009900;">(</span> AD1CON2bits.<span style="color: #202020;">BUFS</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>     <span style="color: #666666; font-style: italic;">// check which buffers are being written to and read from the other set</span>
+    an1 <span style="color: #339933;">=</span> ADC1BUF0<span style="color: #339933;">;</span>
+    an2 <span style="color: #339933;">=</span> ADC1BUF1<span style="color: #339933;">;</span>
+    an3 <span style="color: #339933;">=</span> ADC1BUF2<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+<span style="color: #b1b100;">else</span><span style="color: #009900;">{</span>
+    an1 <span style="color: #339933;">=</span> ADC1BUF8<span style="color: #339933;">;</span>
+    an2 <span style="color: #339933;">=</span> ADC1BUF9<span style="color: #339933;">;</span>
+    an3 <span style="color: #339933;">=</span> ADC1BUFA<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+AD1CON1bits.<span style="color: #202020;">ASAM</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// restart automatic sampling</span>
+IFS0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x10000000</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// clear ADC interrupt flag</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">int an1, an2, an3;
+while( ! IFS0bits.AD1IF);       // wait until buffers contain new samples
+AD1CON1bits.ASAM = 0;           // stop automatic sampling (essentially shut down ADC in this mode)
+
+if( AD1CON2bits.BUFS == 1){     // check which buffers are being written to and read from the other set
+    an1 = ADC1BUF0;
+    an2 = ADC1BUF1;
+    an3 = ADC1BUF2;
+}
+else{
+    an1 = ADC1BUF8;
+    an2 = ADC1BUF9;
+    an3 = ADC1BUFA;
+}
+AD1CON1bits.ASAM = 1;           // restart automatic sampling
+IFS0CLR = 0x10000000;           // clear ADC interrupt flag</p></div>
+
+<p>Our configure function would then be something like the following.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> adcConfigureAutoScan<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> adcPINS<span style="color: #339933;">,</span> <span style="color: #993333;">unsigned</span> numPins<span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    AD1CON1 <span style="color: #339933;">=</span> <span style="color: #208080;">0x0000</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">// disable ADC</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// AD1CON1&lt;2&gt;, ASAM    : Sampling begins immediately after last conversion completes</span>
+    <span style="color: #666666; font-style: italic;">// AD1CON1&lt;7:5&gt;, SSRC  : Internal counter ends sampling and starts conversion (auto convert)</span>
+    AD1CON1SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x00e4</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// AD1CON2&lt;1&gt;, BUFM    : Buffer configured as two 8-word buffers, ADC1BUF7-ADC1BUF0, ADC1BUFF-ADCBUF8</span>
+    <span style="color: #666666; font-style: italic;">// AD1CON2&lt;10&gt;, CSCNA  : Scan inputs</span>
+    AD1CON2 <span style="color: #339933;">=</span> <span style="color: #208080;">0x0402</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// AD2CON2&lt;5:2&gt;, SMPI  : Interrupt flag set at after numPins completed conversions</span>
+    AD1CON2SET <span style="color: #339933;">=</span> <span style="color: #009900;">(</span>numPins<span style="color: #339933;">-</span><span style="color: #0000dd;">1</span><span style="color: #009900;">)</span> <span style="color: #339933;">&lt;&lt;</span> <span style="color: #0000dd;">2</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// AD1CON3&lt;7:0&gt;, ADCS  : TAD = TPB * 2 * (ADCS&lt;7:0&gt; + 1) = 4 * TPB in this example</span>
+    <span style="color: #666666; font-style: italic;">// AD1CON3&lt;12:8&gt;, SAMC : Acquisition time = AD1CON3&lt;12:8&gt; * TAD = 15 * TAD in this example</span>
+    AD1CON3 <span style="color: #339933;">=</span> <span style="color: #208080;">0x0f01</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// AD1CHS is ignored in scan mode</span>
+    AD1CHS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// select which pins to use for scan mode</span>
+    AD1CSSL <span style="color: #339933;">=</span> adcPINS<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">void adcConfigureAutoScan( unsigned adcPINS, unsigned numPins){
+    AD1CON1 = 0x0000; // disable ADC
+
+    // AD1CON1&lt;2&gt;, ASAM    : Sampling begins immediately after last conversion completes
+    // AD1CON1&lt;7:5&gt;, SSRC  : Internal counter ends sampling and starts conversion (auto convert)
+    AD1CON1SET = 0x00e4;
+
+    // AD1CON2&lt;1&gt;, BUFM    : Buffer configured as two 8-word buffers, ADC1BUF7-ADC1BUF0, ADC1BUFF-ADCBUF8
+    // AD1CON2&lt;10&gt;, CSCNA  : Scan inputs
+    AD1CON2 = 0x0402;
+
+    // AD2CON2&lt;5:2&gt;, SMPI  : Interrupt flag set at after numPins completed conversions
+    AD1CON2SET = (numPins-1) &lt;&lt; 2;
+
+    // AD1CON3&lt;7:0&gt;, ADCS  : TAD = TPB * 2 * (ADCS&lt;7:0&gt; + 1) = 4 * TPB in this example
+    // AD1CON3&lt;12:8&gt;, SAMC : Acquisition time = AD1CON3&lt;12:8&gt; * TAD = 15 * TAD in this example
+    AD1CON3 = 0x0f01;
+
+    // AD1CHS is ignored in scan mode
+    AD1CHS = 0;
+
+    // select which pins to use for scan mode
+    AD1CSSL = adcPINS;
+}</p></div>
+
+<p>An example call to configure the same three pins (RB3, RB4, and RB5) would be as follows.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">adcConfigureAutoScan<span style="color: #009900;">(</span> <span style="color: #208080;">0x0038</span><span style="color: #339933;">,</span> <span style="color: #0000dd;">3</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+AD1CON1SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x8000</span><span style="color: #339933;">;</span>                <span style="color: #666666; font-style: italic;">// start ADC</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">adcConfigureAutoScan( 0x0038, 3);
+AD1CON1SET = 0x8000;                // start ADC</p></div>
+
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			3 thoughts on “<span>Analog to Digital Conversion (ADC)</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-1592" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-1592" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Analog to Digital Conversion (ADC) _ M5_files/319c3004ec25c0377911fb67ebe3538f.png" srcset="http://0.gravatar.com/avatar/319c3004ec25c0377911fb67ebe3538f?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">scott</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc#comment-1592">
+							<time datetime="2013-01-21T23:25:58+00:00">
+								21 January 2013 at 23:25							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>i think the first line of adcConfigureAutoScan should be</p>
+<p>AD1CON1 = 0;</p>
+<p>setting 0x8000 turns adc on, while setting 0 turns it off.</p>
+<p>the next line,</p>
+<p>AD1CON1SET = 0x00e4;</p>
+<p>sets the ASAM bit on, which i’m thinking shouldn’t be done until the end when turning the thing on? (but, as above, it is already on) or is it ok to set it here then just flip on the on bit later?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc?replytocom=1592#respond" onclick="return addComment.moveForm( &quot;div-comment-1592&quot;, &quot;1592&quot;, &quot;respond&quot;, &quot;2999&quot; )" aria-label="Reply to scott">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1594" class="comment byuser comment-author-sklaiber bypostauthor odd alt depth-2">
+			<article id="div-comment-1594" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Analog to Digital Conversion (ADC) _ M5_files/a4c3314bd6143b789e08ad760f86c035.png" srcset="http://1.gravatar.com/avatar/a4c3314bd6143b789e08ad760f86c035?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Sean Klaiber</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc#comment-1594">
+							<time datetime="2013-01-22T20:16:09+00:00">
+								22 January 2013 at 20:16							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Good catch and fixed! As for AD1CON1SET = 0x00e4. It shouldn’t matter if the ASAM bit is set prior to turning the ADC on or if it’s done soon after. Setting or clearing it prior to enabling the ADC won’t do much since the ADC is completely inactive. I generally prefer to do all of my configuration in one function and enable the peripheral at a separate point in the code when it makes sense. </p>
+<p>Thanks for the notice.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc?replytocom=1594#respond" onclick="return addComment.moveForm( &quot;div-comment-1594&quot;, &quot;1594&quot;, &quot;respond&quot;, &quot;2999&quot; )" aria-label="Reply to Sean Klaiber">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-39244" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-39244" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Analog to Digital Conversion (ADC) _ M5_files/afc3da6827f7a3c03dbde1607f80fa16.png" srcset="http://1.gravatar.com/avatar/afc3da6827f7a3c03dbde1607f80fa16?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Howard</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc#comment-39244">
+							<time datetime="2015-08-18T13:26:15+00:00">
+								18 August 2015 at 13:26							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>This is wonderful. Saved me a lot of time. Nice to see such an accurate easy to understand example shared.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc?replytocom=39244#respond" onclick="return addComment.moveForm( &quot;div-comment-39244&quot;, &quot;39244&quot;, &quot;respond&quot;, &quot;2999&quot; )" aria-label="Reply to Howard">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/adc#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2999" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="c6b226ee80"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266110265"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./Analog to Digital Conversion (ADC) _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>SPI and the 25LC512 EEPROM | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » SPI and the 25LC512 EEPROM Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./SPI and the 25LC512 EEPROM _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./SPI and the 25LC512 EEPROM _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./SPI and the 25LC512 EEPROM _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./SPI and the 25LC512 EEPROM _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./SPI and the 25LC512 EEPROM _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./SPI and the 25LC512 EEPROM _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2523">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fspi-eeprom">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Fspi-eeprom&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2523 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2523" class="post-2523 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">SPI and the 25LC512 EEPROM</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p>EEPROM or <i>Electrically Erasable Read-Only Memory</i> is a somewhat of a misnomer since, like most ROM’s, it can also be written to. EEPROM is non-volatile memory usually used to hold small amounts such as system parameters that must be retained between power resets. If you need larger capacity external memory, something like flash would be more suitable. </p>
+<p>Microchip’s 25LC512 EEPROM is an 8-pin, 64kB (512kbit), $2 chip rated for 1 million erase/write cycles. The 25LC512 can operate between 2.5-5.5V and has a max clock frequency around 10MHz when operating at 3.3V – which we’ll be using. The 25LC512 has 128-byte pages and functions that operate in byte mode and some in page mode. </p>
+<p>When writing to the 25LC512, all 128-bytes in a page are refreshed even if fewer are written. This means that any write operation, no matter how few bytes, takes the same amount of time, about 3.7ms. </p>
+<p>Pages start at multiples of 128 and end at a multiple – 1. So 0-127, 128-255, 256-383, etc are examples of page boundaries. When writing to the 25LC512, if a single write operation goes beyond the 128-byte page boundary, the write operation will continue at the start of the same page. Since this is undesirable most of the time, the code below makes the page boundaries transparent for write operations. That is, the programmer won’t need to worry about page boundaries when using the <code>writeEEPROM()</code> function. However, there is some extra process time added when writing across a boundary. Read operations are not concerned with page boundaries. Both read and write operations will go to the lowest address (0) if they read/write past the highest address (0xFFFF = 64kB). You’ve been warned!</p>
+<h2>25LC512 EEPROM Interfacing Hardware and Code</h2>
+<p>In this example, the SPI1 module is used with the following pinout (SCK1 is hardwired):</p>
+<p>	<strong>MOSI</strong> : PIC32 pin 17 &lt;-&gt; 25LC512 pin 5<br>
+	<strong>MISO</strong> : PIC32 pin 14 &lt;-&gt; 25LC512 pin 2<br>
+	<strong>SCK</strong>  : PIC32 pin 25 &lt;-&gt; 25LC512 pin 6<br>
+	<strong>SS</strong>   : PIC32 pin 11 &lt;-&gt; 25LC512 pin 1</p>
+<p><a href="./SPI and the 25LC512 EEPROM _ M5_files/SPI-EEPROM-circuit.png"><img src="./SPI and the 25LC512 EEPROM _ M5_files/SPI-EEPROM-circuit.png" alt="" title="SPI EEPROM circuit" width="937" height="520" class="aligncenter size-full wp-image-3102" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-EEPROM-circuit.png 937w, http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-EEPROM-circuit-300x166.png 300w" sizes="(max-width: 937px) 100vw, 937px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">/* This code contains functions to write to, read from, and erase
+ * the contents of Microchip's 512 kbit 25LC512 EEPROM
+ *
+ * SPI requests are made by a PIC32MX220F032B (master) to the EEPROM (slave)
+ * with a 4MHz SPI clock
+ *
+ * The EEPROM can only be written to in 128 byte pages maximum. This means that even
+ * if a smaller number of bytes are written to the EEPROM, a total of 128 bytes
+ * are refreshed and the operation takes just as long as if 128 bytes were written
+ * (about 3.7ms). The writeEEPROM() function makes this transparent and will
+ * accept any size array of chars.
+ *
+ * If a write goes past address 0xFFFF (highest address) rest of array will
+ * wrap around to address 0 and continue. You've been warned!
+ *
+ * This code is public domain! Visit umassamherstm5.org for more tutorials.
+ */</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// include header files</span>
+<span style="color: #339933;">#include &lt;plib.h&gt;</span>
+<span style="color: #339933;">#include &lt;p32xxxx.h&gt;</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Config Bits</span>
+<span style="color: #339933;">#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL</span>
+<span style="color: #339933;">#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)</span>
+                                    <span style="color: #666666; font-style: italic;">// see figure 8.1 in datasheet for more info</span>
+<span style="color: #339933;">#pragma config FWDTEN = OFF         // Watchdog Timer Disabled</span>
+<span style="color: #339933;">#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)</span>
+<span style="color: #339933;">#pragma config JTAGEN = OFF         // Disable JTAG</span>
+<span style="color: #339933;">#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Defines</span>
+<span style="color: #339933;">#define SS      LATBbits.LATB4      // slave select pin</span>
+<span style="color: #339933;">#define SYSCLK  40000000</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Macro to get array size in bytes</span>
+<span style="color: #666666; font-style: italic;">// note that array size can't be found after passing pointer to a function</span>
+<span style="color: #339933;">#define LEN(x)  (sizeof(x) / sizeof(x[0]))</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// 25LC512 EEPROM instructions</span>
+<span style="color: #339933;">#define WREN    0x06    // write enable</span>
+<span style="color: #339933;">#define WRDI    0x04    // write disable</span>
+<span style="color: #339933;">#define WRITE   0x02    // initialize start of write sequence</span>
+<span style="color: #339933;">#define READ    0x03    // initialize start of read sequence</span>
+<span style="color: #339933;">#define CE      0xc7    // erase all sectors of memory</span>
+<span style="color: #339933;">#define RDSR    0x05    // read STATUS register</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Function Prototypes</span>
+<span style="color: #993333;">char</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> b<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #993333;">int</span> waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #993333;">int</span> eraseEEPROM<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #993333;">int</span> readEEPROM<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> address<span style="color: #339933;">,</span> <span style="color: #993333;">char</span><span style="color: #339933;">*</span> loadArray<span style="color: #339933;">,</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> loadArray_size<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #993333;">int</span> writeEEPROM<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> address<span style="color: #339933;">,</span> <span style="color: #993333;">char</span><span style="color: #339933;">*</span> storeArray<span style="color: #339933;">,</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> storeArray_size<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    SYSTEMConfigPerformance<span style="color: #009900;">(</span>SYSCLK<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #666666; font-style: italic;">// optimize PIC32 performance and guarantee correct system clock frequency</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// initialize a string to write to EEPROM and an array to read back contents</span>
+    <span style="color: #993333;">char</span> writeData<span style="color: #009900;">[</span><span style="color: #009900;">]</span> <span style="color: #339933;">=</span> <span style="color: #ff0000;">"This is a strange place we live in"</span><span style="color: #339933;">;</span>
+    <span style="color: #993333;">char</span> readData<span style="color: #009900;">[</span><span style="color: #0000dd;">35</span><span style="color: #009900;">]</span><span style="color: #339933;">;</span>          <span style="color: #666666; font-style: italic;">// Array to read 35 bytes of data</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Configure Peripheral Pin Select (PPS) for the SPI1 module</span>
+    <span style="color: #666666; font-style: italic;">// :: DATASHEET SECTION 11.3</span>
+    <span style="color: #666666; font-style: italic;">// Note: SS1 will be toggled manually in code</span>
+    <span style="color: #666666; font-style: italic;">//       SCK1 is hardwired to pin 25</span>
+    SDI1Rbits.<span style="color: #202020;">SDI1R</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>        <span style="color: #666666; font-style: italic;">//SET SDI1 to RPB5</span>
+    RPB8Rbits.<span style="color: #202020;">RPB8R</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">3</span><span style="color: #339933;">;</span>        <span style="color: #666666; font-style: italic;">//SET RPB8R to SDO1</span>
+&nbsp;
+    TRISBbits.<span style="color: #202020;">TRISB4</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// RB4 (Slave Select 1) : output</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// SPI config</span>
+    <span style="color: #666666; font-style: italic;">// CKP (clock polarity control) = 0</span>
+    <span style="color: #666666; font-style: italic;">// CKE (clock edge control) = 1</span>
+    <span style="color: #666666; font-style: italic;">// 8-bit, Master Mode</span>
+    <span style="color: #666666; font-style: italic;">// Baud = 4MHz = Fpb/( 2*( SPI1BRG+1)) = 40MHz/( 2*( 4+1))</span>
+    SPI1CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8120</span><span style="color: #339933;">;</span>
+    SPI1BRG <span style="color: #339933;">=</span> <span style="color: #208080;">0x0004</span><span style="color: #339933;">;</span> 
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Erase contents of EEPROM</span>
+    eraseEEPROM<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Write contents of writeData array to address 180 </span>
+    writeEEPROM<span style="color: #009900;">(</span> <span style="color: #0000dd;">180</span><span style="color: #339933;">,</span> writeData<span style="color: #339933;">,</span> LEN<span style="color: #009900;">(</span>writeData<span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        <span style="color: #666666; font-style: italic;">// Read contents of EEPROM into readData array</span>
+        <span style="color: #666666; font-style: italic;">// start at address 180 and read up to 180+length(readData)</span>
+        readEEPROM<span style="color: #009900;">(</span> <span style="color: #0000dd;">180</span><span style="color: #339933;">,</span> readData<span style="color: #339933;">,</span> LEN<span style="color: #009900;">(</span>readData<span style="color: #009900;">)</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END main()</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// SPI1_transfer() - write to and read from SPI1 buffer</span>
+<span style="color: #993333;">char</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> b<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    SPI1BUF <span style="color: #339933;">=</span> b<span style="color: #339933;">;</span>                        <span style="color: #666666; font-style: italic;">// write to buffer for TX</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #339933;">!</span>SPI1STATbits.<span style="color: #202020;">SPIRBF</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// wait transfer complete</span>
+    <span style="color: #b1b100;">return</span> SPI1BUF<span style="color: #339933;">;</span>                     <span style="color: #666666; font-style: italic;">// read the received value</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END SPI1_transfer()</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// waitBusy() - checks if EEPROM is ready to be modified and waits if not ready</span>
+<span style="color: #993333;">int</span> waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    <span style="color: #993333;">char</span> status <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #b1b100;">do</span><span style="color: #009900;">{</span>
+        SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                         <span style="color: #666666; font-style: italic;">// Select EEPROM</span>
+        SPI1_transfer<span style="color: #009900;">(</span> RDSR<span style="color: #009900;">)</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// Read EEPROM status register</span>
+        status <span style="color: #339933;">=</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// send dummy byte to receive incoming data</span>
+        SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                         <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+    <span style="color: #009900;">}</span><span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> status <span style="color: #339933;">&amp;</span> <span style="color: #208080;">0x01</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>             <span style="color: #666666; font-style: italic;">// write-in-progress while status&lt;0&gt; set to '1'</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END waitBusy()</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">/* readEEPROM() - reads data from EEPROM
+ *
+ * Inputs:  address - address from 0-0xffff (64kB / 512kbits)
+ *          loadArray - array to load EEPROM data to
+ *          loadArray_size - number of bytes of EEPROM data to load into array */</span>
+<span style="color: #993333;">int</span> readEEPROM<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> address<span style="color: #339933;">,</span> <span style="color: #993333;">char</span><span style="color: #339933;">*</span> loadArray<span style="color: #339933;">,</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> loadArray_size<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> i<span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Wait until EEPROM is not busy</span>
+    waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                         <span style="color: #666666; font-style: italic;">// Select EEPROM</span>
+    SPI1_transfer<span style="color: #009900;">(</span> READ<span style="color: #009900;">)</span><span style="color: #339933;">;</span>           <span style="color: #666666; font-style: italic;">// initiate read</span>
+    SPI1_transfer<span style="color: #009900;">(</span> address <span style="color: #339933;">&gt;&gt;</span> <span style="color: #0000dd;">8</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// address must be 16-bits but we're transferring it in two 8-bit sessions</span>
+    SPI1_transfer<span style="color: #009900;">(</span> address<span style="color: #009900;">)</span><span style="color: #339933;">;</span>        
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Request and store loadArray_size number of bytes into loadArray</span>
+    <span style="color: #b1b100;">for</span><span style="color: #009900;">(</span> i<span style="color: #339933;">=</span><span style="color: #0000dd;">0</span> <span style="color: #339933;">;</span> i<span style="color: #339933;">&lt;</span>loadArray_size <span style="color: #339933;">;</span> i<span style="color: #339933;">++</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        loadArray<span style="color: #009900;">[</span>i<span style="color: #009900;">]</span> <span style="color: #339933;">=</span> SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #208080;">0x00</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>    <span style="color: #666666; font-style: italic;">// send dummy byte to read 1 byte</span>
+    <span style="color: #009900;">}</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                         <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END readEEPROM()</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">/* writeEEPROM() - write data to EEPROM
+ *
+ * Inputs:  address - address from 0-0xffff (64kB / 512kbits)
+ *          storeArray - array of which contents are stored in EEPROM
+ *          storeArray_size - number of bytes in array to store into EEPROM */</span>
+<span style="color: #993333;">int</span> writeEEPROM<span style="color: #009900;">(</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> address<span style="color: #339933;">,</span> <span style="color: #993333;">char</span><span style="color: #339933;">*</span> storeArray<span style="color: #339933;">,</span> <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> storeArray_size<span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    <span style="color: #993333;">unsigned</span> <span style="color: #993333;">short</span> i<span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Wait until EEPROM is not busy</span>
+    waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM</span>
+    SPI1_transfer<span style="color: #009900;">(</span> WREN<span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// Send WRITE_ENABLE command</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM again after WREN cmd</span>
+    SPI1_transfer<span style="color: #009900;">(</span> WRITE<span style="color: #009900;">)</span><span style="color: #339933;">;</span>  <span style="color: #666666; font-style: italic;">// initiate write</span>
+    SPI1_transfer<span style="color: #009900;">(</span> address <span style="color: #339933;">&gt;&gt;</span> <span style="color: #0000dd;">8</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    SPI1_transfer<span style="color: #009900;">(</span> address <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #666666; font-style: italic;">// write 1 byte at a time from array</span>
+    <span style="color: #666666; font-style: italic;">// Big endian - MSB at lowest address (0 - first letter in string)</span>
+    <span style="color: #b1b100;">for</span><span style="color: #009900;">(</span> i<span style="color: #339933;">=</span><span style="color: #0000dd;">0</span> <span style="color: #339933;">;</span> i<span style="color: #339933;">&lt;</span>storeArray_size<span style="color: #339933;">;</span> i<span style="color: #339933;">++</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+        <span style="color: #666666; font-style: italic;">// New write cycle must be initiated if writing across 128-byte pages</span>
+        <span style="color: #b1b100;">if</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span>address<span style="color: #339933;">+</span>i<span style="color: #009900;">)</span><span style="color: #339933;">%</span><span style="color:#800080;">128</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">0</span> <span style="color: #339933;">&amp;&amp;</span> i<span style="color: #339933;">!=</span><span style="color: #0000dd;">0</span> <span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+            SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+            waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+            SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM</span>
+            SPI1_transfer<span style="color: #009900;">(</span> WREN<span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// Send WRITE_ENABLE command</span>
+            SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+            SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM again after WREN cmd</span>
+            SPI1_transfer<span style="color: #009900;">(</span> WRITE<span style="color: #009900;">)</span><span style="color: #339933;">;</span>  <span style="color: #666666; font-style: italic;">// initiate write</span>
+            SPI1_transfer<span style="color: #009900;">(</span> <span style="color: #009900;">(</span>address<span style="color: #339933;">+</span>i<span style="color: #009900;">)</span> <span style="color: #339933;">&gt;&gt;</span> <span style="color: #0000dd;">8</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+            SPI1_transfer<span style="color: #009900;">(</span> address<span style="color: #339933;">+</span>i <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+        <span style="color: #009900;">}</span>
+        SPI1_transfer<span style="color: #009900;">(</span> storeArray<span style="color: #009900;">[</span>i<span style="color: #009900;">]</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">}</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                         <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END writeEEPROM()</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">/* eraseEEPROM() - erase entire contents of EEPROM
+ *
+ * See 25LC512 datasheet for ways to protect sections of data */</span>
+<span style="color: #993333;">int</span> eraseEEPROM<span style="color: #009900;">(</span><span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+    <span style="color: #666666; font-style: italic;">// Wait until EEPROM is not busy</span>
+    waitBusy<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM</span>
+    SPI1_transfer<span style="color: #009900;">(</span> WREN<span style="color: #009900;">)</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// Send WRITE_ENABLE command</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Select EEPROM again after WREN cmd</span>
+    SPI1_transfer<span style="color: #009900;">(</span> CE<span style="color: #009900;">)</span><span style="color: #339933;">;</span>     <span style="color: #666666; font-style: italic;">// send CHIP_ERASE command</span>
+    SS <span style="color: #339933;">=</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>                 <span style="color: #666666; font-style: italic;">// Release EEPROM</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END eraseEEPROM()</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">/* This code contains functions to write to, read from, and erase
+ * the contents of Microchip's 512 kbit 25LC512 EEPROM
+ *
+ * SPI requests are made by a PIC32MX220F032B (master) to the EEPROM (slave)
+ * with a 4MHz SPI clock
+ *
+ * The EEPROM can only be written to in 128 byte pages maximum. This means that even
+ * if a smaller number of bytes are written to the EEPROM, a total of 128 bytes
+ * are refreshed and the operation takes just as long as if 128 bytes were written
+ * (about 3.7ms). The writeEEPROM() function makes this transparent and will
+ * accept any size array of chars.
+ *
+ * If a write goes past address 0xFFFF (highest address) rest of array will
+ * wrap around to address 0 and continue. You've been warned!
+ *
+ * This code is public domain! Visit umassamherstm5.org for more tutorials.
+ */
+
+// include header files
+#include &lt;plib.h&gt;
+#include &lt;p32xxxx.h&gt;
+
+// Config Bits
+#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL
+#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)
+#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)
+#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)
+                                    // see figure 8.1 in datasheet for more info
+#pragma config FWDTEN = OFF         // Watchdog Timer Disabled
+#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)
+#pragma config JTAGEN = OFF         // Disable JTAG
+#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator
+
+// Defines
+#define SS      LATBbits.LATB4      // slave select pin
+#define SYSCLK  40000000
+
+// Macro to get array size in bytes
+// note that array size can't be found after passing pointer to a function
+#define LEN(x)  (sizeof(x) / sizeof(x[0]))
+
+// 25LC512 EEPROM instructions
+#define WREN    0x06    // write enable
+#define WRDI    0x04    // write disable
+#define WRITE   0x02    // initialize start of write sequence
+#define READ    0x03    // initialize start of read sequence
+#define CE      0xc7    // erase all sectors of memory
+#define RDSR    0x05    // read STATUS register
+
+// Function Prototypes
+char SPI1_transfer( char b);
+int waitBusy();
+int eraseEEPROM();
+int readEEPROM( unsigned short address, char* loadArray, unsigned short loadArray_size);
+int writeEEPROM( unsigned short address, char* storeArray, unsigned short storeArray_size);
+
+int main()
+{
+    SYSTEMConfigPerformance(SYSCLK);
+    // optimize PIC32 performance and guarantee correct system clock frequency
+
+    // initialize a string to write to EEPROM and an array to read back contents
+    char writeData[] = "This is a strange place we live in";
+    char readData[35];          // Array to read 35 bytes of data
+
+    // Configure Peripheral Pin Select (PPS) for the SPI1 module
+    // :: DATASHEET SECTION 11.3
+    // Note: SS1 will be toggled manually in code
+    //       SCK1 is hardwired to pin 25
+    SDI1Rbits.SDI1R = 1;        //SET SDI1 to RPB5
+    RPB8Rbits.RPB8R = 3;        //SET RPB8R to SDO1
+
+    TRISBbits.TRISB4 = 0;       // RB4 (Slave Select 1) : output
+
+    // SPI config
+    // CKP (clock polarity control) = 0
+    // CKE (clock edge control) = 1
+    // 8-bit, Master Mode
+    // Baud = 4MHz = Fpb/( 2*( SPI1BRG+1)) = 40MHz/( 2*( 4+1))
+    SPI1CON = 0x8120;
+    SPI1BRG = 0x0004; 
+
+    // Erase contents of EEPROM
+    eraseEEPROM();
+
+    // Write contents of writeData array to address 180 
+    writeEEPROM( 180, writeData, LEN(writeData));
+
+    while( 1){
+        // Read contents of EEPROM into readData array
+        // start at address 180 and read up to 180+length(readData)
+        readEEPROM( 180, readData, LEN(readData) );
+    }
+
+    return 1;
+} // END main()
+
+// SPI1_transfer() - write to and read from SPI1 buffer
+char SPI1_transfer( char b)
+{
+    SPI1BUF = b;                        // write to buffer for TX
+    while( !SPI1STATbits.SPIRBF);       // wait transfer complete
+    return SPI1BUF;                     // read the received value
+} // END SPI1_transfer()
+
+// waitBusy() - checks if EEPROM is ready to be modified and waits if not ready
+int waitBusy()
+{
+    char status = 0;
+
+    do{
+        SS = 0;                         // Select EEPROM
+        SPI1_transfer( RDSR);           // Read EEPROM status register
+        status = SPI1_transfer( 0);     // send dummy byte to receive incoming data
+        SS = 1;                         // Release EEPROM
+    }while( status &amp; 0x01);             // write-in-progress while status&lt;0&gt; set to '1'
+
+    return 0;
+} // END waitBusy()
+
+/* readEEPROM() - reads data from EEPROM
+ *
+ * Inputs:  address - address from 0-0xffff (64kB / 512kbits)
+ *          loadArray - array to load EEPROM data to
+ *          loadArray_size - number of bytes of EEPROM data to load into array */
+int readEEPROM( unsigned short address, char* loadArray, unsigned short loadArray_size)
+{
+    unsigned short i;
+
+    // Wait until EEPROM is not busy
+    waitBusy();
+
+    SS = 0;                         // Select EEPROM
+    SPI1_transfer( READ);           // initiate read
+    SPI1_transfer( address &gt;&gt; 8);   // address must be 16-bits but we're transferring it in two 8-bit sessions
+    SPI1_transfer( address);        
+
+    // Request and store loadArray_size number of bytes into loadArray
+    for( i=0 ; i&lt;loadArray_size ; i++){
+        loadArray[i] = SPI1_transfer( 0x00);    // send dummy byte to read 1 byte
+    }
+    SS = 1;                         // Release EEPROM
+
+    return 0;
+} // END readEEPROM()
+
+/* writeEEPROM() - write data to EEPROM
+ *
+ * Inputs:  address - address from 0-0xffff (64kB / 512kbits)
+ *          storeArray - array of which contents are stored in EEPROM
+ *          storeArray_size - number of bytes in array to store into EEPROM */
+int writeEEPROM( unsigned short address, char* storeArray, unsigned short storeArray_size)
+{
+    unsigned short i;
+
+    // Wait until EEPROM is not busy
+    waitBusy();
+
+    SS = 0;                 // Select EEPROM
+    SPI1_transfer( WREN);   // Send WRITE_ENABLE command
+    SS = 1;                 // Release EEPROM
+    SS = 0;                 // Select EEPROM again after WREN cmd
+    SPI1_transfer( WRITE);  // initiate write
+    SPI1_transfer( address &gt;&gt; 8 );
+    SPI1_transfer( address );
+    // write 1 byte at a time from array
+    // Big endian - MSB at lowest address (0 - first letter in string)
+    for( i=0 ; i&lt;storeArray_size; i++){
+        // New write cycle must be initiated if writing across 128-byte pages
+        if( (address+i)%128 == 0 &amp;&amp; i!=0 ){
+            SS = 1;                 // Release EEPROM
+            waitBusy();
+            SS = 0;                 // Select EEPROM
+            SPI1_transfer( WREN);   // Send WRITE_ENABLE command
+            SS = 1;                 // Release EEPROM
+            SS = 0;                 // Select EEPROM again after WREN cmd
+            SPI1_transfer( WRITE);  // initiate write
+            SPI1_transfer( (address+i) &gt;&gt; 8 );
+            SPI1_transfer( address+i );
+        }
+        SPI1_transfer( storeArray[i]);
+    }
+    SS = 1;                         // Release EEPROM
+
+    return 0;
+} // END writeEEPROM()
+
+/* eraseEEPROM() - erase entire contents of EEPROM
+ *
+ * See 25LC512 datasheet for ways to protect sections of data */
+int eraseEEPROM()
+{
+    // Wait until EEPROM is not busy
+    waitBusy();
+
+    SS = 0;                 // Select EEPROM
+    SPI1_transfer( WREN);   // Send WRITE_ENABLE command
+    SS = 1;                 // Release EEPROM
+    SS = 0;                 // Select EEPROM again after WREN cmd
+    SPI1_transfer( CE);     // send CHIP_ERASE command
+    SS = 1;                 // Release EEPROM
+
+    return 0;
+} // END eraseEEPROM()</p></div>
+
+<p>Below is a snapshot from a logic analyzer displaying the PIC32 requesting the contents at the 25LC512’s address 180 and the first few characters of the string “This is a strange place we live in” being transmitted by the EEPROM. Note that the READ command has a value of ‘3’ and that the address expected is two bytes long.<br>
+<a href="./SPI and the 25LC512 EEPROM _ M5_files/SPI-EEPROM-logic.png"><img src="./SPI and the 25LC512 EEPROM _ M5_files/SPI-EEPROM-logic.png" alt="" title="SPI EEPROM logic" width="937" height="284" class="aligncenter size-full wp-image-3099" srcset="http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-EEPROM-logic.png 937w, http://umassamherstm5.org/wp-content/uploads/2012/06/SPI-EEPROM-logic-300x90.png 300w" sizes="(max-width: 937px) 100vw, 937px"></a></p>
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			5 thoughts on “<span>SPI and the 25LC512 EEPROM</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-720" class="comment even thread-even depth-1">
+			<article id="div-comment-720" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./SPI and the 25LC512 EEPROM _ M5_files/a59d492a62eaba7876b9b0b28d0f511f.png" srcset="http://1.gravatar.com/avatar/a59d492a62eaba7876b9b0b28d0f511f?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Bhavin patel</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#comment-720">
+							<time datetime="2012-06-20T23:32:35+00:00">
+								20 June 2012 at 23:32							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hiiii,<br>
+I am using AT24C64C eeprom address from 0000 to 1FFF.I am trying to write a string in a eeprom using<br>
+AT89051RE2 at 12MHZ ,using multiple page write by i2c protocol.<br>
+ex:<br>
+BHAVIN_KANTILAL_<br>
+PATEL_BHAVIN_KAN<br>
+TILAL_PATEL_BHAV<br>
+IN_PATEL_……..Like that upto 1FFF<br>
+But i dont.so give me solution fo that..as<br>
+earlier as possible………here is a code</p>
+<p>#include<br>
+#include</p>
+<p>sbit sda=P2^6;<br>
+sbit scl=P2^7;<br>
+sfr16 DPTR=0x82;<br>
+bit ackn;<br>
+unsigned char acc=0;<br>
+unsigned int i,j,k,psize=0;<br>
+unsigned long int start_addr,dest_addr,count=0;</p>
+<p>void delay_ms(unsigned int time)<br>
+{<br>
+ 	unsigned int m, n;<br>
+		for(m=0; m&lt;=time; m++)<br>
+		for(n=0; n&lt;=1275; n++);</p>
+<p>}</p>
+<p>void start()		//start condition<br>
+{<br>
+	sda=1;<br>
+	scl=1;<br>
+	_nop_();         //No operation</p>
+<p>	sda=0;<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	scl=0;<br>
+}</p>
+<p>void stop()			//stop condition<br>
+{<br>
+	sda=0;<br>
+	_nop_();<br>
+	_nop_();<br>
+	scl=1;<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	_nop_();<br>
+	sda=1;</p>
+<p>}</p>
+<p>void shout(unsigned char value)<br>
+{<br>
+	unsigned char dat;<br>
+	dat=value;</p>
+<p>	for(i=0;i&lt;=7;i++)<br>
+	{<br>
+	 sda=dat/128;	 //extract MSB bit<br>
+	 _nop_();</p>
+<p>	 scl=1;<br>
+	  _nop_();<br>
+	   _nop_();<br>
+	    _nop_();<br>
+		 _nop_();</p>
+<p>	scl=0;</p>
+<p>	dat&lt;&gt;8); //Higher adds on slave<br>
+			shout(DPTR);	//Lower adds on slave</p>
+<p>			while(DPTR!=0x2000)</p>
+<p>			{<br>
+				back:	 	for(j=0;j&gt;8);<br>
+							shout(DPTR);</p>
+<p>			}</p>
+<p>}</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom?replytocom=720#respond" onclick="return addComment.moveForm( &quot;div-comment-720&quot;, &quot;720&quot;, &quot;respond&quot;, &quot;2523&quot; )" aria-label="Reply to Bhavin patel">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-3459" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-3459" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./SPI and the 25LC512 EEPROM _ M5_files/a36d9bea7db6ba0a5d8aea844184d3f4.png" srcset="http://1.gravatar.com/avatar/a36d9bea7db6ba0a5d8aea844184d3f4?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Ganesh Kaila</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#comment-3459">
+							<time datetime="2013-08-29T03:11:26+00:00">
+								29 August 2013 at 03:11							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hello,</p>
+<p>           I have re-written the same code of yours for PIC16F877A using SPI-EEPROM 25LC512. I have checked it in Proteus. But, I didn’t get any result. If I was missing any thing, Please guide me to complete this task. </p>
+<p>Thanks&amp;Regards<br>
+Ganesh Kaila</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom?replytocom=3459#respond" onclick="return addComment.moveForm( &quot;div-comment-3459&quot;, &quot;3459&quot;, &quot;respond&quot;, &quot;2523&quot; )" aria-label="Reply to Ganesh Kaila">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-3460" class="comment even thread-even depth-1">
+			<article id="div-comment-3460" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./SPI and the 25LC512 EEPROM _ M5_files/a36d9bea7db6ba0a5d8aea844184d3f4.png" srcset="http://1.gravatar.com/avatar/a36d9bea7db6ba0a5d8aea844184d3f4?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Ganesh Kaila</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#comment-3460">
+							<time datetime="2013-08-29T03:12:41+00:00">
+								29 August 2013 at 03:12							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>And the Program for my task is:</p>
+<p>#include</p>
+<p>#define SS RA5<br>
+#define RDSR 0x05<br>
+#define WREN 0x06<br>
+#define CE 0xc7<br>
+#define WRITE 0x02</p>
+<p>int SPI_Tx(char Data)<br>
+{<br>
+	SSPBUF = Data;<br>
+	while(!BF);<br>
+	return SSPBUF;<br>
+}</p>
+<p>int Wait_BUSY()<br>
+{<br>
+	char status = 0;</p>
+<p>	do<br>
+	{<br>
+		SS = 0;<br>
+		SPI_Tx(RDSR);<br>
+		status = SPI_Tx(0);<br>
+		SS = 1;<br>
+	}while(status &amp; 0x01);</p>
+<p>	return 0;<br>
+}</p>
+<p>int Erase_EEPROM()<br>
+{<br>
+	Wait_BUSY();</p>
+<p>	SS = 0;<br>
+	SPI_Tx(WREN);<br>
+	SS = 1;</p>
+<p>	SS = 0;<br>
+	SPI_Tx(CE);<br>
+	SS = 1;</p>
+<p>	return 0;<br>
+}</p>
+<p>int Write_EEPROM(unsigned short Address,unsigned char *Data,unsigned short Length)<br>
+{<br>
+	unsigned short i;</p>
+<p>	Wait_BUSY();</p>
+<p>	SS = 0 ;<br>
+	SPI_Tx(WREN);<br>
+	SS = 1;<br>
+	SS = 0;<br>
+	SPI_Tx(WRITE);<br>
+	SPI_Tx(Address &gt;&gt; 8);<br>
+	SPI_Tx(Address);</p>
+<p>	for(i=0;i&gt; 8);<br>
+			SPI_Tx(Address + i);<br>
+		}</p>
+<p>		SPI_Tx(Data[i]);<br>
+	}<br>
+		SS = 1;</p>
+<p>		return 0;<br>
+}</p>
+<p>int main()<br>
+{<br>
+	char WriteData[]=”Hello World..!”;</p>
+<p>	TRISA = 0;<br>
+	TRISC = 0xd7;<br>
+	SSPSTAT = 0xc0;<br>
+	SSPCON = 0x32;</p>
+<p>	Erase_EEPROM();</p>
+<p>	Write_EEPROM(0x0000,WriteData,15);</p>
+<p>	while(1);<br>
+}</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom?replytocom=3460#respond" onclick="return addComment.moveForm( &quot;div-comment-3460&quot;, &quot;3460&quot;, &quot;respond&quot;, &quot;2523&quot; )" aria-label="Reply to Ganesh Kaila">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-39700" class="comment odd alt thread-odd thread-alt depth-1">
+			<article id="div-comment-39700" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./SPI and the 25LC512 EEPROM _ M5_files/1c7cf2424062821832ee71eb6480dc15.png" srcset="http://1.gravatar.com/avatar/1c7cf2424062821832ee71eb6480dc15?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">palpurul</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#comment-39700">
+							<time datetime="2015-09-06T08:02:45+00:00">
+								6 September 2015 at 08:02							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>thank you for sharing this useful article. One question, can’t you use 16-bit SPI mode to send addresses? I think that would be more convinient.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom?replytocom=39700#respond" onclick="return addComment.moveForm( &quot;div-comment-39700&quot;, &quot;39700&quot;, &quot;respond&quot;, &quot;2523&quot; )" aria-label="Reply to palpurul">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-48662" class="comment even thread-even depth-1">
+			<article id="div-comment-48662" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./SPI and the 25LC512 EEPROM _ M5_files/3b01c78456b3901a290326954797d3c1.png" srcset="http://0.gravatar.com/avatar/3b01c78456b3901a290326954797d3c1?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Alex</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#comment-48662">
+							<time datetime="2016-08-24T03:01:27+00:00">
+								24 August 2016 at 03:01							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hi, it’s a great tutorial , thank you!<br>
+It really helped me!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom?replytocom=48662#respond" onclick="return addComment.moveForm( &quot;div-comment-48662&quot;, &quot;48662&quot;, &quot;respond&quot;, &quot;2523&quot; )" aria-label="Reply to Alex">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/spi-eeprom#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2523" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="f5599ceae9"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266112131"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./SPI and the 25LC512 EEPROM _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>

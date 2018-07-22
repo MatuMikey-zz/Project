@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts -->
+<html lang="en-US"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Interrupts | M5</title>
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://umassamherstm5.org/xmlrpc.php">
+	<!--[if lt IE 9]>
+	<script src="http://umassamherstm5.org/wp-content/themes/twentythirteen/js/html5.js"></script>
+	<![endif]-->
+	<link rel="dns-prefetch" href="http://ajax.googleapis.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="M5 » Feed" href="http://umassamherstm5.org/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Comments Feed" href="http://umassamherstm5.org/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="M5 » Interrupts Comments Feed" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts/feed">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/umassamherstm5.org\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8.1"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Interrupts _ M5_files/wp-emoji-release.min.js.download" type="text/javascript" defer=""></script>
+		<link rel="stylesheet" href="./Interrupts _ M5_files/galleria.classic.css" id="galleria-theme"><style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Interrupts _ M5_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-fonts-css" href="./Interrupts _ M5_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="genericons-css" href="./Interrupts _ M5_files/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="twentythirteen-style-css" href="./Interrupts _ M5_files/style.css" type="text/css" media="all">
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentythirteen-ie-css'  href='http://umassamherstm5.org/wp-content/themes/twentythirteen/css/ie.css?ver=2013-07-18' type='text/css' media='all' />
+<![endif]-->
+<script type="text/javascript" src="./Interrupts _ M5_files/jquery.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/galleria-1.2.6.min.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/galleria-common.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/galleria.classic.min.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/jquery.js(1).download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/jquery-migrate.min.js.download"></script>
+<link rel="https://api.w.org/" href="http://umassamherstm5.org/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://umassamherstm5.org/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://umassamherstm5.org/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.8.1">
+<link rel="canonical" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts">
+<link rel="shortlink" href="http://umassamherstm5.org/?p=2491">
+<link rel="alternate" type="application/json+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Finterrupts">
+<link rel="alternate" type="text/xml+oembed" href="http://umassamherstm5.org/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fumassamherstm5.org%2Ftech-tutorials%2Fpic32-tutorials%2Fpic32mx220-tutorials%2Finterrupts&amp;format=xml">
+			<script type="text/javascript">
+				var get_sizes = null;
+							</script>
+			<style type="text/css" id="twentythirteen-header-css">
+			.site-header {
+			background: url(http://umassamherstm5.org/wp-content/uploads/2017/03/cropped-0225171422-100.jpg) no-repeat scroll top;
+			background-size: 1600px auto;
+		}
+		@media (max-width: 767px) {
+			.site-header {
+				background-size: 768px auto;
+			}
+		}
+		@media (max-width: 359px) {
+			.site-header {
+				background-size: 360px auto;
+			}
+		}
+		</style>
+			<style type="text/css" id="wp-custom-css">
+			/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+.site-title{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+
+}
+.site-description{
+	color: beige;
+	font-family: "Source Sans Pro", Helvetica, sans-serif;
+}		</style>
+	</head>
+
+<body class="page-template-default page page-id-2491 page-child parent-pageid-2911">
+	<div id="page" class="hfeed site">
+		<header id="masthead" class="site-header" role="banner">
+			<a class="home-link" href="http://umassamherstm5.org/" title="M5" rel="home">
+				<h1 class="site-title">M5</h1>
+				<h2 class="site-description"></h2>
+			</a>
+
+			<div id="navbar" class="navbar">
+				<nav id="site-navigation" class="navigation main-navigation" role="navigation">
+					<button class="menu-toggle">Menu</button>
+					<a class="screen-reader-text skip-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#content" title="Skip to content">Skip to content</a>
+					<div class="menu-functional-menu-container"><ul id="primary-menu" class="nav-menu"><li id="menu-item-1327" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1327"><a href="http://umassamherstm5.org/">Home</a></li>
+<li id="menu-item-1328" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1328"><a href="http://umassamherstm5.org/m5-info/about">About M5</a></li>
+<li id="menu-item-4057" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4057"><a href="http://umassamherstm5.org/newsletter">News and Events</a></li>
+<li id="menu-item-1771" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-has-children menu-item-1771"><a href="http://umassamherstm5.org/tech-tutorials">Learn</a>
+<ul class="sub-menu">
+	<li id="menu-item-2897" class="menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-2897"><a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials">PIC32 Tutorials</a></li>
+</ul>
+</li>
+<li id="menu-item-1332" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1332"><a href="http://umassamherstm5.org/m5-info/contact-us">Contact Us</a></li>
+</ul></div>					<form role="search" method="get" class="search-form" action="http://umassamherstm5.org/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search …" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>				</nav><!-- #site-navigation -->
+			</div><!-- #navbar -->
+		</header><!-- #masthead -->
+
+		<div id="main" class="site-main">
+
+	<div id="primary" class="content-area">
+		<div id="content" class="site-content" role="main">
+
+						
+				<article id="post-2491" class="post-2491 page type-page status-publish hentry">
+					<header class="entry-header">
+						
+						<h1 class="entry-title">Interrupts</h1>
+					</header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<h2>What’s An Interrupt?</h2>
+<p>It’s Halloween and you’re reading Lewis Carroll’s “Alice’s Adventures In Wonderland”. Every time someone knocks at the door you save your location and put down the book, go to the door and give some ghoulies candy, and then resume reading about Alice. </p>
+<p>And so it goes with embedded interrupts. </p>
+<p>With an interrupt in the embedded world, some event triggers the processor to very quickly jump to a special section of code called an <i>interrupt service routine</i>, do one thing or another, and then return to the previous location in code and continue with whatever was happening before. Note that this is unlike a standard function which is called by the code itself. An interrupt is generally triggered by some hardware related event and does not care what the non-interrupt code was doing when this event occurred. </p>
+<h2>Order Of Events</h2>
+<p><strong>1. An Interrupt Request Happens</strong><br>
+An <i>Interrupt Request</i> or <i>IRQ</i> is what happens in the processor based on some trigger. This trigger can be a peripheral (SPI, UART, timers, comparators, etc.), the software, or a fault in the system. We’ll be dealing with interrupts configured by the programmer only even though most microcontroller’s startup code will also configure some interrupts such as exception handlers. </p>
+<p>In the example code below, the interrupt event is that a timer reaches it’s period value and restarts counting from 0.</p>
+<p><strong>2. The Processor Saves Its Context</strong><br>
+After the IRQ happens, the processor saves its context. The context includes location in code (the program counter) and certain processor registers. Note that the processor registers referred to here are not the <i>special function registers</i> or <i>SFRs</i> we deal with so often with PICs. </p>
+<p><strong>3. The Processor Finds The Appropriate Callback Function</strong><br>
+An <i>interrupt vector table</i> contains the locations of every possible function that can be called from an interrupt event. Based on the IRQ that happened, there will be a specific function or <i>interrupt service routine</i> that corresponds to that IRQ. The <i>vector</i> is just the pointer to that function. </p>
+<p><strong>4. The Interrupt Service Routine Runs</strong><br>
+The <i>interrupt service routine</i> or <i>ISR</i> is the callback function pointed to by the appropriate vector. The programmer will deal with the event in the ISR whether it’s toggling an LED or loading a buffer with audio data. Since the ISR is disrupting the normal flow of code, please keep it as short as possible and try to avoid modifying any variables that may disruptively affect non-interrupt code! If you must call a function in an ISR, don’t call a function which can’t be called a second time while that function is already running. It can happen and it can cause a system crash. </p>
+<p><strong>5. Return To Normal Execution</strong><br>
+Restore the programs context.</p>
+<h2>Setting Up PIC32 Interrupts</h2>
+<p>Of course, these events will only occur if the interrupt itself has already been set up. Now we can get to PIC32 specifics! For all examples in this tutorial, we’ll be using Timer2 as our trigger source. Below is a section of table 7-1 taken from the datasheet pertaining only to Timer2. The entire table is at the end of this tutorial.<br>
+<a href="./Interrupts _ M5_files/Interrupt-T2.png"><img src="./Interrupts _ M5_files/Interrupt-T2.png" alt="" title="Interrupt T2" width="628" height="70" class="aligncenter size-full wp-image-2824" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-300x33.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+<p><strong>1. Disable The Interrupt</strong><br>
+Just like peripherals, interrupts should be disabled while configuring them. If not, there’s always the chance of jumping to the ISR before the interrupt is configured. It’s a good habit to disable the interrupt with one of the indirect SET, CLR, and INV SFRs. These are atomic meaning they take one clock cycle. Thus there is no chance of calling the ISR in the middle of disabling it. </p>
+<p>To disable the interrupt, clear the enable bits.<br>
+<a href="./Interrupts _ M5_files/Interrupt-T2-enable.png"><img src="./Interrupts _ M5_files/Interrupt-T2-enable.png" alt="" title="Interrupt T2 enable" width="628" height="70" class="aligncenter size-full wp-image-2827" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-enable.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-enable-300x33.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">IEC0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// disable timer 2 int, IEC0&lt;9&gt;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">IEC0CLR = 0x0200;       // disable timer 2 int, IEC0&lt;9&gt;</p></div>
+
+<p><strong>2. Set Priority and Subpriority</strong><br>
+PIC32’s use nested interrupt priority. If an IRQ is generated while the processor is already in executing an ISR, what happens? If <i>Multivectored Interrupts</i> are enabled (see below), the processor will handle the interrupt with higher priority. This may mean leaving one ISR to handle a higher priority interrupt and then return back to the first lower priority interrupt all before returning to the non-interrupt code.</p>
+<p>PIC32’s have 7 levels of priority (actually 8 but priority level 0 just disables that priority) and 4 levels of subpriority. The processor will first compare the interrupts priority and only compare the subpriorities if there is a match between two interrupts priority. The higher the priority/subpriority number, the higher the importance. </p>
+<p>Since multiple bits need to be set for priority/subpriority, I’m going to play it safe and clear those bits before setting them in case they had bits set already. Also, if you write to the entire register like <code>IPC2 = 0xnnnn</code>, any other interrupts that use IPC2 would be affected.<br>
+<a href="./Interrupts _ M5_files/Interrupt-T2-priority.png"><img src="./Interrupts _ M5_files/Interrupt-T2-priority.png" alt="" title="Interrupt T2 priority" width="628" height="70" class="aligncenter size-full wp-image-2828" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-priority.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-priority-300x33.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">IPC2CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x001f</span><span style="color: #339933;">;</span>         <span style="color: #666666; font-style: italic;">// clear priority/subpriority fields </span>
+IPC2SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0010</span><span style="color: #339933;">;</span>         <span style="color: #666666; font-style: italic;">// set timer 2 int priority = 4, IPC2&lt;4:2&gt;</span>
+IPC2SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0000</span><span style="color: #339933;">;</span>         <span style="color: #666666; font-style: italic;">// set timer 2 int subpriority = 0, IPC2&lt;1:0&gt;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">IPC2CLR = 0x001f;         // clear priority/subpriority fields 
+IPC2SET = 0x0010;         // set timer 2 int priority = 4, IPC2&lt;4:2&gt;
+IPC2SET = 0x0000;         // set timer 2 int subpriority = 0, IPC2&lt;1:0&gt;</p></div>
+
+<p><strong>3. Clear Interrupt Flag</strong><br>
+This is the flag that is set by the processor when the IRQ happens. Normally, the programmer will only be clearing this flag since the IRQ sets the flag.</p>
+<p><a href="./Interrupts _ M5_files/Interrupt-T2-flag.png"><img src="./Interrupts _ M5_files/Interrupt-T2-flag.png" alt="" title="Interrupt T2 flag" width="628" height="70" class="aligncenter size-full wp-image-2829" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-flag.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-flag-300x33.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">IFS0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// clear timer 2 int flag, IFS0&lt;9&gt;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">IFS0CLR = 0x0200;       // clear timer 2 int flag, IFS0&lt;9&gt;</p></div>
+
+<p><strong>4. Enable The Interrupt</strong><br>
+Once the interrupt is enabled again, any time the event occurs, the processor will begin the whole set of steps that execute the ISR.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">IEC0SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// enable timer 2 int, IEC0&lt;9&gt;</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">IEC0SET = 0x0200;       // enable timer 2 int, IEC0&lt;9&gt;</p></div>
+
+<h2>Interrupt Service Routine</h2>
+<p>Now that our processor is configured to search for and go to an ISR, we should probably have an ISR!</p>
+<p>The general layout of an ISR is as follows:</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> __ISR<span style="color: #009900;">(</span><span style="color: #009900;">[</span>Vector Number<span style="color: #009900;">]</span><span style="color: #339933;">,</span> ipl<span style="color: #009900;">[</span>Priority Number<span style="color: #009900;">]</span><span style="color: #009900;">)</span> Arbitrary_Function_Name<span style="color: #009900;">(</span><span style="color: #993333;">void</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    <span style="color: #666666; font-style: italic;">// Do stuff...</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Clear interrupt flag </span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">void __ISR([Vector Number], ipl[Priority Number]) Arbitrary_Function_Name(void){
+    // Do stuff...
+ 
+    // Clear interrupt flag 
+}</p></div>
+
+<p>In the ISR header line, the only difference from a normal function that doesn’t accept any arguments or return anything, is the <code>__ISR([Vector Number], ipl[Priority Number])</code> snippet. The vector is necessary to find the ISR and the “Priority Number” must match the priority (not subpriority) configured previously. Note that there are two underscores in <code>__ISR</code>. Use the vector number in table 7-1.<br>
+<a href="./Interrupts _ M5_files/Interrupt-T2-vector.png"><img src="./Interrupts _ M5_files/Interrupt-T2-vector.png" alt="" title="Interrupt T2 vector" width="628" height="70" class="aligncenter size-full wp-image-2831" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-vector.png 628w, http://umassamherstm5.org/wp-content/uploads/2012/04/Interrupt-T2-vector-300x33.png 300w" sizes="(max-width: 628px) 100vw, 628px"></a></p>
+<p>For Timer2, our ISR would look something like the following.</p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> __ISR<span style="color: #009900;">(</span><span style="color: #0000dd;">8</span><span style="color: #339933;">,</span> ipl4<span style="color: #009900;">)</span> Arbitrary_Name<span style="color: #009900;">(</span><span style="color: #993333;">void</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    <span style="color: #666666; font-style: italic;">// Do stuff...</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Clears the interrupt flag so we don't immediately enter the interrupt again...</span>
+    IFS0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// clear timer 2 int flag, IFS0&lt;9&gt;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">void __ISR(8, ipl4) Arbitrary_Name(void){
+    // Do stuff...
+ 
+    // Clears the interrupt flag so we don't immediately enter the interrupt again...
+    IFS0CLR = 0x0200;       // clear timer 2 int flag, IFS0&lt;9&gt;
+}</p></div>
+
+<h2>Multivectored Interrupts</h2>
+<p>Multivectored interrupts allow for there to be different ISRs for different causes of interrupts. The alternative is having a single ISR that checks every interrupt source to see who caused the interrupt. Painfully slow… There are up to 44 PIC32MX220F032B vectors and thus there can be 44 different ISRs. </p>
+<p>Since there are 64 PIC32MX220 interrupt sources, in some occasions multiple sources point to the same ISR. For example, SPI transmit operations, SPI receive operations, and SPI errors can all toggle the SPI modules interrupt flag. In each case though, the same vector is found pointing to the same ISR. Note that priority and subpriority are meaningless without multivectored ints. </p>
+<p>To enable multivectored ints, include the function <code>INTEnableSystemMultiVectoredInt()</code> in <code>main()</code>. Since it is recommended to pretty much always use multivectored interrupts, it is equally recommended to include that function.</p>
+<h2>When to use an interrupt?</h2>
+<p>The more real-time a situation is, the more likely an interrupt will be a good choice.</p>
+<p>Note that interrupts lose a lot of the predictability of a system. They often make things much more difficult than they have to be. Not to mention that debugging them can be a pain since they’re outside the scope of normal code flow. If used in the right place though, interrupts make complex and/or precise timing events possible. </p>
+<h2>Hardware Setup</h2>
+<p><a href="./Interrupts _ M5_files/PIC32-LED_scaled.jpg"><img src="./Interrupts _ M5_files/PIC32-LED_scaled.jpg" alt="" title="PIC32 LED_scaled" width="798" height="548" class="aligncenter size-full wp-image-2959" srcset="http://umassamherstm5.org/wp-content/uploads/2012/04/PIC32-LED_scaled.jpg 798w, http://umassamherstm5.org/wp-content/uploads/2012/04/PIC32-LED_scaled-300x206.jpg 300w" sizes="(max-width: 798px) 100vw, 798px"></a></p>
+
+<div class="wp_syntax" style="position:relative;"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">/* This code will blink an LED connected to pin RB5 using Timer2 and its
+ * corresponding interrupt.
+ *
+ * Note that the frequency of blinking is configured by the 'setPR2()' macro
+ */</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Include Header Files</span>
+<span style="color: #339933;">#include &lt;p32xxxx.h&gt;                // Include PIC32 specifics header file</span>
+<span style="color: #339933;">#include &lt;plib.h&gt;                   // Include the PIC32 Peripheral Library</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Config Bits</span>
+<span style="color: #339933;">#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL</span>
+<span style="color: #339933;">#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)</span>
+<span style="color: #339933;">#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)</span>
+                                    <span style="color: #666666; font-style: italic;">// see figure 8.1 in datasheet for more info</span>
+<span style="color: #339933;">#pragma config FWDTEN = OFF         // Watchdog Timer Disabled</span>
+<span style="color: #339933;">#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)</span>
+<span style="color: #339933;">#pragma config JTAGEN = OFF         // Disable JTAG</span>
+<span style="color: #339933;">#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Defines</span>
+<span style="color: #339933;">#define SYSCLK 40000000L            // System Clock Frequency</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Macros</span>
+<span style="color: #339933;">#define setPR2(seconds)   (seconds * SYSCLK / 256)</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    SYSTEMConfigPerformance<span style="color: #009900;">(</span>SYSCLK<span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    TRISBbits.<span style="color: #202020;">TRISB5</span> <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>   <span style="color: #666666; font-style: italic;">// Set RB5 as digital output</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Turn on 16-bit Timer2, set prescaler to 1:256 (frequency is Pbclk / 256)</span>
+    T2CON <span style="color: #339933;">=</span> <span style="color: #208080;">0x8070</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// The slowest the interrupt will occur is every:</span>
+    <span style="color: #666666; font-style: italic;">//        prescaler * PR2max / Pbclk = 256 * 65535 / 40MHz = 0.42s</span>
+    <span style="color: #666666; font-style: italic;">// thus, a setPR2() argument of anything above 0.42 will give undesired results</span>
+    PR2 <span style="color: #339933;">=</span> setPR2<span style="color: #009900;">(</span><span style="color:#800080;">0.2</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// This will cause a full blink every 0.4s</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Only one interrupt source (Timer2) but still in multivectored mode</span>
+    <span style="color: #666666; font-style: italic;">// : found in plib.h</span>
+    INTEnableSystemMultiVectoredInt<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Configure Interrupts</span>
+    <span style="color: #666666; font-style: italic;">// In datasheet: TABLE 7-1: INTERRUPT IRQ, VECTOR AND BIT LOCATION</span>
+    IEC0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// disable Timer2 int, IEC0&lt;9&gt;</span>
+    IFS0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// clear Timer2 int flag, IFS0&lt;9&gt;</span>
+    IPC2CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x001f</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// clear Timer2 priority/subpriority fields IPC2&lt;4:0&gt;</span>
+    IPC2SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0010</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// set Timer2 int priority = 4, IPC2&lt;4:2&gt;</span>
+    IPC2SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0000</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// set Timer2 int subpriority = 0, IPC2&lt;1:0&gt;</span>
+    IEC0SET <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// enable Timer2 int, IEC0&lt;9&gt;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Now we just wait in an infinite loop while interrupts do their thing!</span>
+    <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">1</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #666666; font-style: italic;">// Timer2 Interrupt Service Routine</span>
+<span style="color: #993333;">void</span> __ISR<span style="color: #009900;">(</span><span style="color: #0000dd;">8</span><span style="color: #339933;">,</span> ipl4<span style="color: #009900;">)</span> Timer2IntHandler<span style="color: #009900;">(</span><span style="color: #993333;">void</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span>
+    <span style="color: #666666; font-style: italic;">// note that iplx (interrupt priority level) must match the timers interrupt priority level</span>
+    LATBINV <span style="color: #339933;">=</span> <span style="color: #208080;">0x0020</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #666666; font-style: italic;">// Clears the interrupt flag so we don't immediately enter the interrupt again...</span>
+    IFS0CLR <span style="color: #339933;">=</span> <span style="color: #208080;">0x0200</span><span style="color: #339933;">;</span>       <span style="color: #666666; font-style: italic;">// clear timer 2 int flag, IFS0&lt;9&gt;</span>
+<span style="color: #009900;">}</span> <span style="color: #666666; font-style: italic;">// END Timer2 ISR</span></pre></td></tr></tbody></table><p class="theCode" style="display:none;">/* This code will blink an LED connected to pin RB5 using Timer2 and its
+ * corresponding interrupt.
+ *
+ * Note that the frequency of blinking is configured by the 'setPR2()' macro
+ */
+
+// Include Header Files
+#include &lt;p32xxxx.h&gt;                // Include PIC32 specifics header file
+#include &lt;plib.h&gt;                   // Include the PIC32 Peripheral Library
+
+// Config Bits
+#pragma config FNOSC = FRCPLL       // Internal Fast RC oscillator (8 MHz) w/ PLL
+#pragma config FPLLIDIV = DIV_2     // Divide FRC before PLL (now 4 MHz)
+#pragma config FPLLMUL = MUL_20     // PLL Multiply (now 80 MHz)
+#pragma config FPLLODIV = DIV_2     // Divide After PLL (now 40 MHz)
+                                    // see figure 8.1 in datasheet for more info
+#pragma config FWDTEN = OFF         // Watchdog Timer Disabled
+#pragma config ICESEL = ICS_PGx1    // ICE/ICD Comm Channel Select (pins 4,5)
+#pragma config JTAGEN = OFF         // Disable JTAG
+#pragma config FSOSCEN = OFF        // Disable Secondary Oscillator
+
+// Defines
+#define SYSCLK 40000000L            // System Clock Frequency
+
+// Macros
+#define setPR2(seconds)   (seconds * SYSCLK / 256)
+
+int main(){
+    SYSTEMConfigPerformance(SYSCLK);
+
+    TRISBbits.TRISB5 = 0;   // Set RB5 as digital output
+
+    // Turn on 16-bit Timer2, set prescaler to 1:256 (frequency is Pbclk / 256)
+    T2CON = 0x8070;
+
+    // The slowest the interrupt will occur is every:
+    //        prescaler * PR2max / Pbclk = 256 * 65535 / 40MHz = 0.42s
+    // thus, a setPR2() argument of anything above 0.42 will give undesired results
+    PR2 = setPR2(0.2);       // This will cause a full blink every 0.4s
+
+    // Only one interrupt source (Timer2) but still in multivectored mode
+    // : found in plib.h
+    INTEnableSystemMultiVectoredInt();
+
+    // Configure Interrupts
+    // In datasheet: TABLE 7-1: INTERRUPT IRQ, VECTOR AND BIT LOCATION
+    IEC0CLR = 0x0200;       // disable Timer2 int, IEC0&lt;9&gt;
+    IFS0CLR = 0x0200;       // clear Timer2 int flag, IFS0&lt;9&gt;
+    IPC2CLR = 0x001f;       // clear Timer2 priority/subpriority fields IPC2&lt;4:0&gt;
+    IPC2SET = 0x0010;       // set Timer2 int priority = 4, IPC2&lt;4:2&gt;
+    IPC2SET = 0x0000;       // set Timer2 int subpriority = 0, IPC2&lt;1:0&gt;
+    IEC0SET = 0x0200;       // enable Timer2 int, IEC0&lt;9&gt;
+
+    // Now we just wait in an infinite loop while interrupts do their thing!
+    while( 1);
+
+    return 1;
+}
+
+// Timer2 Interrupt Service Routine
+void __ISR(8, ipl4) Timer2IntHandler(void){
+    // note that iplx (interrupt priority level) must match the timers interrupt priority level
+    LATBINV = 0x0020;
+
+    // Clears the interrupt flag so we don't immediately enter the interrupt again...
+    IFS0CLR = 0x0200;       // clear timer 2 int flag, IFS0&lt;9&gt;
+} // END Timer2 ISR</p></div>
+
+<p>The figure below is table 7-1 from the datasheet and lists the interrupt sources (IRQs), vectors, and SFR bit locations. Having a ‘persistent interrupt’ means that the source of the interrupt must be dealt with before leaving the ISR. It is a lengthy but very important table when dealing with interrupts.<br>
+<a href="./Interrupts _ M5_files/Interrupt-IRQ-Vector-and-bit-location-table2.png"><img src="./Interrupts _ M5_files/Interrupt-IRQ-Vector-and-bit-location-table2.png" alt="" title="Interrupt IRQ Vector and bit location table" width="648" height="1400" class="aligncenter size-full wp-image-2987"></a></p>
+											</div><!-- .entry-content -->
+
+					<footer class="entry-meta">
+											</footer><!-- .entry-meta -->
+				</article><!-- #post -->
+
+				
+<div id="comments" class="comments-area">
+
+			<h2 class="comments-title">
+			8 thoughts on “<span>Interrupts</span>”		</h2>
+
+		<ol class="comment-list">
+					<li id="comment-1740" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-1740" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/5c5e90ecc259c399a113ea7f35fc2ae5.png" srcset="http://2.gravatar.com/avatar/5c5e90ecc259c399a113ea7f35fc2ae5?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">fabio</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-1740">
+							<time datetime="2013-02-18T08:09:16+00:00">
+								18 February 2013 at 08:09							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Dear Sir</p>
+<p>Thank you for the article I read with great interest and helped me to understand many concepts (I come from an experience with PIC 16/18)<br>
+Reading the article raises a legitimate question: why define a priority (3 bits) and a sub-priority (2 bits) instead of defining a global priority of 5 bits?</p>
+<p>Yours sincerly<br>
+Fabio Milan Italy</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=1740#respond" onclick="return addComment.moveForm( &quot;div-comment-1740&quot;, &quot;1740&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to fabio">Reply</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-1741" class="comment byuser comment-author-sklaiber bypostauthor odd alt depth-2">
+			<article id="div-comment-1741" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/a4c3314bd6143b789e08ad760f86c035.png" srcset="http://1.gravatar.com/avatar/a4c3314bd6143b789e08ad760f86c035?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Sean Klaiber</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-1741">
+							<time datetime="2013-02-18T12:04:38+00:00">
+								18 February 2013 at 12:04							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Fabio, I’m glad you liked the article <img draggable="false" class="emoji" alt="🙂" src="./Interrupts _ M5_files/1f642.svg"> </p>
+<p>I can only guess what the developers had in mind. For me it makes sense to group interrupts into categories so if you ever need to come back and change the code, it will be much easier. For example, if all of your user interface interrupts (LEDs, audio/visual feedback, etc) had priority 3, you could reorder their sub-priority without ever having to worry about stepping on another set of interrupts. </p>
+<p>Also, 7 interrupts is already a lot! Very very rarely should you ever need to use more than that. Too many different interrupts and your system functionality can become unpredictable. Use multiple interrupts with caution!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=1741#respond" onclick="return addComment.moveForm( &quot;div-comment-1741&quot;, &quot;1741&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to Sean Klaiber">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-1742" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-1742" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/5c5e90ecc259c399a113ea7f35fc2ae5.png" srcset="http://2.gravatar.com/avatar/5c5e90ecc259c399a113ea7f35fc2ae5?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">fabio</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-1742">
+							<time datetime="2013-02-18T12:20:33+00:00">
+								18 February 2013 at 12:20							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>thank you very much<br>
+fabio milano</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=1742#respond" onclick="return addComment.moveForm( &quot;div-comment-1742&quot;, &quot;1742&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to fabio">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-1766" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-1766" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/f7fb214118cf581b23db3373891e237c.png" srcset="http://0.gravatar.com/avatar/f7fb214118cf581b23db3373891e237c?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">superkittens</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-1766">
+							<time datetime="2013-02-25T02:41:09+00:00">
+								25 February 2013 at 02:41							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Thanks so much for your writeup!  The datasheet (actually, family reference manual) makes a lot more sense now that I read this!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=1766#respond" onclick="return addComment.moveForm( &quot;div-comment-1766&quot;, &quot;1766&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to superkittens">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-12065" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-12065" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/25c95df571d95db621c45d173eb13bd2.png" srcset="http://2.gravatar.com/avatar/25c95df571d95db621c45d173eb13bd2?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Jerry</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-12065">
+							<time datetime="2014-08-17T18:26:35+00:00">
+								17 August 2014 at 18:26							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Very nice write up on PIC32 Interrupts!!!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=12065#respond" onclick="return addComment.moveForm( &quot;div-comment-12065&quot;, &quot;12065&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to Jerry">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-17532" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-17532" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/8ab8648ee0b7ef729377d3dd463d1678.png" srcset="http://2.gravatar.com/avatar/8ab8648ee0b7ef729377d3dd463d1678?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">anil</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-17532">
+							<time datetime="2014-10-17T01:23:56+00:00">
+								17 October 2014 at 01:23							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>You  explained it very nicely! Thank You!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=17532#respond" onclick="return addComment.moveForm( &quot;div-comment-17532&quot;, &quot;17532&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to anil">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-33694" class="comment even thread-odd thread-alt depth-1">
+			<article id="div-comment-33694" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/241272ea0530483a07a67c7031b51c22.png" srcset="http://2.gravatar.com/avatar/241272ea0530483a07a67c7031b51c22?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Techgig</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-33694">
+							<time datetime="2015-02-20T07:11:29+00:00">
+								20 February 2015 at 07:11							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Excellent!!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=33694#respond" onclick="return addComment.moveForm( &quot;div-comment-33694&quot;, &quot;33694&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to Techgig">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		<li id="comment-46869" class="comment odd alt thread-even depth-1">
+			<article id="div-comment-46869" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Interrupts _ M5_files/4acab7944ff614c9535b8e03b27f67dd.png" srcset="http://1.gravatar.com/avatar/4acab7944ff614c9535b8e03b27f67dd?s=148&amp;d=mm&amp;r=g 2x" class="avatar avatar-74 photo" height="74" width="74">						<b class="fn">Antara</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#comment-46869">
+							<time datetime="2016-04-14T01:26:25+00:00">
+								14 April 2016 at 01:26							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Hello, the article was really helpful.<br>
+I just have an issue with the 32 bit timer.<br>
+What will the steps be for setting up a 32 bit timer? and 1 second delay?</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts?replytocom=46869#respond" onclick="return addComment.moveForm( &quot;div-comment-46869&quot;, &quot;46869&quot;, &quot;respond&quot;, &quot;2491&quot; )" aria-label="Reply to Antara">Reply</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://umassamherstm5.org/tech-tutorials/pic32-tutorials/pic32mx220-tutorials/interrupts#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://umassamherstm5.org/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="2491" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="408b2ddc71"></p><p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1532266108043"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+		</div><!-- #main -->
+		<footer id="colophon" class="site-footer" role="contentinfo">
+			
+			<div class="site-info">
+								<a href="https://wordpress.org/">Proudly powered by WordPress</a>
+			</div><!-- .site-info -->
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+				<script type="text/javascript">
+				(function($){
+					$(function(){
+						$("img.flickr.square,img.flickr.thumbnail,img.flickr.small").flightbox({size_callback: get_sizes});
+					});
+				})(jQuery);
+			</script>
+		<script type="text/javascript" src="./Interrupts _ M5_files/form.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/wp-syntax.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/comment-reply.min.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/functions.js.download"></script>
+<script type="text/javascript" src="./Interrupts _ M5_files/wp-embed.min.js.download"></script>
+
+</body></html>
