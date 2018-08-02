@@ -154,7 +154,8 @@ void APP_Tasks ( void )
 
         case APP_STATE_SERVICE_TASKS:
         {
-        
+            unsigned int i = 0;
+            i = DRV_USART0_ReadByte();
             break;
         }
 
