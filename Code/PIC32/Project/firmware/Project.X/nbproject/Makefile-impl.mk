@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=First_Test.X
+PROJECTNAME=Project.X
 
 # Active Configuration
 DEFAULTCONF=default
