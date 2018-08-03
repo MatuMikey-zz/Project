@@ -60,7 +60,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Global Data Definitions
 // *****************************************************************************
 // *****************************************************************************
-
+char character = 'a';
 // *****************************************************************************
 /* Application Data
 
@@ -148,15 +148,19 @@ void APP_Tasks ( void )
             {
             
                 appData.state = APP_STATE_SERVICE_TASKS;
+                DRV_USART0_Initialize();
             }
             break;
         }
 
         case APP_STATE_SERVICE_TASKS:
         {
-            unsigned int i = 0;
-            i = DRV_USART0_ReadByte();
-            break;
+            int i = 0;
+            char stringy[4] = "AT\r\n";
+            for (i = 0; i < sizeof(stringy); i++){
+                DRV_USART0_WriteByte (stringy[i]);
+            }
+            for(i = 0; i < 40000000;i++);
         }
 
         /* TODO: implement your application state machine.*/
