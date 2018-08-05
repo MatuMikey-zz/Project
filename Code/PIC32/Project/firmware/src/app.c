@@ -173,18 +173,22 @@ void APP_Tasks ( void )
             int i = 0;
             //Initiate connection
 
-            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
-            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
-            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
-            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
+            WriteString("AT\r\n\0");            for(i = 0; i < 10000000;i++){}
 
-            WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 40000000;i++){}
-            WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 40000000;i++){}
-            //appData.state = APP_STATE_READ_FROM_WIFI;
+
+            WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000;i++){}
+            WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000;i++){}
+
+            appData.state = APP_STATE_READ_FROM_WIFI;
             break;
         }
         case APP_STATE_READ_FROM_WIFI:
         {
+            int i = 0;
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
+            WriteString("AT+CIPSEND=29\r\n\0"); for(i = 0; i < 5000000; i++){};
+            WriteString("     Who wants to go do m+?\r\n\0"); for(i = 0; i < 5000000; i++){};
+            WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
             break;
         }
 
