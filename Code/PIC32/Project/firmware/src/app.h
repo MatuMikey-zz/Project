@@ -89,6 +89,9 @@ typedef enum
 	/* Application's state machine's initial state. */
 	APP_STATE_INIT=0,
 	APP_STATE_SERVICE_TASKS,
+    APP_STATE_CONNECT_TO_WIFI,
+    APP_STATE_WRITE_TO_WIFI,
+    APP_STATE_READ_FROM_WIFI,
 
 	/* TODO: Define states used by the application state machine. */
 
@@ -165,6 +168,11 @@ typedef struct
 
 void APP_Initialize ( void );
 
+void WriteByte(char c);
+
+void WriteString(char charArray[]);
+
+void DelaySecond();
 
 /*******************************************************************************
   Function:

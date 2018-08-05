@@ -92,8 +92,23 @@ APP_DATA appData;
 // Section: Application Local Functions
 // *****************************************************************************
 // *****************************************************************************
+void WriteByte(char c){
+    DRV_USART0_WriteByte (c);
+}
 
+void WriteString(char charArray[]){
+    int index = 0;
+    while (charArray[index] != '\0'){
+        WriteByte(charArray[index]);
+        index++;
+    }
+}
 
+void DelaySecond(){ //40 000 000 = 1s        //400 000 = 10ms
+    int i = 0;
+    for (i = 0; i< 40000000; i++){
+    }
+}                                //40 000 = 1ms
 /* TODO:  Add any necessary local functions.
 */
 
@@ -147,20 +162,30 @@ void APP_Tasks ( void )
             if (appInitialized)
             {
             
-                appData.state = APP_STATE_SERVICE_TASKS;
+                appData.state = APP_STATE_CONNECT_TO_WIFI;
                 DRV_USART0_Initialize();
             }
             break;
         }
 
-        case APP_STATE_SERVICE_TASKS:
+        case APP_STATE_CONNECT_TO_WIFI:
         {
             int i = 0;
-            char stringy[4] = "AT\r\n";
-            for (i = 0; i < sizeof(stringy); i++){
-                DRV_USART0_WriteByte (stringy[i]);
-            }
-            for(i = 0; i < 40000000;i++);
+            //Initiate connection
+
+            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
+            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
+            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
+            WriteString("AT+\r\n\0");            for(i = 0; i < 40000000;i++){}
+
+            WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 40000000;i++){}
+            WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 40000000;i++){}
+            //appData.state = APP_STATE_READ_FROM_WIFI;
+            break;
+        }
+        case APP_STATE_READ_FROM_WIFI:
+        {
+            break;
         }
 
         /* TODO: implement your application state machine.*/
