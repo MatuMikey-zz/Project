@@ -61,6 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 char character = 'a';
+int j = 0;
 // *****************************************************************************
 /* Application Data
 
@@ -190,28 +191,34 @@ void APP_Tasks ( void )
             WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000;i++){}
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
 
-            appData.state = APP_STATE_READ_FROM_WIFI;
+            appData.state = APP_STATE_WRITE_TO_WIFI;
             break;
         }
-        case APP_STATE_READ_FROM_WIFI:
+        case APP_STATE_WRITE_TO_WIFI:
         {
             char buffer[100] = "The value of my sensor is: ";
             char message[100];
             char length[4];
             int i = 0;
             int k = 0;
-            int j = 54;
+            j++;
             k = snprintf(message, 100, buffer);
             snprintf(message+k, 100, "%d", j);
-            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 1000000; i++){}
-            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 1000000; i++){};
+            for(i=0;i<20000000;i++){};
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 200000; i++){}
+            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 200000; i++){};
             for(i = 0; message[i] != '\0'; ++i){}
             snprintf(length,4,"%d",i);
-            WriteString(length); for(i=0;i<1000000;i++){};
-            WriteString("\r\n\0"); for(i=0;i < 1000000;i++){};
+            WriteString(length); for(i=0;i<200000;i++){};
+            WriteString("\r\n\0"); for(i=0;i < 200000;i++){};
             //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
-            WriteString2(message); for(i = 0; i < 1000000; i++){};
+            WriteString2(message); for(i = 0; i < 200000; i++){};
             //WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
+            break;
+        }
+        case APP_STATE_READ_FROM_WIFI:
+        {
+            
             break;
         }
 
