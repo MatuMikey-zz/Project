@@ -95,20 +95,30 @@ APP_DATA appData;
 void WriteByte(char c){
     DRV_USART0_WriteByte (c);
 }
-
+//This function is to write the AT messages that must be dealt with by the WiFi module.
 void WriteString(char charArray[]){
     int index = 0;
+    
     while (charArray[index] != '\0'){
         WriteByte(charArray[index]);
         index++;
     }
 }
-
-void DelaySecond(){ //40 000 000 = 1s        //400 000 = 10ms
-    int i = 0;
-    for (i = 0; i< 40000000; i++){
-    }
-}                                //40 000 = 1ms
+//This function is to write the message that must be received on the server
+void WriteString2(char charArray[]){
+    int boolean = 0;
+    int index = 0;
+    do{
+        WriteByte(charArray[index]);
+        index++;
+        if(charArray[index] == '\0' && boolean == 1){
+            WriteByte('\0');
+            WriteByte('\r');
+            WriteByte('\n');
+        }
+        boolean = 1;
+    }while(charArray[index]!='\0');
+}
 /* TODO:  Add any necessary local functions.
 */
 
@@ -178,17 +188,30 @@ void APP_Tasks ( void )
 
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000;i++){}
             WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000;i++){}
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
 
             appData.state = APP_STATE_READ_FROM_WIFI;
             break;
         }
         case APP_STATE_READ_FROM_WIFI:
         {
+            char buffer[100] = "The value of my sensor is: ";
+            char message[100];
+            char length[4];
             int i = 0;
-            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
-            WriteString("AT+CIPSEND=29\r\n\0"); for(i = 0; i < 5000000; i++){};
-            WriteString("     Who wants to go do m+?\r\n\0"); for(i = 0; i < 5000000; i++){};
-            WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
+            int k = 0;
+            int j = 54;
+            k = snprintf(message, 100, buffer);
+            snprintf(message+k, 100, "%d", j);
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 1000000; i++){}
+            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 1000000; i++){};
+            for(i = 0; message[i] != '\0'; ++i){}
+            snprintf(length,4,"%d",i);
+            WriteString(length); for(i=0;i<1000000;i++){};
+            WriteString("\r\n\0"); for(i=0;i < 1000000;i++){};
+            //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
+            WriteString2(message); for(i = 0; i < 1000000; i++){};
+            //WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
             break;
         }
 

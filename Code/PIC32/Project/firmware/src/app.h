@@ -171,8 +171,8 @@ void APP_Initialize ( void );
 void WriteByte(char c);
 
 void WriteString(char charArray[]);
-
-void DelaySecond();
+void WriteString2(char charArray[]);
+void sendStringLength(char charArray[]);
 
 /*******************************************************************************
   Function:

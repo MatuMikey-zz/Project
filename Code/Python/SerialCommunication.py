@@ -1,7 +1,7 @@
 import serial
 import time
 ser = serial.Serial(
-        port = "COM4",
+        port = "COM3",
         baudrate=115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -10,47 +10,30 @@ ser = serial.Serial(
 
 myBuffer = []
 mystring = ''
-i=16
+reading = False
+character = 'a'
+i=1
 while 1:
-    myBuffer.append(ser.read(i).decode('utf-8'))
-    print (len(myBuffer), myBuffer, mystring)
-    mystring = ''.join(myBuffer)
-    print(mystring.find("hello"))
-    if(mystring.find("hello") != -1):
-        i = 14
-        print ("I AM HERE 1" + " " + mystring)
-        time.sleep(0.5)       # check which port was really used
-        ser.write(str.encode("AT+CIPSEND=0,3\r\n"))
-        time.sleep(0.5)
-        ser.write(str.encode("bye\r\n"))
-        time.sleep(0.5)
-        mystring = ''
-        myBuffer = []
-        ser.flushInput() #clears the buffers
-        ser.flushOutput()
-        time.sleep(0.5)
-    elif(mystring.find("bye") != -1):
-        i = 16
-        print ("I AM HERE 2" + " " + mystring)
-        time.sleep(0.5)
-        ser.write(str.encode("AT+CIPSEND=0,5\r\n"))
-        time.sleep(0.5)
-        ser.write(str.encode("hello\r\n"))
-        time.sleep(0.5)
-        mystring = ''
-        myBuffer = []
-        ser.flushInput() #clears the buffers
-        ser.flushOutput()
-        time.sleep(0.5)
-    else:
-        i = 16
-        time.sleep(0.5)
-        ser.write(str.encode("AT+CIPSEND=0,4\r\n"))
-        time.sleep(0.5)
-        ser.write(str.encode("what\r\n"))
-        time.sleep(0.5)
-        mystring = ''
-        myBuffer = []
-        ser.flushInput() #clears the buffers
-        ser.flushOutput()
-        time.sleep(0.5)
+    try:
+        character=ser.read(1).decode('utf-8')
+        if (character == "+"):
+            character = ser.read(1).decode('utf-8')
+            if (character == "I"):
+                i = 8
+                character=ser.read(i).decode('utf-8')
+                start1 =character.find("IPD,")+4
+                end2 = start1+1
+                WiFi_ID = character[start1:end2]
+                start = (character.find(WiFi_ID))+2
+                end = (character.find(":"))
+                Number_Of_Read_Characters = int(character[start:end])
+                character = ser.read(Number_Of_Read_Characters).decode('utf-8')
+                print(character)
+                i = 20
+            #if (i == 20):
+                #time.sleep(1)
+                #ser.write(str.encode("AT+CIPSEND=0,3\r\n"))
+                #time.sleep(0.5)
+                #ser.write(str.encode("bye\r\n"))
+    except:
+        print(character)
