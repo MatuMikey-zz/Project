@@ -197,7 +197,7 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Code to convert sensor float to character
-            char buffer[100] = "The value of my sensor is: ";
+            char buffer[10] = "";
             int sensorArray[4];
             int k = 0;
             int i = 0;
@@ -207,22 +207,33 @@ void APP_Tasks ( void )
             j *= 100.0;
             k = (int) j;
             j /= 100.0;
-            for(charPosition; buffer[charPosition] != '\0'; charPosition++){}
+            for(charPosition=0; buffer[charPosition] != '\0'; charPosition++){}
             for(i = 0; i < 4; i++){sensorArray[i] = k%10; k/=10;}
             for (i = 3; i >= 0; i--){buffer[charPosition+i] = sensorArray[3-i] + '0';}
             //End of code that changes sensor float to character and puts it in the buffer to be sent
-            char message[100];
-            char length[4];
-
-
+            //Start of code to determine the correct length 
             //k = snprintf(message, 100, buffer);
             //snprintf(message+k, 100, "%d", j);
+            //The following code initiates a TCP connection (even if one already exists))
+            //then sends a send command with the length of the message (length array) to be sent)
+            //It then sends the message (buffer))
             for(i=0;i<20000000;i++){};
+            char length1[2]; char length2[3];
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 200000; i++){}
             WriteString("AT+CIPSEND=\0"); for(i = 0; i < 200000; i++){};
-            for(i = 0; buffer[i] != '\0'; ++i){}
-            snprintf(length,4,"%d",i);
-            WriteString(length); for(i=0;i<200000;i++){};
+            for(i = 0; buffer[i] != '\0'; ++i){}            
+            if(i > 10){
+                length2[1] = (i%10)+'0'; 
+                length2[0] = (i/10)+'0'; 
+                WriteString(length2);
+            }
+            else{
+                length1[0] = i + '0'; 
+                length1[1] = '\0';
+                WriteString(length1);
+            }
+            //snprintf(length,4,"%d",i);
+            //WriteString(length); for(i=0;i<200000;i++){};
             WriteString("\r\n\0"); for(i=0;i < 200000;i++){};
             //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
             WriteString2(buffer); for(i = 0; i < 200000; i++){};

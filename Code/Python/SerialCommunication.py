@@ -5,7 +5,8 @@ ser = serial.Serial(
         baudrate=115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
-        bytesize=serial.EIGHTBITS
+        bytesize=serial.EIGHTBITS,
+        #timeout = 5
         )# open first serial port
 
 myBuffer = []
@@ -31,6 +32,7 @@ while 1:
                 character = ser.read(Number_Of_Read_Characters).decode('utf-8')
                 print(character)
                 i = 20
+                #ser.flushInput()
             #if (i == 20):
                 #time.sleep(1)
                 #ser.write(str.encode("AT+CIPSEND=0,3\r\n"))
