@@ -183,10 +183,7 @@ void APP_Tasks ( void )
         {
             int i = 0;
             //Initiate connection
-
             WriteString("AT\r\n\0");            for(i = 0; i < 10000000;i++){}
-
-
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000;i++){}
             WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000;i++){}
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
@@ -198,7 +195,7 @@ void APP_Tasks ( void )
         {
             //Code to convert sensor float to character
             char buffer[10] = "";
-            int sensorArray[4];
+            int sensorArray[5];
             int k = 0;
             int i = 0;
             int charPosition = 0;
@@ -217,7 +214,7 @@ void APP_Tasks ( void )
             //The following code initiates a TCP connection (even if one already exists))
             //then sends a send command with the length of the message (length array) to be sent)
             //It then sends the message (buffer))
-            for(i=0;i<20000000;i++){};
+            for(i=0;i<2000000;i++){};
             char length1[2]; char length2[3];
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 200000; i++){}
             WriteString("AT+CIPSEND=\0"); for(i = 0; i < 200000; i++){};
