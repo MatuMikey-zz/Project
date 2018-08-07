@@ -61,7 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 char character = 'a';
-int j = 0;
+float j = 0;
 // *****************************************************************************
 /* Application Data
 
@@ -196,23 +196,36 @@ void APP_Tasks ( void )
         }
         case APP_STATE_WRITE_TO_WIFI:
         {
+            //Code to convert sensor float to character
             char buffer[100] = "The value of my sensor is: ";
+            int sensorArray[4];
+            int k = 0;
+            int i = 0;
+            int charPosition = 0;
+            j = j+0.01;
+            if (j >= 100.0){j = 0.0;}
+            j *= 100.0;
+            k = (int) j;
+            j /= 100.0;
+            for(charPosition; buffer[charPosition] != '\0'; charPosition++){}
+            for(i = 0; i < 4; i++){sensorArray[i] = k%10; k/=10;}
+            for (i = 3; i >= 0; i--){buffer[charPosition+i] = sensorArray[3-i] + '0';}
+            //End of code that changes sensor float to character and puts it in the buffer to be sent
             char message[100];
             char length[4];
-            int i = 0;
-            int k = 0;
-            j++;
-            k = snprintf(message, 100, buffer);
-            snprintf(message+k, 100, "%d", j);
+
+
+            //k = snprintf(message, 100, buffer);
+            //snprintf(message+k, 100, "%d", j);
             for(i=0;i<20000000;i++){};
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 200000; i++){}
             WriteString("AT+CIPSEND=\0"); for(i = 0; i < 200000; i++){};
-            for(i = 0; message[i] != '\0'; ++i){}
+            for(i = 0; buffer[i] != '\0'; ++i){}
             snprintf(length,4,"%d",i);
             WriteString(length); for(i=0;i<200000;i++){};
             WriteString("\r\n\0"); for(i=0;i < 200000;i++){};
             //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
-            WriteString2(message); for(i = 0; i < 200000; i++){};
+            WriteString2(buffer); for(i = 0; i < 200000; i++){};
             //WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
             break;
         }

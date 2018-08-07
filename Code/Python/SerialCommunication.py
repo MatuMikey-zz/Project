@@ -13,6 +13,7 @@ mystring = ''
 reading = False
 character = 'a'
 i=1
+mode = "read"
 while 1:
     try:
         character=ser.read(1).decode('utf-8')
@@ -36,4 +37,4 @@ while 1:
                 #time.sleep(0.5)
                 #ser.write(str.encode("bye\r\n"))
     except:
-        print(character)
+        continue;
