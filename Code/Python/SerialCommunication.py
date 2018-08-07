@@ -17,21 +17,27 @@ i=1
 mode = "read"
 while 1:
     try:
-        character=ser.read(1).decode('utf-8')
-        if (character == "+"):
-            character = ser.read(1).decode('utf-8')
-            if (character == "I"):
-                i = 8
-                character=ser.read(i).decode('utf-8')
-                start1 =character.find("IPD,")+4
-                end2 = start1+1
-                WiFi_ID = character[start1:end2]
-                start = (character.find(WiFi_ID))+2
-                end = (character.find(":"))
-                Number_Of_Read_Characters = int(character[start:end])
-                character = ser.read(Number_Of_Read_Characters).decode('utf-8')
-                print(character)
-                i = 20
+        if mode=="read":
+            character=ser.read(1).decode('utf-8')
+            if (character == "+"):
+                character = ser.read(1).decode('utf-8')
+                if (character == "I"):
+                    i = 8
+                    character=ser.read(i).decode('utf-8')
+                    start1 =character.find("IPD,")+4
+                    end2 = start1+1
+                    WiFi_ID = character[start1:end2]
+                    start = (character.find(WiFi_ID))+2
+                    end = (character.find(":"))
+                    Number_Of_Read_Characters = int(character[start:end])
+                    character = ser.read(Number_Of_Read_Characters).decode('utf-8')
+                    print(character)
+                    i = 20
+        else:
+            ser.write("AT+CIPSEND=0,1\r\n")
+            time.sleep(0.5)
+            ser.write("a\r\n")
+            ser.sleep(0.5)
                 #ser.flushInput()
             #if (i == 20):
                 #time.sleep(1)

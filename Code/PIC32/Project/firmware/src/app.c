@@ -185,6 +185,7 @@ void APP_Tasks ( void )
             //Initiate connection
             WriteString("AT\r\n\0");            for(i = 0; i < 10000000;i++){}
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000;i++){}
+            WriteString("AT+CIPMODE=0\r\n\0");  for(i = 0; i < 10000000;i++){}
             WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000;i++){}
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}
 
@@ -216,8 +217,8 @@ void APP_Tasks ( void )
             //It then sends the message (buffer))
             for(i=0;i<2000000;i++){};
             char length1[2]; char length2[3];
-            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 200000; i++){}
-            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 200000; i++){};
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 800000; i++){}
+            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 800000; i++){};
             for(i = 0; buffer[i] != '\0'; ++i){}            
             if(i > 10){
                 length2[1] = (i%10)+'0'; 
@@ -231,10 +232,11 @@ void APP_Tasks ( void )
             }
             //snprintf(length,4,"%d",i);
             //WriteString(length); for(i=0;i<200000;i++){};
-            WriteString("\r\n\0"); for(i=0;i < 200000;i++){};
+            WriteString("\r\n\0"); for(i=0;i < 800000;i++){};
             //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
-            WriteString2(buffer); for(i = 0; i < 200000; i++){};
+            WriteString2(buffer); for(i = 0; i < 800000; i++){};
             //WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
+            //appData.state = APP_STATE_READ_FROM_WIFI;
             break;
         }
         case APP_STATE_READ_FROM_WIFI:
