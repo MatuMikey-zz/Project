@@ -20,7 +20,11 @@ mystring = ''
 reading = False
 character = 'a'
 i=1
-mode = "write"
+mode = "read"
+ser.write("AT+CIPMUX=1\r\n".encode())
+time.sleep(0.5)
+ser.write("AT+CIPSERVER=1,333\r\n".encode())
+time.sleep(0.5)
 while 1:
     try:
         if mode=="read":
@@ -42,11 +46,10 @@ while 1:
                     i = 20
                     mode = "write"
         elif mode=="write":
-            time.sleep(2)
-            ser.write("AT+CIPSEND=0,5\r\n".encode())
+            ser.write("AT+CIPSEND=0,6\r\n".encode())
             time.sleep(0.1)
-            ser.write("AT\r\n".encode())
+            ser.write("hello\0\r\n".encode())
             time.sleep(2)
-            mode = "read"
+            #mode = "read"
     except:
         continue;

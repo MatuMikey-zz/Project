@@ -154,6 +154,7 @@ void SYS_Initialize ( void* data )
     DRV_ADC_Initialize();
 
     sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)NULL);
+    sysObj.drvUsart1 = DRV_USART_Initialize(DRV_USART_INDEX_1, (SYS_MODULE_INIT *)NULL);
 
     /* Initialize System Services */
     SYS_PORTS_Initialize();

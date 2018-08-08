@@ -96,7 +96,7 @@ extern "C" {
 #define SYS_PORT_A_CNPD         0x0000
 #define SYS_PORT_A_CNEN         0x0000
 
-#define SYS_PORT_B_ANSEL        0xFC5F
+#define SYS_PORT_B_ANSEL        0xFC4F
 #define SYS_PORT_B_TRIS         0xFFFF
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
@@ -116,8 +116,8 @@ extern "C" {
 // *****************************************************************************
 /* USART Driver Configuration Options
 */
-#define DRV_USART_INSTANCES_NUMBER                  1
-#define DRV_USART_CLIENTS_NUMBER                    1
+#define DRV_USART_INSTANCES_NUMBER                  2
+#define DRV_USART_CLIENTS_NUMBER                    2
 #define DRV_USART_INTERRUPT_MODE                    false
 #define DRV_USART_BYTE_MODEL_SUPPORT                true
 #define DRV_USART_READ_WRITE_MODEL_SUPPORT          false
