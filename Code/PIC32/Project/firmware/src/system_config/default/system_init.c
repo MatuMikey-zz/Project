@@ -154,7 +154,8 @@ void SYS_Initialize ( void* data )
     DRV_ADC_Initialize();
 
     sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)NULL);
-    sysObj.drvUsart1 = DRV_USART_Initialize(DRV_USART_INDEX_1, (SYS_MODULE_INIT *)NULL);
+    SYS_INT_VectorPrioritySet(INT_VECTOR_UART2, INT_PRIORITY_LEVEL1);
+    SYS_INT_VectorSubprioritySet(INT_VECTOR_UART2, INT_SUBPRIORITY_LEVEL0);
 
     /* Initialize System Services */
     SYS_PORTS_Initialize();
@@ -166,6 +167,7 @@ void SYS_Initialize ( void* data )
 
     /* Enable Global Interrupts */
     SYS_INT_Enable();
+    //SYS_INT_DisableSource(DRV_USART_TRANSMIT_INTERRUPT_SOURCE);
 
     /* Initialize the Application */
     APP_Initialize();

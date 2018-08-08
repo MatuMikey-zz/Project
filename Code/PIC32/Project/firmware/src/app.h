@@ -177,7 +177,7 @@ void WriteByte(char c);
 
 void WriteString(char charArray[]);
 void WriteString2(char charArray[]);
-void sendStringLength(char charArray[]);
+void ReadByte(void);
 
 /*******************************************************************************
   Function:

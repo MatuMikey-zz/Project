@@ -91,7 +91,6 @@ typedef struct
 {
 
     SYS_MODULE_OBJ  drvUsart0;
-    SYS_MODULE_OBJ  drvUsart1;
 
 } SYSTEM_OBJECTS;
 
