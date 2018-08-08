@@ -115,6 +115,11 @@ typedef struct
 {
     /* The application's current state */
     APP_STATES state;
+    char rx_byte;
+    char buffer[100];
+    char tx_byte;
+    int receivedCorrectByte;
+    int storeBytePosition;
 
     /* TODO: Define any additional data used by the application. */
 

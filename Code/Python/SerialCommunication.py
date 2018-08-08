@@ -1,5 +1,6 @@
 import serial
 import time
+import datetime
 ser = serial.Serial(
         port = "COM3",
         baudrate=115200,
@@ -9,12 +10,17 @@ ser = serial.Serial(
         #timeout = 5
         )# open first serial port
 
+ser.flush()
+ser.flushInput()
+ser.flushOutput()
+time.sleep(1)
+
 myBuffer = []
 mystring = ''
 reading = False
 character = 'a'
 i=1
-mode = "read"
+mode = "write"
 while 1:
     try:
         if mode=="read":
@@ -30,19 +36,17 @@ while 1:
                     start = (character.find(WiFi_ID))+2
                     end = (character.find(":"))
                     Number_Of_Read_Characters = int(character[start:end])
-                    character = ser.read(Number_Of_Read_Characters).decode('utf-8')
+                    character = ser.read(4).decode('utf-8')
+                    
                     print(character)
                     i = 20
-        else:
-            ser.write("AT+CIPSEND=0,1\r\n")
-            time.sleep(0.5)
-            ser.write("a\r\n")
-            ser.sleep(0.5)
-                #ser.flushInput()
-            #if (i == 20):
-                #time.sleep(1)
-                #ser.write(str.encode("AT+CIPSEND=0,3\r\n"))
-                #time.sleep(0.5)
-                #ser.write(str.encode("bye\r\n"))
+                    mode = "write"
+        elif mode=="write":
+            time.sleep(2)
+            ser.write("AT+CIPSEND=0,5\r\n".encode())
+            time.sleep(0.1)
+            ser.write("AT\r\n".encode())
+            time.sleep(2)
+            mode = "read"
     except:
         continue;

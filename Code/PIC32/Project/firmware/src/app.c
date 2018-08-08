@@ -95,6 +95,7 @@ APP_DATA appData;
 // *****************************************************************************
 void WriteByte(char c){
     DRV_USART0_WriteByte (c);
+    while(!DRV_USART0_ReceiverBufferIsEmpty()){DRV_USART0_ReadByte();}//to ignore garbage when transmitting
 }
 //This function is to write the AT messages that must be dealt with by the WiFi module.
 void WriteString(char charArray[]){
@@ -174,6 +175,8 @@ void APP_Tasks ( void )
             {
             
                 appData.state = APP_STATE_CONNECT_TO_WIFI;
+                appData.receivedCorrectByte=0;
+                appData.storeBytePosition=0;
                 DRV_USART0_Initialize();
             }
             break;
@@ -206,19 +209,18 @@ void APP_Tasks ( void )
             k = (int) j;
             j /= 100.0;
             for(charPosition=0; buffer[charPosition] != '\0'; charPosition++){}
-            for(i = 0; i < 4; i++){sensorArray[i] = k%10; k/=10;}
-            for (i = 3; i >= 0; i--){buffer[charPosition+i] = sensorArray[3-i] + '0';}
+            for(i = 0; i < 5; i++){sensorArray[i] = k%10; k/=10;}
+            for (i = 4; i >= 0; i--){buffer[charPosition+i] = sensorArray[4-i] + '0';}
             //End of code that changes sensor float to character and puts it in the buffer to be sent
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //Start of code to determine the correct length 
-            //k = snprintf(message, 100, buffer);
-            //snprintf(message+k, 100, "%d", j);
             //The following code initiates a TCP connection (even if one already exists))
             //then sends a send command with the length of the message (length array) to be sent)
             //It then sends the message (buffer))
             for(i=0;i<2000000;i++){};
             char length1[2]; char length2[3];
-            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 800000; i++){}
-            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 800000; i++){};
+            WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 3200000; i++){}
+            WriteString("AT+CIPSEND=\0"); for(i = 0; i < 3200000; i++){};
             for(i = 0; buffer[i] != '\0'; ++i){}            
             if(i > 10){
                 length2[1] = (i%10)+'0'; 
@@ -230,18 +232,36 @@ void APP_Tasks ( void )
                 length1[1] = '\0';
                 WriteString(length1);
             }
-            //snprintf(length,4,"%d",i);
-            //WriteString(length); for(i=0;i<200000;i++){};
-            WriteString("\r\n\0"); for(i=0;i < 800000;i++){};
-            //sendStringLength("\0 123Test?\0"); for(i = 0; i < 10000000; i++){};
-            WriteString2(buffer); for(i = 0; i < 800000; i++){};
-            //WriteString("AT+CIPCLOSE\r\n\0"); for(i = 0; i < 10000000; i++){};
+            WriteString("\r\n\0"); for(i=0;i < 3200000;i++){};
+            WriteString2(buffer); for(i = 0; i < 3200000; i++){};
             //appData.state = APP_STATE_READ_FROM_WIFI;
             break;
         }
+        
         case APP_STATE_READ_FROM_WIFI:
         {
-            
+            if (!DRV_USART0_ReceiverBufferIsEmpty() && appData.receivedCorrectByte == 0)
+            {
+               appData.rx_byte = DRV_USART0_ReadByte(); // read received byte
+               if (appData.rx_byte == '+'){
+                   appData.receivedCorrectByte=1;
+               }
+               //appData.state = APP_STATE_TX;            // change state to TX
+            }else if(!DRV_USART0_ReceiverBufferIsEmpty() && appData.receivedCorrectByte == 1){
+                appData.rx_byte = DRV_USART0_ReadByte();
+                if (appData.rx_byte == 'I'){
+                    appData.receivedCorrectByte = 2;
+                }
+            }else if(!DRV_USART0_ReceiverBufferIsEmpty() && appData.receivedCorrectByte == 2){
+                appData.buffer[appData.storeBytePosition] = DRV_USART0_ReadByte();
+                appData.storeBytePosition++;
+                if (appData.buffer[appData.storeBytePosition]=='\0'){
+                    appData.state = APP_STATE_WRITE_TO_WIFI;
+                    appData.storeBytePosition = 0;
+                    appData.receivedCorrectByte = 0;
+                    //TODO: Handle string
+                }
+            }
             break;
         }
 
