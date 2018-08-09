@@ -119,6 +119,7 @@ typedef struct
     char tx_byte;
     int receivedCorrectByte;
     int storeBytePosition;
+    int readMode;
 
     /* TODO: Define any additional data used by the application. */
 

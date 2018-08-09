@@ -62,7 +62,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 char character = 'a';
-char buffer[100] = "";
 float j = 0;
 // *****************************************************************************
 /* Application Data
@@ -128,7 +127,18 @@ void WriteString2(char charArray[]){
 
 void ReadByte(void){
     if(!DRV_USART0_ReceiverBufferIsEmpty()){
-        switch(appData.receivedCorrectByte){
+        //If the app should not decipher the incoming characters, just read them but don't do anything
+        if(appData.readMode==0){
+            DRV_USART0_ReadByte();
+        }else if(appData.readMode==1){
+            appData.rx_byte = DRV_USART0_ReadByte();
+            DRV_USART1_WriteByte(appData.rx_byte);
+            if(appData.rx_byte == 'o'){
+                appData.readMode=0;
+                appData.state = APP_STATE_WRITE_TO_WIFI;
+            }
+        }
+        /*switch(appData.receivedCorrectByte){
             case 0:
             {
                 appData.rx_byte = DRV_USART0_ReadByte();
@@ -154,7 +164,7 @@ void ReadByte(void){
                 break;
             }
             
-        }
+        }*/
         
     }
 }
@@ -214,6 +224,7 @@ void APP_Tasks ( void )
                 appData.state = APP_STATE_CONNECT_TO_WIFI;
                 appData.receivedCorrectByte=0;
                 appData.storeBytePosition=0;
+                appData.readMode=0;
                 DRV_USART0_Initialize();
                 SYS_INT_SourceDisable(INT_SOURCE_USART_2_TRANSMIT);
 
@@ -238,7 +249,8 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Code to convert sensor float to character
-            //char buffer[10] = "";
+            char buffer[20] = "";
+            appData.readMode=0;
             int sensorArray[5];
             int k = 0;
             int i = 0;
@@ -259,7 +271,6 @@ void APP_Tasks ( void )
             //It then sends the message (buffer))
             for(i=0;i<2000000;i++){};
             char length1[2]; char length2[3];
-            SYS_INT_Disable();
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 3200000; i++){}
             WriteString("AT+CIPSEND=\0"); for(i = 0; i < 3200000; i++){};
             for(i = 0; buffer[i] != '\0'; ++i){}            
@@ -275,8 +286,8 @@ void APP_Tasks ( void )
             }
             WriteString("\r\n\0"); for(i=0;i < 3200000;i++){};
             WriteString2(buffer); for(i = 0; i < 3200000; i++){};
-            SYS_INT_Enable();
             appData.state = APP_STATE_READ_FROM_WIFI;
+            appData.readMode = 1;
             break;
         }
         
