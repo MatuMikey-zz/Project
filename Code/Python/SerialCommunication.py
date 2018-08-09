@@ -49,7 +49,7 @@ while 1:
             time.sleep(0.1)
             ser.write("AT+CIPSEND=0,6\r\n".encode())
             time.sleep(0.1)
-            ser.write("hellop\r\n".encode())
+            ser.write("hello>\r\n".encode())
             
             mode = "read"
     except:

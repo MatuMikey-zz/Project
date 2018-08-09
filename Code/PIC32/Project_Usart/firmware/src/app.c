@@ -133,7 +133,7 @@ void ReadByte(void){
         }else if(appData.readMode==1){
             appData.rx_byte = DRV_USART0_ReadByte();
             DRV_USART1_WriteByte(appData.rx_byte);
-            if(appData.rx_byte == 'p'){
+            if(appData.rx_byte == '>'){
                 appData.readMode=0;
                 appData.state = APP_STATE_WRITE_TO_WIFI;
             }
