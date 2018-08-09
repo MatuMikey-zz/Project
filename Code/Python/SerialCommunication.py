@@ -48,8 +48,8 @@ while 1:
         elif mode=="write":
             ser.write("AT+CIPSEND=0,6\r\n".encode())
             time.sleep(0.1)
-            ser.write("hello\0\r\n".encode())
+            ser.write("hello\x00\r\n".encode())
             time.sleep(2)
-            #mode = "read"
+            mode = "read"
     except:
         continue;

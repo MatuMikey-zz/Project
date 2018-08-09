@@ -62,6 +62,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 char character = 'a';
+char buffer[100] = "";
 float j = 0;
 // *****************************************************************************
 /* Application Data
@@ -131,19 +132,19 @@ void ReadByte(void){
             case 0:
             {
                 appData.rx_byte = DRV_USART0_ReadByte();
-                if (appData.rx_byte == ':'){appData.receivedCorrectByte = 1;}
+                if (appData.rx_byte == '+'){appData.receivedCorrectByte = 1;}
                 break;
             }
             case 1:
             {
                 appData.rx_byte = DRV_USART0_ReadByte();
-                if (appData.rx_byte == 'I'){appData.receivedCorrectByte = 2;}
+                if (appData.rx_byte == 'I'){appData.receivedCorrectByte = 2;}else{appData.receivedCorrectByte = 0;}
                 break;
             }
             case 2:
             {
-                appData.buffer[appData.storeBytePosition] = DRV_USART0_ReadByte();
-                if(appData.buffer[appData.storeBytePosition] == '\0'){
+                buffer[appData.storeBytePosition] = DRV_USART0_ReadByte();
+                if(buffer[appData.storeBytePosition] == '\0'){
                     appData.receivedCorrectByte = 0;
                     appData.storeBytePosition = 0;
                     appData.state = APP_STATE_WRITE_TO_WIFI;
@@ -237,7 +238,7 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Code to convert sensor float to character
-            char buffer[10] = "";
+            //char buffer[10] = "";
             int sensorArray[5];
             int k = 0;
             int i = 0;
@@ -273,7 +274,7 @@ void APP_Tasks ( void )
             }
             WriteString("\r\n\0"); for(i=0;i < 3200000;i++){};
             WriteString2(buffer); for(i = 0; i < 3200000; i++){};
-            //appData.state = APP_STATE_READ_FROM_WIFI;
+            appData.state = APP_STATE_READ_FROM_WIFI;
             break;
         }
         
