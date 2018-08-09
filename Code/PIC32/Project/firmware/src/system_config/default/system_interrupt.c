@@ -70,7 +70,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 void __ISR(_UART_2_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance0(void)
 {
-    ReadByte();
     DRV_USART_TasksTransmit(sysObj.drvUsart0);
     DRV_USART_TasksError(sysObj.drvUsart0);
     DRV_USART_TasksReceive(sysObj.drvUsart0);
@@ -79,6 +78,12 @@ void __ISR(_UART_2_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance0(void)
  
  
 
+void __ISR(_UART_1_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance1(void)
+{
+    DRV_USART_TasksTransmit(sysObj.drvUsart1);
+    DRV_USART_TasksError(sysObj.drvUsart1);
+    DRV_USART_TasksReceive(sysObj.drvUsart1);
+}
  
 
  
@@ -87,6 +92,8 @@ void __ISR(_UART_2_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance0(void)
 
  
 
+ 
+ 
  
  
  
