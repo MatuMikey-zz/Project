@@ -141,17 +141,6 @@ void ReadByte(void){
     }
 }
 
-void ADC_Average(void){
-    int i = 0;
-    
-    appData.dataReady= true;
-    
-    for(i = 0; i < 16; i++){
-        appData.ADCValue += PLIB_ADC_ResultGetByIndex(ADC_ID_1, i); 
-    }
-    appData.ADCValue /= 16;
-    PLIB_ADC_SampleAutoStartEnable(ADC_ID_1); 
-}
 /* TODO:  Add any necessary local functions.
 */
 
@@ -241,14 +230,10 @@ void APP_Tasks ( void )
             int charPosition = 0;
             j = j+0.01;
             if (j >= 100.0){j = 0.0;}
-            if(appData.dataReady){
-                appData.dataReady = false;
-                k = appData.ADCValue;
-            }else{
-                j *= 100.0;
-                k = (int) j;
-                j /= 100.0;
-            }
+            
+            j *= 100.0;
+            k = (int) j;
+            j /= 100.0;
             for(charPosition=0; buffer[charPosition] != '\0'; charPosition++){}
             for(i = 0; i < 5; i++){sensorArray[i] = k%10; k/=10;}
             for (i = 4; i >= 0; i--){buffer[charPosition+i] = sensorArray[4-i] + '0';}

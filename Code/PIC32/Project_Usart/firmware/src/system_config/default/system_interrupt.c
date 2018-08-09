@@ -86,12 +86,17 @@ void __ISR(_UART_1_VECTOR, ipl1AUTO) _IntHandlerDrvUsartInstance1(void)
     DRV_USART_TasksReceive(sysObj.drvUsart1);
 } 
  
-void __ISR(_ADC_VECTOR, ipl3AUTO) _IntHandlerDrvAdc(void)
-{
-   /* Clear ADC Interrupt Flag */
-   ADC_Average();
-   PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_ADC_1);
-}
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
  
 /*******************************************************************************
  End of File

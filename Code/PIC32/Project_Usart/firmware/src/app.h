@@ -122,9 +122,6 @@ typedef struct
     int receivedCorrectByte;
     int storeBytePosition;
     int readMode;
-    int ADCValue;
-    /* Flag indicating new ADC result is ready to be displayed on LEDs */
-    bool dataReady;
 
     /* TODO: Define any additional data used by the application. */
 
