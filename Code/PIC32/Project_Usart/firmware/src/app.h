@@ -92,6 +92,8 @@ typedef enum
     APP_STATE_CONNECT_TO_WIFI,
     APP_STATE_WRITE_TO_WIFI,
     APP_STATE_READ_FROM_WIFI,
+    APP_STATE_SEND_ADC_AVERAGE
+
 	/* TODO: Define states used by the application state machine. */
 
 } APP_STATES;
@@ -120,6 +122,9 @@ typedef struct
     int receivedCorrectByte;
     int storeBytePosition;
     int readMode;
+    int ADCValue;
+    /* Flag indicating new ADC result is ready to be displayed on LEDs */
+    bool dataReady;
 
     /* TODO: Define any additional data used by the application. */
 
@@ -177,6 +182,7 @@ void WriteByte(char c);
 void WriteString(char charArray[]);
 void WriteString2(char charArray[]);
 void ReadByte(void);
+void ADC_Average(void);
 
 
 /*******************************************************************************

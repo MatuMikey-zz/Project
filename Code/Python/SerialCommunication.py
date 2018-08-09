@@ -20,11 +20,12 @@ mystring = ''
 reading = False
 character = 'a'
 i=1
-mode = "read"
+mode = "write"
 ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
+sentBytes = bytearray([00,54,66,230,55,60])
 while 1:
     try:
         if mode=="read":
@@ -49,8 +50,9 @@ while 1:
             time.sleep(0.1)
             ser.write("AT+CIPSEND=0,6\r\n".encode())
             time.sleep(0.1)
-            ser.write("hello>\r\n".encode())
+            ser.write(sentBytes+"\r\n".encode())
             
             mode = "read"
     except:
+        print(character)
         continue;

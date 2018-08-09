@@ -88,7 +88,15 @@ extern "C" {
 #define SYS_CLK_CONFIG_SECONDARY_XTAL       32768ul
    
 /*** Ports System Service Configuration ***/
-#define SYS_PORT_B_ANSEL        0xFCEF
+#define SYS_PORT_A_ANSEL        0xFFFF
+#define SYS_PORT_A_TRIS         0xFFFF
+#define SYS_PORT_A_LAT          0x0000
+#define SYS_PORT_A_ODC          0x0000
+#define SYS_PORT_A_CNPU         0x0000
+#define SYS_PORT_A_CNPD         0x0000
+#define SYS_PORT_A_CNEN         0x0000
+
+#define SYS_PORT_B_ANSEL        0xFC4F
 #define SYS_PORT_B_TRIS         0xFFFF
 #define SYS_PORT_B_LAT          0x0000
 #define SYS_PORT_B_ODC          0x0000
@@ -114,7 +122,6 @@ extern "C" {
 #define DRV_USART_BYTE_MODEL_SUPPORT                true
 #define DRV_USART_READ_WRITE_MODEL_SUPPORT          false
 #define DRV_USART_BUFFER_QUEUE_SUPPORT              false
-
 // *****************************************************************************
 // *****************************************************************************
 // Section: Middleware & Other Library Configuration
