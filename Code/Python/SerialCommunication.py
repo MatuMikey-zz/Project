@@ -46,10 +46,11 @@ while 1:
                     i = 20
                     mode = "write"
         elif mode=="write":
+            time.sleep(0.1)
             ser.write("AT+CIPSEND=0,6\r\n".encode())
             time.sleep(0.1)
-            ser.write("hello\x00\r\n".encode())
-            time.sleep(2)
+            ser.write("hellop\r\n".encode())
+            
             mode = "read"
     except:
         continue;
