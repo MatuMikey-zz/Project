@@ -48,7 +48,7 @@ while 1:
                     mode = "write"
         elif mode=="write":
             time.sleep(3) #this line of code controls how quickly the system will ask for values
-            ser.write("AT+CIPSEND=0,6\r\n".encode()) #send request to ID bbla bla
+            ser.write("AT+CIPSEND=0,6\r\n".encode()) #send request to Wifi ID
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())
             

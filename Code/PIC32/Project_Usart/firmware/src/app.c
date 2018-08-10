@@ -235,7 +235,7 @@ void APP_Tasks ( void )
         {
             int i = 0;
             //Initiate connection
-            for(i = 0; i< 40000000; i++){}
+            for(i = 0; i< 80000000; i++){}
             WriteString("AT\r\n\0"); for(i = 0; i < 10000000; i++){}       
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000; i++){}   
             WriteString("AT+CIPMODE=0\r\n\0"); for(i = 0; i < 10000000; i++){}   
