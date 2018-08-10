@@ -199,7 +199,7 @@ void APP_Tasks ( void )
                 appData.storeBytePosition=0;
                 appData.readMode=0;
                 DRV_USART0_Initialize();
-                SYS_INT_SourceDisable(INT_SOURCE_USART_2_TRANSMIT);
+                //SYS_INT_SourceDisable(INT_SOURCE_USART_2_TRANSMIT);
 
                 //SYS_INT_SourceDisable(interruptTransmit);
             }
