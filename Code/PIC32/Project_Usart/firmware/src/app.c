@@ -210,6 +210,7 @@ void APP_Tasks ( void )
         {
             int i = 0;
             //Initiate connection
+            for(i=0;i<2000000;i++){};
             WriteString("AT\r\n\0");            for(i = 0; i < 10000000;i++){}
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000;i++){}
             WriteString("AT+CIPMODE=0\r\n\0");  for(i = 0; i < 10000000;i++){}
@@ -243,7 +244,7 @@ void APP_Tasks ( void )
             //The following code initiates a TCP connection (even if one already exists))
             //then sends a send command with the length of the message (length array) to be sent)
             //It then sends the message (buffer))
-            for(i=0;i<2000000;i++){};
+
             char length1[2]; char length2[3];
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 3200000; i++){}
             WriteString("AT+CIPSEND=\0"); for(i = 0; i < 3200000; i++){};
