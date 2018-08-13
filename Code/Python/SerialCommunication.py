@@ -1,6 +1,7 @@
 import serial
 import time
 import datetime
+import numpy as np
 ser = serial.Serial(
         port = "COM3",
         baudrate=115200,
@@ -42,8 +43,11 @@ while 1:
                     end = (character.find(":"))
                     Number_Of_Read_Characters = int(character[start:end])
                     character = ser.read(4).decode('utf-8')
+                    ADC_Value = float(character)
+                    R_th = 1000.0/((1023.0/(1023-ADC_Value))-1.0) 
+                    T = 1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R_th/1000.0)))-273.15 
                     
-                    print(character)
+                    print("ADC value: "+ str(ADC_Value) + "\nResistance value: "+ str(R_th) + "\nTemperature: " + str(T))
                     i = 20
                     mode = "write"
         elif mode=="write":
