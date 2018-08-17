@@ -96,9 +96,9 @@ APP_DATA appData;
 // *****************************************************************************
 // *****************************************************************************
 void adcConfigureManual(){
-    ANSELBbits.ANSB0 = 1;   // set RB3 (AN5) to analog
-    TRISBbits.TRISB0 = 1;   // set RB3 as an input
-    TRISBbits.TRISB5 = 0;   // set RB5 as an output (note RB5 is a digital only pin)
+    ANSELBbits.ANSB0, ANSELBbits.ANSB1 = 1;   // set RB3 (AN5) to analog
+    TRISBbits.TRISB0, TRISBbits.TRISB1 = 1;   // set RB3 as an input
+    //TRISBbits.TRISB5 = 0;   // set RB5 as an output (note RB5 is a digital only pin)
     AD1CON1CLR = 0x8000;    // disable ADC before configuration
  
     AD1CON1 = 0x00E0;       // internal counter ends sampling and starts conversion (auto-convert), manual sample
@@ -247,31 +247,33 @@ void APP_Tasks ( void )
         }
         case APP_STATE_WRITE_TO_WIFI:
         {
-            //Code to convert sensor float to character
-            char buffer[20] = "";
+            //Necessary local variables
+            char buffer[20] = ""; //buffer that will send message
+            char ID = 0x01; //ID of this module
+            char CMD = 0x01; //Command ID
+            buffer[0] = ID;
+            buffer[1] = CMD;
             appData.readMode=0;
-            int sensorArray[5];
-            int k = 0;
+            int k,l = 0; //Variables to store analog sensor readings
             int i = 0;
-            int charPosition = 0;
-            //j = j+0.01;
-            //if (j >= 100.0){j = 0.0;}
             
-            //j *= 100.0;
+            //Read sensors then get the average between them and then store them in buffer
             for(i = 0; i < 16; i++){
-                k += analogRead(0);//(int) j;
+                k += analogRead(0);
+                l += analogRead(1);
             }
             k = k/16;
-            //j /= 100.0;
-            for(charPosition=0; buffer[charPosition] != '\0'; charPosition++){}
-            for(i = 0; i < 5; i++){sensorArray[i] = k%10; k/=10;}
-            for (i = 4; i >= 0; i--){buffer[charPosition+i] = sensorArray[4-i] + '0';}
+            l = l/16;
+            k = (k+l)/2;
+            buffer[3] = k%256; //low byte
+            k = k/256;
+            buffer[2] = k;
             //End of code that changes sensor float to character and puts it in the buffer to be sent
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //Start of code to determine the correct length 
             //The following code initiates a TCP connection (even if one already exists))
             //then sends a send command with the length of the message (length array) to be sent)
-            //It then sends the message (buffer))
+            //It then sends the message (buffer)) and changes the state to 
 
             char length1[2]; char length2[3];
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 1000000; i++){}
@@ -283,7 +285,7 @@ void APP_Tasks ( void )
                 WriteString(length2);
             }
             else{
-                length1[0] = i + '0'; 
+                length1[0] = 4 + '0'; 
                 length1[1] = '\0';
                 WriteString(length1);
             }
