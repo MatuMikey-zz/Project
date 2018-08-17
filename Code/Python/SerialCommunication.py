@@ -52,41 +52,9 @@ while 1:
                     else:
                         R_th = 0
                         T = 60
-                        print("ADC value: "+ str(ADC_Value))
+                        print("ADC value: "+ str(adcValue))
                         print("Resistance value: " + str(R_th))
                         print ("Temperature: " + str(T))
-                    #readWifiID = ser.read(1).decode('utf-8')
-                    #print ("Reading wifi" + readWifiID)
-                    #readGarbage = ser.read(1).decode('utf-8')
-                    #print ("reading garbage: " + readGarbage)
-                    #readMessageLength = ser.read(1).decode('utd-8')
-                    #print("Reading message length: " + readMessageLength)
-                    #readGarbage = ser.read(1)
-                    #print ("Reading garbage: " + readGarbage)
-                    #readMessage = ser.read(int(readMessageLength-1)).decode("utf-8")
-                    
-                    #print(readMessage)
-                    #character=ser.read(7).decode('utf-8')
-                    #character = ser.read(5).decode('utf-8')
-                    #print (character)
-                    """start1 =character.find("IPD,")+4
-                    end2 = start1+1
-                    WiFi_ID = character[start1:end2]
-                    start = (character.find(WiFi_ID))+2
-                    end = (character.find(":"))
-                    Number_Of_Read_Characters = int(character[start:end])
-                    character = ser.read(4).decode('utf-8')
-                    ADC_Value = float(character)
-                    if (ADC_Value != 0):
-                        R_th = 1000.0/((1023.0/(1023-ADC_Value))-1.0)
-                        T = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R_th/1000.0)))-273.15, 2) 
-                    else:
-                        R_th = 0
-                        T = 60
-                    print("ADC value: "+ str(ADC_Value))
-                    print("Resistance value: " + str(R_th))
-                    print ("Temperature: " + str(T))
-                    i = 20"""
                     mode = "write"
         elif mode=="write":
             time.sleep(3) #this line of code controls how quickly the system will ask for values
