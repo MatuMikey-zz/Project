@@ -21,7 +21,7 @@ ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
-sentBytes = bytearray([00,54,66,230,55,60])
+sentBytes = bytearray([1,2,3,4,5,60])
 readGarbage = 'a'
 
 while 1:
@@ -33,7 +33,8 @@ while 1:
                 if (character == "I"):
                     i = 8
                     readGarbage = ser.read(7).decode('utf-8')
-                    messageWiFiID = readGarbage[3]
+                    messageWiFiID = readGarbage[3] #used for determining which sensor this
+                                                   #reading belongs to
                     messageLength = int(readGarbage[5])
                     readMessage = ser.read(messageLength)#.decode('utf-8')
                     sensorID = int(readMessage[0])

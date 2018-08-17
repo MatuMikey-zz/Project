@@ -62,9 +62,10 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // Section: Global Data Definitions
 // *****************************************************************************
 // *****************************************************************************
-char character = 'a';
-float j = 0;
 // *****************************************************************************
+char receiveBuffer[256] = "";
+int receiveCount = 0;
+bool messageReceived = false;
 /* Application Data
 
   Summary:
@@ -153,10 +154,20 @@ void ReadByte(void){
         //If the app should not decipher the incoming characters, just read them but don't do anything
         if(appData.readMode==0){
             DRV_USART0_ReadByte();
-        }else if(appData.readMode==1){
+        }else if(appData.readMode==1){//If the app should do something with incoming data
             appData.rx_byte = DRV_USART0_ReadByte();
+            if (appData.rx_byte == 0x01){
+                messageReceived = true;
+            }
+            if(messageReceived){
+                receiveBuffer[receiveCount] = appData.rx_byte;
+                receiveCount++;
+            }
+
             DRV_USART1_WriteByte(appData.rx_byte);
             if(appData.rx_byte == 60){
+                messageReceived = false;
+                receiveCount = 0;
                 appData.readMode=0;
                 appData.state = APP_STATE_WRITE_TO_WIFI;
             }
@@ -291,6 +302,7 @@ void APP_Tasks ( void )
             }
             WriteString("\r\n\0"); for(i = 0; i < 1000000; i++){}
             WriteString2(buffer);
+            for(i = 0; i < 500000; i++);
             appData.state = APP_STATE_READ_FROM_WIFI;
             appData.readMode = 1;
             break;
