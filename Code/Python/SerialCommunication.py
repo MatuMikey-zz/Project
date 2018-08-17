@@ -33,7 +33,7 @@ while 1:
                 if (character == "I"):
                     i = 8
                     readGarbage = ser.read(7).decode('utf-8')
-                    messageWiFiID = readGarbage[3] #used for determining which sensor this
+                    messageWiFiID = int(readGarbage[3]) #used for determining which sensor this
                                                    #reading belongs to
                     messageLength = int(readGarbage[5])
                     readMessage = ser.read(messageLength)#.decode('utf-8')
