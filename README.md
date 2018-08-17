@@ -8,3 +8,4 @@ All relevant documents (i.e. journal articles and research papers) relating to t
 All documentation regarding the microcontrollers will be found in this folder.
 # Reports
 All written reports will be found in this folder.
+# Veroboard Design
