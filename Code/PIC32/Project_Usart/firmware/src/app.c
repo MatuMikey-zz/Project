@@ -165,7 +165,7 @@ void ReadByte(void){
             }
 
             DRV_USART1_WriteByte(appData.rx_byte);
-            if(appData.rx_byte == 60){
+            if(appData.rx_byte == 60 && receiveCount == receiveBuffer[1]){
                 messageReceived = false;
                 receiveCount = 0;
                 appData.readMode=0;
