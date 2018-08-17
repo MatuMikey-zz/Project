@@ -21,7 +21,7 @@ ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
-sentBytes = bytearray([1,2,3,4,5,60])
+sentBytes = bytearray([1,8,1,32,32,33,33,60]) #[Header, Length, Command, parameters...., Tail]
 readGarbage = 'a'
 
 while 1:
@@ -59,7 +59,7 @@ while 1:
                     mode = "write"
         elif mode=="write":
             time.sleep(3) #this line of code controls how quickly the system will ask for values
-            ser.write("AT+CIPSEND=0,6\r\n".encode()) #send request to Wifi ID
+            ser.write("AT+CIPSEND=0,8\r\n".encode()) #send request to Wifi ID
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())
             
