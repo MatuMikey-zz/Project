@@ -250,7 +250,7 @@ void APP_Tasks ( void )
             WriteString("AT\r\n\0"); for(i = 0; i < 10000000; i++){}       
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000; i++){}   
             WriteString("AT+CIPMODE=0\r\n\0"); for(i = 0; i < 10000000; i++){}   
-            WriteString("AT+CWJAP=\"ESP Access Point 1\"\r\n\0"); for(i = 0; i < 10000000; i++){}   
+            WriteString("AT+CWJAP=\"ESP Access Point 1\",\"\"\r\n\0"); for(i = 0; i < 10000000; i++){}   
             WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 10000000; i++){}   
 
             appData.state = APP_STATE_WRITE_TO_WIFI;
