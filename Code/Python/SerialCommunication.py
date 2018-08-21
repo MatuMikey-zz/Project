@@ -47,7 +47,7 @@ while 1:
                     if(adcValue != 0):
                         R_th = 1000.0/((1023.0/(1023-adcValue))-1.0)
                         T = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R_th/1000.0)))-273.15, 2) 
-                        print("ADC value "+ str(wifi_n)+": "+ str(adcValue))
+                        print("ADC value "+ str(sensorID)+": "+ str(adcValue))
                         print("Resistance value: " + str(R_th))
                         print ("Temperature: " + str(T))
                     else:
