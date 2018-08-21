@@ -16,13 +16,14 @@ ser.flushInput()
 ser.flushOutput()
 time.sleep(1)
 
-mode = "write"
+mode = "read"
 ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
 sentBytes = bytearray([1,8,1,32,32,33,33,60]) #[Header, Length, Command, parameters...., Tail]
 readGarbage = 'a'
+wifi_n = 0
 
 while 1:
     try:
@@ -44,10 +45,9 @@ while 1:
                     adcValue = float(sensorReading)
                     print (adcValue)
                     if(adcValue != 0):
-                        print("yeh")
                         R_th = 1000.0/((1023.0/(1023-adcValue))-1.0)
                         T = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R_th/1000.0)))-273.15, 2) 
-                        print("ADC value: "+ str(adcValue))
+                        print("ADC value "+ str(wifi_n)+": "+ str(adcValue))
                         print("Resistance value: " + str(R_th))
                         print ("Temperature: " + str(T))
                     else:
@@ -59,7 +59,12 @@ while 1:
                     mode = "write"
         elif mode=="write":
             time.sleep(3) #this line of code controls how quickly the system will ask for values
-            ser.write("AT+CIPSEND=0,8\r\n".encode()) #send request to Wifi ID
+            if wifi_n == 0:
+                ser.write("AT+CIPSEND=0,8\r\n".encode()) #send request to Wifi ID
+                wifi_n = 1
+            elif wifi_n == 1:
+                ser.write("AT+CIPSEND=1,8\r\n".encode())
+                wifi_n = 0
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())
             
