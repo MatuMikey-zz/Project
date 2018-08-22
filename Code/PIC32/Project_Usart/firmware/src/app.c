@@ -260,7 +260,7 @@ void APP_Tasks ( void )
         {
             //Necessary local variables
             char buffer[20] = ""; //buffer that will send message
-            char ID = 0x00; //ID of this module
+            char ID = 0x01; //ID of this module
             char CMD = 0x01; //Command ID
             buffer[0] = ID;
             buffer[1] = CMD;

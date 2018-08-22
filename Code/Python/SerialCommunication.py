@@ -72,7 +72,7 @@ while 1:
             time.sleep(3) #this line of code controls how quickly the system will ask for values
             print ("Sensor ID is: " + str(sensorID))
             if (sensorID == 0):
-                print ("sensor 2")
+                print ("sensor 0")
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
@@ -84,7 +84,15 @@ while 1:
             elif (sensorID == 1):
                 print("sensor 1")
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 0:
+                    if wifiArray[i][0] == 2:
+                        currentWifiModule = str(wifiArray[i][1])
+                        print("Current Wifi Module: " + str(currentWifiModule))
+                print("AT+CIPSEND="+currentWifiModule+",8")
+                ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
+            elif (sensorID == 2):
+                print("sensor 2")
+                for i in range(0, len(wifiArray)):
+                    if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
                 print("AT+CIPSEND="+currentWifiModule+",8")
