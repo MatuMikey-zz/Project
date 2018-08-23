@@ -29,6 +29,8 @@ allConnected = False
 wifiArray = []
 currentWifiModule = 0
 
+
+
 while 1:
     try:
         if mode=="read":
@@ -69,33 +71,30 @@ while 1:
                     if(allConnected):
                         mode = "write"
         elif mode=="write":
-            time.sleep(3) #this line of code controls how quickly the system will ask for values
+            time.sleep(2) #this line of code controls how quickly the system will ask for values
             print ("Sensor ID is: " + str(sensorID))
+            print("Time is: " + str(datetime.datetime.now()))
             if (sensorID == 0):
-                print ("sensor 0")
+                print ("sensor 0")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-
-                print("AT+CIPSEND="+currentWifiModule+",8")
                 ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
                 
             elif (sensorID == 1):
-                print("sensor 1")
+                print("sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 2:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                print("AT+CIPSEND="+currentWifiModule+",8")
                 ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
-                print("sensor 2")
+                print("sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                print("AT+CIPSEND="+currentWifiModule+",8")
                 ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
                 
             time.sleep(0.1)
