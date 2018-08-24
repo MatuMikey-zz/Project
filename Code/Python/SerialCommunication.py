@@ -8,7 +8,7 @@ ser = serial.Serial(
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
         bytesize=serial.EIGHTBITS,
-        #timeout = 5
+        timeout = 3
         )# open first serial port
 
 ser.flush()
@@ -29,17 +29,30 @@ allConnected = False
 wifiArray = []
 currentWifiModule = 0
 
+retryCounter = 0
+
 
 
 while 1:
     try:
         if mode=="read":
-            character=ser.read(1).decode('utf-8')
+            character=ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
+            if (len(character) == 0):
+                retryCounter = retryCounter + 1
+            if retryCounter == 5:
+                mode = "write"
+                retryCounter = 0
+                print("RETRYING!!!!")
             if (character == "+"):
-                character = ser.read(1).decode('utf-8')
+                character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
                     i = 8
-                    readGarbage = ser.read(7).decode('utf-8')
+                    readGarbage = ser.read(7).decode('utf-8')#TODO: TIMEOUT CHECK
+                    if(len(readGarbage)!= 7):
+                        print("Retrying!!!\n\n")
+                        mode = "write"
+                        continue
+                    print (readGarbage)
                     messageWiFiID = int(readGarbage[3]) #used for determining which sensor this
 
                     
@@ -52,6 +65,7 @@ while 1:
                         print("Length is: ", len(wifiArray))
                         if (len(wifiArray) == 2):
                             allConnected = True
+                    #TO DO: REASSIGN WiFi module ID if it changes for a sensor node
 
                     sensorCMD = int(readMessage[1])
                     sensorReading = int(readMessage[2])*256 + int(readMessage[3])
