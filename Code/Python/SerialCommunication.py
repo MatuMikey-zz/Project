@@ -17,7 +17,6 @@ ser.flushOutput()
 time.sleep(1)
 
 mode = "read"
-time.sleep(0.3)
 ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
@@ -93,7 +92,7 @@ while 1:
                     if(allConnected):
                         mode = "write"
         elif mode=="write":
-            time.sleep(2) #this line of code controls how quickly the system will ask for values
+            time.sleep(1) #this line of code controls how quickly the system will ask for values
             print ("Sensor ID is: " + str(sensorID))
             print("Time is: " + str(datetime.datetime.now()))
             if (sensorID == 0):
