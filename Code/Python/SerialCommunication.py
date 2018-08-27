@@ -28,7 +28,7 @@ wifi_n = 0
 allConnected = False
 wifiArray = []
 currentWifiModule = 0
-
+sensorID = 0
 retryCounter = 0
 
 
@@ -42,7 +42,7 @@ while 1:
             if retryCounter == 5:
                 mode = "write"
                 retryCounter = 0
-                print("RETRYING!!!!")
+                print("Retrying to sensor: ", sensorID)
             if (character == "+"):
                 character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
@@ -52,23 +52,31 @@ while 1:
                         print("Retrying!!!\n\n")
                         mode = "write"
                         continue
-                    print (readGarbage)
-                    messageWiFiID = int(readGarbage[3]) #used for determining which sensor this
-
-                    
+                    #print ("Reading garbage:", readGarbage)
+                    messageWiFiID = int(readGarbage[3]) #used for determining which sensor this                    
                             #reading belongs to
                     messageLength = int(readGarbage[5])
                     readMessage = ser.read(messageLength)#.decode('utf-8')
+                    #print ("Reading full message:", readMessage.decode('utf-8'))
                     sensorID = int(readMessage[0])
-                    if (allConnected == False):
+                    if (allConnected == False):#Assign initial WiFi ID's
                         wifiArray.append([sensorID,messageWiFiID])
-                        print("Length is: ", len(wifiArray))
+                        #print("Length is: ", len(wifiArray))
                         if (len(wifiArray) == 2):
                             allConnected = True
+                    else: #If a module disconnects and reconnects with a different ID, assign it.
+                        for i in range(len(wifiArray)):
+                            if (wifiArray[i][0] == sensorID): 
+                                if(wifiArray[i][1] != messageWiFiID):
+                                    print("WiFi has changed for this module. Reassigning!")
+                                    print("Old WiFi:", wifiArray[i][1])
+                                    print("New WiFi:", messageWiFiID)
+                                    wifiArray[i][1] = messageWiFiID
                     #TO DO: REASSIGN WiFi module ID if it changes for a sensor node
 
                     sensorCMD = int(readMessage[1])
                     sensorReading = int(readMessage[2])*256 + int(readMessage[3])
+                    #print("Sensor reading is:", sensorReading)
                     #print (sensorReading)
                     adcValue = float(sensorReading)
                     print (adcValue)
@@ -97,14 +105,14 @@ while 1:
                 ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
                 
             elif (sensorID == 1):
-                print("sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
+                print("Sending Request to Sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 2:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
                 ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
-                print("sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
+                print("Sending Request to Sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
