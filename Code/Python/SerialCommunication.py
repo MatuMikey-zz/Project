@@ -64,8 +64,7 @@ while 1:
                         mode = "write"
                         continue
                     #print ("Reading garbage:", readGarbage)
-                    messageWiFiID = int(readGarbage[3]) #used for determining which sensor this                    
-                            #reading belongs to
+                    messageWiFiID = int(readGarbage[3]) #used for determining which sensor this                    #reading belongs to
                     messageLength = int(readGarbage[5])
                     readMessage = ser.read(messageLength)#.decode('utf-8')
                     #print ("Reading full message:", readMessage.decode('utf-8'))
@@ -83,12 +82,18 @@ while 1:
                                     print("Old WiFi:", wifiArray[i][1])
                                     print("New WiFi:", messageWiFiID)
                                     wifiArray[i][1] = messageWiFiID
+                                    for j in range(len(wifiArray)):
+                                        if (wifiArray[j][1] == messageWiFiID and i != j):
+                                            wifiArray[j][1] = 8 #//assign default case so that WiFi don't interfere
                     #TO DO: REASSIGN WiFi module ID if it changes for a sensor node
 
                     sensorCMD = int(readMessage[1])
                     sensorReading = int(readMessage[2])*256 + int(readMessage[3])
                     #print("Sensor reading is:", sensorReading)
                     #print (sensorReading)
+                    print("sensor WiFi ID:", messageWiFiID)
+                    print("sensor ID:", sensorID)
+                    print("sensor message:", readMessage)
                     adcValue = float(sensorReading)
                     print (adcValue)
                     if(adcValue != 0):
@@ -126,9 +131,10 @@ while 1:
                             writer.writerow(receivedValues)
 
         elif mode=="write":
-            time.sleep(10) #this line of code controls how quickly the system will ask for values
             print ("Sensor ID is: " + str(sensorID))
             print("Time is: " + str(datetime.datetime.now()))
+            time.sleep(10) #this line of code controls how quickly the system will ask for values
+            
             if (sensorID == 0):
                 print ("Sending Request to Sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
