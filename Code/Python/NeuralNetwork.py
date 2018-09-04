@@ -26,43 +26,63 @@ class NeuralNetwork:
                         self.weights.append(random.uniform(-1.0,1.0))
     
     def printWeights(self): #print the weights for each node
-        inputNodesCounter = 0
-        inputNodeCounter = 0
-        inputNodeWeight= []
         inputNodeWeights = []
-        hiddenNodeCounter = 0
-        hiddenNodeWeight = []
         hiddenNodeWeights = []
-        hiddenLayerCounter = 0
-        for i in range(0, len(self.weights)):
-            if inputNodesCounter != 3:
-                if inputNodeCounter != self.hiddenNodes-1:
-                    inputNodeWeight.append(self.weights[i])
-                    inputNodeCounter = inputNodeCounter + 1
-                else:
-                    inputNodeCounter = 0
-                    inputNodeWeights.append(inputNodeWeight)
-                    inputNodeWeight = []
-                    inputNodesCounter = inputNodesCounter + 1
-            else:
-                hiddenNodeWeight.append(self.weights[i])
-                hiddenNodeCounter = hiddenNodeCounter + 1
-                if (hiddenNodeCounter == 4):
-                    hiddenNodeWeights.append(hiddenNodeWeight)
-                    hiddenLayerCounter = hiddenLayerCounter+1
-                    hiddenNodeCounter = 0
-                    hiddenNodeWeight = []
-        print ("Input Weights")
+        temp = []
+        weightCounter = 0
+        for i in range(0, self.inputNodes):
+            temp = []
+            for j in range(0, self.hiddenNodes-1):
+                temp.append(self.weights[weightCounter])
+                weightCounter = weightCounter+1
+            inputNodeWeights.append(temp)
+        print("Input Layer")
         for i in range(0, len(inputNodeWeights)):
-            print ("Input node: ", i+1, inputNodeWeights[i])
-        print ("Hidden Weights")
-        for i in range(0, len(hiddenNodeWeights)):
-            print (hiddenNodeWeights[i])
-    
-    #def predict(input1, input2, input3):
-     #   for i in range(0, len(weights)): #go over the WHOLE weights array
-            
-nn = NeuralNetwork(4,3)
+            print("\tInput Node:", i+1, inputNodeWeights[i])
+        if self.hiddenLayers == 1: #If only one hidden layer
+            temp = []
+            for i in range(0, self.hiddenNodes):
+                temp.append(self.weights[weightCounter])
+                hiddenNodeWeights.append(temp)
+                weightCounter = weightCounter+1
+                temp = []
+            print("Hidden Layer")
+            for i in range(0, len(hiddenNodeWeights)):
+                if i == self.hiddenNodes-1:
+                    print("Bias Node:", hiddenNodeWeights[i])
+                else:
+                    print("\tHidden Node:", i+1, hiddenNodeWeights[i])
+        else:                       #If multiple hidden layers
+            temp = []
+            k = 0
+            for i in range(0,self.hiddenLayers):
+                if i == self.hiddenLayers-1: #Last hidden layer
+                    temp = []
+                    for j in range(0, self.hiddenNodes):
+                        temp.append(self.weights[weightCounter])
+                        hiddenNodeWeights.append(temp)
+                        weightCounter = weightCounter+1
+                        temp = []
+                else:
+                    for j in range(0, self.hiddenNodes): #for every node in the hidden layer
+                        temp = []
+                        for j in range(0, self.hiddenNodes-1): #only connect to the hidden nodes, not the bias nodes
+                            temp.append(self.weights[weightCounter])
+                            weightCounter = weightCounter+1
+                        hiddenNodeWeights.append(temp)
+            for i in range(0, self.hiddenLayers): #for every hidden layer
+                print("Hidden Layer:", i+1)
+                for j in range(0, self.hiddenNodes): #for every node in a layer
+                    if j == self.hiddenNodes-1:
+                        print("\tBias Node:", hiddenNodeWeights[k+j])
+                    else:
+                        print("\tHidden Node:", j+1, hiddenNodeWeights[k+j] )
+                k = k+self.hiddenNodes
+    def predict(input1, input2, input3): #data is expected to be normalised before being input
+        
+                    
+                    
+nn = NeuralNetwork(4,5)
 nn.printWeights()
 
         
