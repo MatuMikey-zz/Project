@@ -1,45 +1,28 @@
 import random as random
 
-class inputNode:
-    input = 0
-    weights = []
-    def __init__(self, numberOfConnectedNodes):
-        for i in range(0, numberOfConnectedNodes+1):
-            self.weights.append(random.uniform(-1.0,1.0))
-        
-            
-class HiddenNode:
-    input = 0
-    weights = []
-    def __init__(self, numberOfConnectedNodes):
-        for i in range(0, numberOfConnectedNodes+1):
-            self.weights.append(random.uniform(-1.0,1.0))
-
-class BiasNode:
-    input = 1
-    weights = []
-    def __init__(self, numberOfConnectedNodes):
-        for i in range(0, numberOfConnectedNodes+1):
-            self.weights.append(random.uniform(-1.0,1.0))
-        
-class OutputNode:
-    input = 0
-    output = 0
-    def __init__(self):
-        self.input = 0
-        self.output = 0
-            
 class NeuralNetwork:
-    inputLayer = []
-    hiddenLayers =[]
-    outputLayer = 0
+    inputNodes = 3 #time, sensor 1, sensor 2
+    hiddenLayers = 0 #hidden layer per neural network
+    hiddenNodes = 0 #hidden nodes per layer
+    outputNode = 1
+    weights = []
     def __init__(self, hiddenNodes, hiddenLayers):
-        for i in range(0,3): #create 3 input nodes
-            self.inputLayer.append(inputNode(hiddenNodes+1)) #hidden nodes + 1 bias node
-        for i in range(0,hiddenLayers):
-            hiddenLayer = []
-            for j in range(0, hiddenNodes):
-                hiddenLayer.append(HiddenNode(hiddenNodes))
-            hiddenLayer.append(BiasNode(hiddenNodes))
-            self.hiddenLayers.append(hiddenLayer)
-        
+        self.hiddenNodes = hiddenNodes+1
+        self.hiddenLayers = hiddenLayers
+        #Connect the weights for the input layer to the hidden layer
+        for i in range(0, self.inputNodes):
+            for j in range(0, self.hiddenNodes):
+                self.weights.append(random.uniform(-1.0,1.0))
+        #Connect weights for each hidden layer to the next hidden layer
+        #If the hidden layer is the last layer before the output, only make 1 weight per output
+        for i in range(0, self.hiddenLayers):
+            if (self.hiddenLayers == 1 or i == self.hiddenLayers-1): #If only one hidden layer or the last hidden layer, connect only to the output
+                for j in range (0, self.hiddenNodes):
+                    self.weights.append(random.uniform(-1.0,1.0))
+            else:
+                for j in range(0, self.hiddenNodes): 
+                    for k in range(0, self.hiddenNodes): 
+                        self.weights.append(random.uniform(-1.0,1.0))
+                        
+nn = NeuralNetwork(3,1)
+print (nn.weights)
