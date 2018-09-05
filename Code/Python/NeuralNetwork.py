@@ -24,7 +24,7 @@ class NeuralNetwork:
                 for j in range(0, self.hiddenNodes): 
                     for k in range(0, self.hiddenNodes-1): #connect to all nodes except the bias node
                         self.weights.append(random.uniform(-1.0,1.0))
-    
+                        
     def printWeights(self): #print the weights for each node
         inputNodeWeights = []
         hiddenNodeWeights = []
@@ -78,11 +78,93 @@ class NeuralNetwork:
                     else:
                         print("\tHidden Node:", j+1, hiddenNodeWeights[k+j] )
                 k = k+self.hiddenNodes
-    def predict(input1, input2, input3): #data is expected to be normalised before being input
-        
-                    
-                    
-nn = NeuralNetwork(4,5)
-nn.printWeights()
 
-        
+    def predict(self, input1, input2, input3):
+        output = 0
+        outputs = []
+        inputs = [input1, input2, input3]
+        weightCounter = 0
+        for i in range(0, self.hiddenNodes-1): #For every input node that needs to go to a hidden layer
+            for j in range(0, self.inputNodes): #for every weight of an input node
+                output = output + inputs[j]*self.weights[weightCounter]
+                weightCounter = weightCounter+1
+            outputs.append(output)
+        for j in range(0, self.hiddenLayers): #for every hidden layer
+            if self.hiddenLayers == 1: #If only 1 hidden layer
+                inputs = []
+                output = 0
+                for i in range(0, len(outputs)):
+                    inputs.append(outputs[i]/(1.0+abs(outputs[i]))) #use the optimised sigmoid function x/(1+|x|)
+                outputs = []
+                for i in range(0, self.hiddenNodes): #for every hidden node in the hidden layer to the output layer
+                    if i == self.hiddenNodes-1: #If calculating the bias node
+                        output = output + 1.0*self.weights[weightCounter]
+                        weightCounter = weightCounter+1
+                    else:
+                        output = output + inputs[i]*self.weights[weightCounter]
+                        weightCounter = weightCounter+1
+                    outputs.append(output)
+                    #calculate the output node
+                output = 0
+                for i in range(0, len(outputs)):
+                    output = output + outputs[i]
+                output = output/(1+abs(output))
+            else:
+                inputs = []
+                output = 0
+                for i in range (0, len(outputs)):
+                    inputs.append(outputs[i]/(1.0+abs(outputs[i])))
+                outputs = []
+                for i in range(0, self.hiddenNodes): #For every hidden node layer to the next hidden layer
+                    if i == self.hiddenNodes-1: #If calculating the bias node
+                        output = output + 1.0*self.weights[weightCounter]
+                        weightCounter = weightCounter+1
+                    else:
+                        output = output + inputs[i]*self.weights[weightCounter]
+                        weightCounter = weightCounter + 1
+                        print("Layer:", j+1, "Node:", i+1)
+                    outputs.append(output)
+        print(outputs)
+        output = 0
+        for i in range(0, len(outputs)):
+            output = output+outputs[i]
+        print(output/(1+abs(output)))
+                        
+nn = NeuralNetwork(19,3)
+nn.predict(0.5,0.5,0.5)            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
