@@ -4,7 +4,7 @@ import datetime
 import numpy as np
 import csv
 
-with open('TemperatureData.csv','w', newline='') as csvfile:
+with open('TemperatureData.csv','a', newline='') as csvfile:
     writer = csv.writer(csvfile, delimiter=';',
     quotechar='|', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
