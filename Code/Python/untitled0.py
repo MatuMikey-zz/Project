@@ -1,6 +1,6 @@
 
 a = [5]
-b = a
-
+b = []
+b.append(a[0])
 b[0] = 3
 print (a)

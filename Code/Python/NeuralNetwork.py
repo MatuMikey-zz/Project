@@ -54,6 +54,8 @@ class NeuralNetwork:
                 for j in range(0, self.hiddenNodes): 
                     for k in range(0, self.hiddenNodes-1): #connect to all nodes except the bias node
                         self.weights.append(random.uniform(-1.0,1.0))
+    def setWeights(self, weights):
+        self.weights = weights
                         
     def printWeights(self): #print the weights for each node
         inputNodeWeights = []
@@ -186,6 +188,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
         neuralnets.append(NeuralNetwork(nodes, layers))   
         trainingErrors.append(0)
         testErrors.append(0)
+    populationSize = len(neuralnets)
     trainingSet= []
     testSet = []
     trainingTargets = []
@@ -223,16 +226,45 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 output = neuralnets[j].predict(trainingSet[k])
                 trainingErrors[j] = trainingErrors[j] + abs(trainingTargets[k] - output)
             trainingErrors[j] = trainingErrors[j]/len(trainingTargets)
-        
-        for j in range(0, int(len(neuralnets)/10)): #get the top 10% of the neural network population
+                 
+        for j in range(0, int(len(neuralnets)/10)): #Get top 10% of the population
             smallest = 1.01
-            smallestPosition = 0
-            for j in range(0, len(neuralnets)): #check every neural net
-                if (smallest > trainingErrors[j]):
-                    smallest = trainingErrors[j]
-                    smallestPosition = j
-            fitPopulation.append(neuralnets.pop(smallestPosition))
-        print(fitPopulation, len(neuralnets))
+            position = 0
+            for k in range(0, len(neuralnets)):
+                if smallest > trainingErrors[k]:
+                    position = k
+                    smallest = trainingErrors[k]
+
+            fitPopulation.append([neuralnets.pop(position), trainingErrors.pop(position)])
+        neuralnets = []
+        trainingErrors = []
+        for i in range(0, populationSize):
+            trainingErrors.append(0)
+        for j in range(0, len(fitPopulation)):
+            neuralnets.append(fitPopulation[j][0])
+        
+        for j in range(0, int(populationSize/10.0*9.0)): #repopulate the population
+            
+            p1NeuralNet = fitPopulation[random.randint(0, len(fitPopulation)-1)]
+            p2NeuralNet = fitPopulation[random.randint(0, len(fitPopulation)-1)]
+            while(p1NeuralNet == p2NeuralNet): #ensure always two unique parents
+                p2NeuralNet = fitPopulation[random.randint(0, len(fitPopulation)-1)]
+            p1Probability = p1NeuralNet[1]/(p1NeuralNet[1]+p2NeuralNet[1])
+            cNeuralNet = NeuralNetwork(nodes, layers)
+            newWeight = []
+            for k in range(0, len(cNeuralNet.weights)):
+                if(p1Probability >= random.uniform(0.0,1.0)):
+                    newWeight.append(p1NeuralNet[0].weights[k])
+                else:
+                    newWeight.append(p2NeuralNet[0].weights[k])
+            cNeuralNet.setWeights(newWeight)
+            if random.randint(0,99) <= 2: #2% chance to mutate a gene
+                cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight
+            neuralnets.append(cNeuralNet)
+        print(fitPopulation[0][1])
+    
+                  
+train(3,2,20,100,2)
             
             
             
