@@ -1,6 +1,9 @@
 import random as random
 import csv
 from datetime import datetime
+import sys as sys
+import time as timer
+
 random.seed(datetime.now())
 
 def normalise(time, s1,s2,s3):
@@ -165,6 +168,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     #n_neuralnets = number neuralnets in the initial population
     #epochs = number of training runs
     #sensorNumber = which sensor to train
+    starttime = timer.time()
     time = []
     sensor1 = []
     sensor2 = []
@@ -238,7 +242,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
             fitPopulation.append([neuralnets.pop(position), trainingErrors.pop(position)])
         neuralnets = []
         trainingErrors = []
-        for i in range(0, populationSize):
+        for j in range(0, populationSize):
             trainingErrors.append(0)
         for j in range(0, len(fitPopulation)):
             neuralnets.append(fitPopulation[j][0])
@@ -261,13 +265,18 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
             if random.randint(0,99) <= 2: #2% chance to mutate a gene
                 cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight
             neuralnets.append(cNeuralNet)
-        print(fitPopulation[0][1])
+        sys.stdout.write('\rEpoch: ' + str(i) + ", Layers:" + str(layers)+", Error:" + str(fitPopulation[0][1]) + ", Elapsed Time: " + str(timer.time() - starttime))
+        if (i == epochs-1):
+            return fitPopulation[0]
     
-                  
-train(3,2,20,100,2)
-            
-            
-            
+bestNeuralNetworks = []    
+for j in range(1,11):
+    starttime = timer.time()
+    bestNeuralNetworks.append(train(3,j, 100, 500, 0))
+    endtime = timer.time() - starttime
+    print(j,"layers took:", str(endtime),"\n")
+
+print (bestNeuralNetworks)
             
             
             
