@@ -1,13 +1,43 @@
 import random as random
+import csv
+from datetime import datetime
+random.seed(datetime.now())
+
+def normalise(time, s1,s2,s3):
+    smallest1 = 10000
+    smallest2 = 10000
+    smallest3 = 10000
+    biggest1 = 0
+    biggest2 = 0
+    biggest3 = 0
+    for i in range(0, len(time)):
+        time[i] = time[i]/86400.0
+        if (smallest1 > s1[i]):
+            smallest1 = s1[i]
+        if (biggest1 < s1[i]):
+            biggest1 = s1[i]
+        if (smallest2 > s2[i]):
+            smallest2 = s2[i]
+        if (biggest2 < s2[i]):
+            biggest2 = s2[i]
+        if (smallest3 > s3[i]):
+            smallest3 = s3[i]
+        if (biggest3 < s3[i]):
+            biggest3 = s3[i]
+    for i in range(0, len(s1)):
+        s1[i] = (s1[i] - smallest1)/(biggest1-smallest1)
+        s2[i] = (s2[i] - smallest2)/(biggest2-smallest2)
+        s3[i] = (s3[i] - smallest3)/(biggest3-smallest3)
 
 class NeuralNetwork:
     inputNodes = 3 #time, sensor 1, sensor 2
     hiddenLayers = 0 #hidden layer per neural network
     hiddenNodes = 0 #hidden nodes per layer
     outputNode = 1
-    weights = []
+    
     
     def __init__(self, hiddenNodes, hiddenLayers):
+        self.weights = []
         self.hiddenNodes = hiddenNodes+1
         self.hiddenLayers = hiddenLayers
         #Connect the weights for the input layer to the hidden layer EXCEPT bias node
@@ -79,10 +109,9 @@ class NeuralNetwork:
                         print("\tHidden Node:", j+1, hiddenNodeWeights[k+j] )
                 k = k+self.hiddenNodes
 
-    def predict(self, input1, input2, input3):
+    def predict(self, inputs):
         output = 0
         outputs = []
-        inputs = [input1, input2, input3]
         weightCounter = 0
         for i in range(0, self.hiddenNodes-1): #For every input node that needs to go to a hidden layer
             for j in range(0, self.inputNodes): #for every weight of an input node
@@ -122,17 +151,83 @@ class NeuralNetwork:
                     else:
                         output = output + inputs[i]*self.weights[weightCounter]
                         weightCounter = weightCounter + 1
-                        print("Layer:", j+1, "Node:", i+1)
                     outputs.append(output)
-        print(outputs)
         output = 0
         for i in range(0, len(outputs)):
             output = output+outputs[i]
-        print(output/(1+abs(output)))
+        return output
                         
-nn = NeuralNetwork(19,3)
-nn.predict(0.5,0.5,0.5)            
-            
+def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
+    #nodes = number of hidden nodes in hidden layer
+    #layers = number of hidden layers
+    #n_neuralnets = number neuralnets in the initial population
+    #epochs = number of training runs
+    #sensorNumber = which sensor to train
+    time = []
+    sensor1 = []
+    sensor2 = []
+    sensor3 = []
+    with open('TemperatureData.csv', 'r') as csvfile:
+        data = csv.reader(csvfile, delimiter=';', quotechar='"')
+        data = list(data)
+    for i in range(1, len(data)):
+        for j in range(0, len(data[i])):
+            data[i][j] = float(data[i][j])
+        time.append(data[i][1])
+        sensor1.append(data[i][2])
+        sensor2.append(data[i][3])
+        sensor3.append(data[i][4])
+    normalise(time, sensor1, sensor2, sensor3)
+    
+    trainingErrors = []
+    testErrors = []
+    neuralnets = []
+    for i in range(0, n_neuralnets):
+        neuralnets.append(NeuralNetwork(nodes, layers))   
+        trainingErrors.append(0)
+        testErrors.append(0)
+    trainingSet= []
+    testSet = []
+    trainingTargets = []
+    testTargets = []
+
+    if sensorNumber == 0: #train a sensor for node 1
+        for i in range(0, len(sensor1)):
+            if random.randint(1,100) <= 60:
+                trainingSet.append([sensor2[i], sensor3[i], time[i]])
+                trainingTargets.append(sensor1[i])
+            else:
+                testSet.append([sensor2[i], sensor3[i], time[i]])
+                testTargets.append(sensor1[i])
+    elif sensorNumber == 1: #train a sensor for node 2
+        for i in range(0, len(sensor1)):
+            if random.randint(1,100) <= 60:
+                trainingSet.append([sensor1[i], sensor3[i], time[i]])
+                trainingTargets.append(sensor2[i])
+            else: #train a sensor for node 3
+                testSet.append([sensor1[i], sensor3[i], time[i]])
+                testTargets.append(sensor2[i])
+    elif sensorNumber == 2:
+        for i in range(0, len(sensor1)):
+            if random.randint(1,100) <= 60:
+                trainingSet.append([sensor1[i], sensor2[i], time[i]])
+                trainingTargets.append(sensor3[i])
+            else:
+                testSet.append([sensor1[i], sensor2[i], time[i]])
+                testTargets.append(sensor3[i])
+    
+    for i in range(0, epochs):# for every epoch
+        for j in range(0, len(neuralnets)): #for every neural net in the population
+            for k in range(0, len(trainingSet)): #for every data point in the training set
+                output = neuralnets[j].predict(trainingSet[k])
+                trainingErrors[j] = trainingErrors[j] + abs(trainingTargets[k] - output)
+            trainingErrors[j] = trainingErrors[j]/len(trainingTargets)
+    print (trainingErrors) 
+
+nn = NeuralNetwork(3,1)
+mm = NeuralNetwork(3,1)
+
+train(3,2,10,3, 0)
             
             
             
