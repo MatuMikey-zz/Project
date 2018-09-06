@@ -155,7 +155,7 @@ class NeuralNetwork:
         output = 0
         for i in range(0, len(outputs)):
             output = output+outputs[i]
-        return output
+        return output/len(outputs)
                         
 def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     #nodes = number of hidden nodes in hidden layer
@@ -217,17 +217,26 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 testTargets.append(sensor3[i])
     
     for i in range(0, epochs):# for every epoch
+        fitPopulation = []
         for j in range(0, len(neuralnets)): #for every neural net in the population
             for k in range(0, len(trainingSet)): #for every data point in the training set
                 output = neuralnets[j].predict(trainingSet[k])
                 trainingErrors[j] = trainingErrors[j] + abs(trainingTargets[k] - output)
             trainingErrors[j] = trainingErrors[j]/len(trainingTargets)
-    print (trainingErrors) 
-
+        
+        for j in range(0, int(len(neuralnets)/10)): #for 10% of the population
+            smallest = 1.01
+            smallestPosition = 0
+            for j in range(0, len(neuralnets)): #check every neural net
+                if (smallest > trainingErrors[j]):
+                    smallest = trainingErrors[j]
+                    smallestPosition = j
+            fitPopulation.append(neuralnets.pop(smallestPosition))
+        print(fitPopulation)
 nn = NeuralNetwork(3,1)
 mm = NeuralNetwork(3,1)
 
-train(3,2,10,3, 0)
+train(3,2,20,1, 0)
             
             
             
