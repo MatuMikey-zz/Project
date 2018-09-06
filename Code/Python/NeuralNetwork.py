@@ -224,7 +224,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 trainingErrors[j] = trainingErrors[j] + abs(trainingTargets[k] - output)
             trainingErrors[j] = trainingErrors[j]/len(trainingTargets)
         
-        for j in range(0, int(len(neuralnets)/10)): #for 10% of the population
+        for j in range(0, int(len(neuralnets)/10)): #get the top 10% of the neural network population
             smallest = 1.01
             smallestPosition = 0
             for j in range(0, len(neuralnets)): #check every neural net
@@ -232,11 +232,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                     smallest = trainingErrors[j]
                     smallestPosition = j
             fitPopulation.append(neuralnets.pop(smallestPosition))
-        print(fitPopulation)
-nn = NeuralNetwork(3,1)
-mm = NeuralNetwork(3,1)
-
-train(3,2,20,1, 0)
+        print(fitPopulation, len(neuralnets))
             
             
             
