@@ -265,7 +265,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
             if random.randint(0,99) <= 2: #2% chance to mutate a gene
                 cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight
             neuralnets.append(cNeuralNet)
-        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Layers:" + str(layers)+", Error: " + str(fitPopulation[0][1]) + ", Elapsed Time: " + str(timer.time() - starttime))
+        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Layers: " + str(layers)+", Error: " + str(fitPopulation[0][1]) + ", Elapsed Time: " + str(timer.time() - starttime))
         if (i == epochs-1):
             return fitPopulation[0]
     
@@ -275,7 +275,7 @@ for i in range(3, 6+1): #3 to 6 hidden nodes
         starttime = timer.time()
         bestNeuralNetworks.append(train(i,j, 100, 100, 0))
         endtime = timer.time() - starttime
-        print("\n"+str(i),"nodes and", str(j),"layers took:" +str(round(endtime*100.0)/100.0),"seconds\n")
+        print("\n"+str(i),"nodes and", str(j),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
 
 print (bestNeuralNetworks)
             
