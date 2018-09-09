@@ -3,6 +3,7 @@ import csv
 from datetime import datetime
 import sys as sys
 import time as timer
+import matplotlib.pyplot as plt
 
 random.seed(datetime.now())
 
@@ -222,7 +223,8 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
             else:
                 testSet.append([sensor1[i], sensor2[i], time[i]])
                 testTargets.append(sensor3[i])
-    
+    TrainingLoss = []
+    TestLoss = []
     for i in range(0, epochs):# for every epoch
         fitPopulation = []
         for j in range(0, len(neuralnets)): #for every neural net in the population
@@ -230,7 +232,13 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 output = neuralnets[j].predict(trainingSet[k])
                 trainingErrors[j] = trainingErrors[j] + abs(trainingTargets[k] - output)
             trainingErrors[j] = trainingErrors[j]/len(trainingTargets)
-                 
+        
+        for j in range(0, len(neuralnets)):
+            for k in range(0, len(testSet)):
+                output = neuralnets[j].predict(testSet[k])
+                testErrors[j] = testErrors[j] + abs(testTargets[k] - output)
+            testErrors[j] = testErrors[j]/len(testTargets)
+        
         for j in range(0, int(len(neuralnets)/10)): #Get top 10% of the population
             smallest = 1.01
             position = 0
@@ -239,11 +247,13 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                     position = k
                     smallest = trainingErrors[k]
 
-            fitPopulation.append([neuralnets.pop(position), trainingErrors.pop(position)])
+            fitPopulation.append([neuralnets.pop(position), trainingErrors.pop(position), testErrors.pop(position)])
         neuralnets = []
         trainingErrors = []
+        testErrors = []
         for j in range(0, populationSize):
             trainingErrors.append(0)
+            testErrors.append(0)
         for j in range(0, len(fitPopulation)):
             neuralnets.append(fitPopulation[j][0])
         
@@ -262,22 +272,68 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 else:
                     newWeight.append(p2NeuralNet[0].weights[k])
             cNeuralNet.setWeights(newWeight)
-            if random.randint(0,99) <= 2: #2% chance to mutate a gene
-                cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight
+            if random.uniform(0.0,1.0) <= 0.02: #2% chance to mutate a gene
+                cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight for a gene
             neuralnets.append(cNeuralNet)
-        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Layers: " + str(layers)+", Error: " + str(fitPopulation[0][1]) + ", Elapsed Time: " + str(timer.time() - starttime))
+        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
+        TrainingLoss.append(fitPopulation[0][1])
+        TestLoss.append(fitPopulation[0][2])
         if (i == epochs-1):
-            return fitPopulation[0]
+            return (fitPopulation[0], TrainingLoss, TestLoss)
     
-bestNeuralNetworks = []
-for i in range(3, 6+1): #3 to 6 hidden nodes    
-    for j in range(1,11):
-        starttime = timer.time()
-        bestNeuralNetworks.append(train(i,j, 100, 100, 0))
-        endtime = timer.time() - starttime
-        print("\n"+str(i),"nodes and", str(j),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
+bestNeuralNetworks = []   
+for j in range(3,5+1): #1 to 5 hidden layers
+    starttime = timer.time()
+    best, TrainLoss, TestLoss = train(j,1,50,10,0)
+    endtime = timer.time() - starttime
+    print("\n"+str(j),"nodes and", str(1),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
+    plt.figure(j)
+    plt.subplot(221).set_title(str(j) + " Nodes Training Loss")
+    plt.subplot(221).set_xlabel("Epochs")
+    plt.subplot(221).set_ylabel("Loss")
+    plt.plot(TrainLoss)
+    plt.subplot(222).set_title(str(j) + " Nodes Test Loss")
+    plt.subplot(222).set_xlabel("Epochs")
+    plt.subplot(222).set_ylabel("Loss")
+    plt.plot(TestLoss)
+"""    
+epochs = []
+errors = []
+for i in range (0, len(bestNeuralNetworks)):
+    epochs.append(i+3)
+    errors.append(bestNeuralNetworks[i][1])
+plt.figure(0)
+plt.plot(epochs, errors)
 
-print (bestNeuralNetworks)
+bestNeuralNetworks = []   
+for j in range(3,15+1): #1 to 5 hidden layers
+    starttime = timer.time()
+    bestNeuralNetworks.append(train(j,1, 100, 100, 1))
+    endtime = timer.time() - starttime
+    print("\n"+str(j),"nodes and", str(1),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
+    
+epochs = []
+errors = []
+for i in range (0, len(bestNeuralNetworks)):
+    epochs.append(i+3)
+    errors.append(bestNeuralNetworks[i][1])
+plt.figure(1)
+plt.plot(epochs, errors)
+
+bestNeuralNetworks = []   
+for j in range(3,30+1): #1 to 5 hidden layers
+    starttime = timer.time()
+    bestNeuralNetworks.append(train(j,1, 100, 100, 2))
+    endtime = timer.time() - starttime
+    print("\n"+str(j),"nodes and", str(1),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
+    
+epochs = []
+errors = []
+for i in range (0, len(bestNeuralNetworks)):
+    epochs.append(i+3)
+    errors.append(bestNeuralNetworks[i][1])
+plt.figure(2)
+plt.plot(epochs, errors)"""
             
             
             
