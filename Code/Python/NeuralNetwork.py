@@ -29,9 +29,9 @@ def normalise(time, s1,s2,s3):
         if (biggest3 < s3[i]):
             biggest3 = s3[i]
     for i in range(0, len(s1)):
-        s1[i] = (s1[i] - smallest1)/(biggest1-smallest1)
-        s2[i] = (s2[i] - smallest2)/(biggest2-smallest2)
-        s3[i] = (s3[i] - smallest3)/(biggest3-smallest3)
+        s1[i] = s1[i]/45.0
+        s2[i] = s2[i]/45.0
+        s3[i] = s3[i]/45.0
 
 class NeuralNetwork:
     inputNodes = 3 #time, sensor 1, sensor 2
@@ -47,73 +47,20 @@ class NeuralNetwork:
         #Connect the weights for the input layer to the hidden layer EXCEPT bias node
         for i in range(0, self.inputNodes):
             for j in range(0, self.hiddenNodes-1):
-                self.weights.append(random.uniform(-1.0,1.0))
+                self.weights.append(round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0)
         #Connect weights for each hidden layer to the next hidden layer
         #If the hidden layer is the last layer before the output, only make 1 weight per output
         for i in range(0, self.hiddenLayers):
             if (self.hiddenLayers == 1 or i == self.hiddenLayers-1): #If only one hidden layer or the last hidden layer, connect only to the output
                 for j in range (0, self.hiddenNodes):
-                    self.weights.append(random.uniform(-1.0,1.0))
+                    self.weights.append(round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0)
             else:
                 for j in range(0, self.hiddenNodes): 
                     for k in range(0, self.hiddenNodes-1): #connect to all nodes except the bias node
-                        self.weights.append(random.uniform(-1.0,1.0))
+                        self.weights.append(round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0)
+
     def setWeights(self, weights):
-        self.weights = weights
-                        
-    def printWeights(self): #print the weights for each node
-        inputNodeWeights = []
-        hiddenNodeWeights = []
-        temp = []
-        weightCounter = 0
-        for i in range(0, self.inputNodes):
-            temp = []
-            for j in range(0, self.hiddenNodes-1):
-                temp.append(self.weights[weightCounter])
-                weightCounter = weightCounter+1
-            inputNodeWeights.append(temp)
-        print("Input Layer")
-        for i in range(0, len(inputNodeWeights)):
-            print("\tInput Node:", i+1, inputNodeWeights[i])
-        if self.hiddenLayers == 1: #If only one hidden layer
-            temp = []
-            for i in range(0, self.hiddenNodes):
-                temp.append(self.weights[weightCounter])
-                hiddenNodeWeights.append(temp)
-                weightCounter = weightCounter+1
-                temp = []
-            print("Hidden Layer")
-            for i in range(0, len(hiddenNodeWeights)):
-                if i == self.hiddenNodes-1:
-                    print("Bias Node:", hiddenNodeWeights[i])
-                else:
-                    print("\tHidden Node:", i+1, hiddenNodeWeights[i])
-        else:                       #If multiple hidden layers
-            temp = []
-            k = 0
-            for i in range(0,self.hiddenLayers):
-                if i == self.hiddenLayers-1: #Last hidden layer
-                    temp = []
-                    for j in range(0, self.hiddenNodes):
-                        temp.append(self.weights[weightCounter])
-                        hiddenNodeWeights.append(temp)
-                        weightCounter = weightCounter+1
-                        temp = []
-                else:
-                    for j in range(0, self.hiddenNodes): #for every node in the hidden layer
-                        temp = []
-                        for j in range(0, self.hiddenNodes-1): #only connect to the hidden nodes, not the bias nodes
-                            temp.append(self.weights[weightCounter])
-                            weightCounter = weightCounter+1
-                        hiddenNodeWeights.append(temp)
-            for i in range(0, self.hiddenLayers): #for every hidden layer
-                print("Hidden Layer:", i+1)
-                for j in range(0, self.hiddenNodes): #for every node in a layer
-                    if j == self.hiddenNodes-1:
-                        print("\tBias Node:", hiddenNodeWeights[k+j])
-                    else:
-                        print("\tHidden Node:", j+1, hiddenNodeWeights[k+j] )
-                k = k+self.hiddenNodes
+        self.weights = weights                  
 
     def predict(self, inputs):
         output = 0
@@ -273,7 +220,8 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                     newWeight.append(p2NeuralNet[0].weights[k])
             cNeuralNet.setWeights(newWeight)
             if random.uniform(0.0,1.0) <= 0.02: #2% chance to mutate a gene
-                cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = random.uniform(-1.0,1.0) #Randomly generate a new weight for a gene
+                cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0
+ #Randomly generate a new weight for a gene
             neuralnets.append(cNeuralNet)
         sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
         TrainingLoss.append(fitPopulation[0][1])
@@ -281,13 +229,64 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
         if (i == epochs-1):
             return (fitPopulation[0], TrainingLoss, TestLoss)
     
-bestNeuralNetworks = []   
-for j in range(3,5+1): #1 to 5 hidden layers
+counter = 0   
+best, TrainLoss, TestLoss = train(6,1,50,10,0)
+plt.figure(counter)
+counter= counter+1
+plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
+plt.subplot(221).set_xlabel("Epochs")
+plt.subplot(221).set_ylabel("Loss")
+plt.plot(TrainLoss)
+plt.pause(0.05)
+
+plt.subplot(222).set_title(str(6) + " Nodes Test Loss")
+plt.subplot(222).set_xlabel("Epochs")
+plt.subplot(222).set_ylabel("Loss")
+plt.plot(TestLoss)
+plt.pause(0.05)
+
+print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+
+best, TrainLoss, TestLoss = train(6,1,50,10,1)
+plt.figure(counter)
+counter= counter+1
+plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
+plt.subplot(221).set_xlabel("Epochs")
+plt.subplot(221).set_ylabel("Loss")
+plt.plot(TrainLoss)
+plt.pause(0.05)
+
+plt.subplot(222).set_title(str(6) + " Nodes Test Loss")
+plt.subplot(222).set_xlabel("Epochs")
+plt.subplot(222).set_ylabel("Loss")
+plt.plot(TestLoss)
+plt.pause(0.05)
+
+print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+
+best, TrainLoss, TestLoss = train(6,1,50,10,2)
+plt.figure(counter)
+counter= counter+1
+plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
+plt.subplot(221).set_xlabel("Epochs")
+plt.subplot(221).set_ylabel("Loss")
+plt.plot(TrainLoss)
+plt.pause(0.05)
+
+plt.subplot(222).set_title(str(6) + " Nodes Test Loss")
+plt.subplot(222).set_xlabel("Epochs")
+plt.subplot(222).set_ylabel("Loss")
+plt.plot(TestLoss)
+plt.pause(0.05)
+
+print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+"""   
+for j in range(3,10+1): #1 to 5 hidden layers
     starttime = timer.time()
-    best, TrainLoss, TestLoss = train(j,1,50,10,0)
+    best, TrainLoss, TestLoss = train(j,1,50,100,1)
     endtime = timer.time() - starttime
-    print("\n"+str(j),"nodes and", str(1),"layers took: " +str(round(endtime*100.0)/100.0),"seconds\n")
-    plt.figure(j)
+    plt.figure(counter)
+    counter= counter+1
     plt.subplot(221).set_title(str(j) + " Nodes Training Loss")
     plt.subplot(221).set_xlabel("Epochs")
     plt.subplot(221).set_ylabel("Loss")
@@ -296,6 +295,21 @@ for j in range(3,5+1): #1 to 5 hidden layers
     plt.subplot(222).set_xlabel("Epochs")
     plt.subplot(222).set_ylabel("Loss")
     plt.plot(TestLoss)
+
+for j in range(3,10+1): #1 to 5 hidden layers
+    starttime = timer.time()
+    best, TrainLoss, TestLoss = train(j,1,50,100,2)
+    endtime = timer.time() - starttime
+    plt.figure(counter)
+    counter= counter+1
+    plt.subplot(221).set_title(str(j) + " Nodes Training Loss")
+    plt.subplot(221).set_xlabel("Epochs")
+    plt.subplot(221).set_ylabel("Loss")
+    plt.plot(TrainLoss)
+    plt.subplot(222).set_title(str(j) + " Nodes Test Loss")
+    plt.subplot(222).set_xlabel("Epochs")
+    plt.subplot(222).set_ylabel("Loss")
+    plt.plot(TestLoss)"""
 """    
 epochs = []
 errors = []

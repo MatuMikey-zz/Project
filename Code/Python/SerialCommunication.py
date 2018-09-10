@@ -28,7 +28,7 @@ ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
-sentBytes = bytearray([1,8,1,32,32,33,33,60]) #[Header, Length, Command, parameters...., Tail]
+sentBytes = bytearray([1,10,1,32,32,33,33,33,33,60]) #[Header, Length, Command, parameters...., Tail]
 readGarbage = 'a'
 wifi_n = 0
 allConnected = False
