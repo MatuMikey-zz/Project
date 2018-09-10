@@ -40,7 +40,7 @@ retryCounter = 0
 receivedValues = [0,0,0,0,0]
 readingsCounter = 0
 numberOfReadingsTakenThisSession = 0
-
+adcSensorValues = [0,0,0,0,0,0]
 
 
 while 1:
@@ -72,7 +72,7 @@ while 1:
                     if (allConnected == False):#Assign initial WiFi ID's
                         wifiArray.append([sensorID,messageWiFiID])
                         #print("Length is: ", len(wifiArray))
-                        if (len(wifiArray) == 1):
+                        if (len(wifiArray) == 3):
                             allConnected = True
                     else: #If a module disconnects and reconnects with a different ID, assign it.
                         for i in range(len(wifiArray)):
@@ -89,8 +89,9 @@ while 1:
 
                     sensorCMD = int(readMessage[1])
                     sensorReading = int(readMessage[2])*256 + int(readMessage[3])
-                    neuralNetReading = float(readMessage[4]) + float(readMessage[5]/100.0)
-                    print("Neural net reading:", neuralNetReading)
+                    if(allConnected == True):
+                        neuralNetReading = float(readMessage[4]) + float(readMessage[5]/100.0)
+                        print("Neural net reading:", neuralNetReading)
                     
                     #print("Sensor reading is:", sensorReading)
                     #print (sensorReading)
@@ -105,10 +106,16 @@ while 1:
                         print ("Temperature sensor " +str(sensorID)+": " + str(T))
                         if sensorID == 0:
                             receivedValues[2] = T
+                            adcSensorValue[0] = readMessage[2]
+                            adcSensorValue[1] = readMessage[3]
                         if sensorID == 1:
                             receivedValues[3] = T
+                            adcSensorValue[2] = readMessage[2]
+                            adcSensorValue[3] = readMessage[3]
                         if sensorID == 2:
                             receivedValues[4] = T
+                            adcSensorValue[4] = readMessage[2]
+                            adcSensorValue[5] = readMessage[3]
                     else:
                         R_th = 0
                         T = 60
@@ -140,27 +147,48 @@ while 1:
             
             if (sensorID == 0):
                 print ("Sending Request to Sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
+                sentBytes[2] = adcSensorValues[0]#1st and 3rd sensor ADC values sent
+                sentBytes[3] = adcSensorValues[1]
+                sentBytes[4] = adcSensorValues[4]
+                sentBytes[5] = adcSensorValues[5]
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 0:
+                    if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
                 ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
                 
             elif (sensorID == 1):
                 print("Sending Request to Sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
+                sentBytes[2] = adcSensorValues[0]#1st and 3rd sensor ADC values sent
+                sentBytes[3] = adcSensorValues[1]
+                sentBytes[4] = adcSensorValues[2]
+                sentBytes[5] = adcSensorValues[3]
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 0:
+                    if wifiArray[i][0] == 2:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
                 ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
                 print("Sending Request to Sensor 0")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
+                sentBytes[2] = adcSensorValues[2]#2nd and 3rd sensor ADC values sent
+                sentBytes[3] = adcSensorValues[3]
+                sentBytes[4] = adcSensorValues[4]
+                sentBytes[5] = adcSensorValues[5]
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 0:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
-                
+                ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode())
+                #send request to Wifi ID
+            now = datetime.datetime.now()
+            midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            secondsPastMidnight = int((now - midnight).seconds)
+            sentBytes[8] = secondsPastMidnight%256
+            secondsPastMidnight = secondsPastMidnight//256
+            sentBytes[7] = secondsPastMidnight%256
+            secondsPastMidnight = secondsPastMidnight//256
+            sentBytes[6] = secondsPastMidnight
+            print ("The sent bytes:", sentBytes)
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())
             
