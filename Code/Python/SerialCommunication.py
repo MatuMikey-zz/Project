@@ -28,7 +28,7 @@ ser.write("AT+CIPMUX=1\r\n".encode())
 time.sleep(0.5)
 ser.write("AT+CIPSERVER=1,333\r\n".encode())
 time.sleep(0.5)
-sentBytes = bytearray([1,10,1,32,32,33,33,33,33,60]) #[Header, Length, Command, parameters...., Tail]
+sentBytes = bytearray([1,10,2,0,2,0,0,54,0]) #[Header, Length, parameters...., Tail]
 readGarbage = 'a'
 wifi_n = 0
 allConnected = False
@@ -72,7 +72,7 @@ while 1:
                     if (allConnected == False):#Assign initial WiFi ID's
                         wifiArray.append([sensorID,messageWiFiID])
                         #print("Length is: ", len(wifiArray))
-                        if (len(wifiArray) == 3):
+                        if (len(wifiArray) == 1):
                             allConnected = True
                     else: #If a module disconnects and reconnects with a different ID, assign it.
                         for i in range(len(wifiArray)):
@@ -89,6 +89,9 @@ while 1:
 
                     sensorCMD = int(readMessage[1])
                     sensorReading = int(readMessage[2])*256 + int(readMessage[3])
+                    neuralNetReading = float(readMessage[4]) + float(readMessage[5]/100.0)
+                    print("Neural net reading:", neuralNetReading)
+                    
                     #print("Sensor reading is:", sensorReading)
                     #print (sensorReading)
                     print("sensor WiFi ID:", messageWiFiID)
@@ -138,25 +141,25 @@ while 1:
             if (sensorID == 0):
                 print ("Sending Request to Sensor 1")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 1:
+                    if wifiArray[i][0] == 0:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
+                ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
                 
             elif (sensorID == 1):
                 print("Sending Request to Sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 2:
+                    if wifiArray[i][0] == 0:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
+                ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
                 print("Sending Request to Sensor 0")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
                 for i in range(0, len(wifiArray)):
                     if wifiArray[i][0] == 0:
                         currentWifiModule = str(wifiArray[i][1])
                         print("Current Wifi Module: " + str(currentWifiModule))
-                ser.write(("AT+CIPSEND="+currentWifiModule+",8\r\n").encode()) #send request to Wifi ID
+                ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
                 
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())

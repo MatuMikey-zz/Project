@@ -66,6 +66,17 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 char receiveBuffer[256] = "";
 int receiveCount = 0;
 bool messageReceived = false;
+float sensorInput1, sensorInput2, time, R1, R2, T1, T2 = 0;
+volatile int output = 0;
+volatile float output1= 0;
+float input[3] ={0};
+volatile int j  = 0;
+char buffer[20] = ""; //buffer that will send message
+float weights[25] = {-0.488584, -0.487506, 0.257308, 0.535324, 0.072668, 0.971318, -0.256243, -0.150798, -0.801023, 0.166424, -0.799493, 0.242513, -0.998435, 0.4894, -0.81544, 0.703735, -0.232988, 0.376172, 0.889129, 0.636903, -0.414912, -0.387571, 0.447373, -0.822581, 0.822224};
+volatile int weightCounter = 0;
+volatile float outputs[6] = {0,0,0,0,0,0};
+
+
 /* Application Data
 
   Summary:
@@ -164,18 +175,17 @@ void ReadByte(void){
                 receiveCount++;
             }
 
-            DRV_USART1_WriteByte(appData.rx_byte);
-            if(appData.rx_byte == 60 && receiveCount == receiveBuffer[1]){
+            //DRV_USART1_WriteByte(appData.rx_byte);
+            if(receiveCount == receiveBuffer[1] && messageReceived){
                 messageReceived = false;
                 receiveCount = 0;
                 appData.receivedData = true;
-                appData.sensorData[0] = receiveBuffer[2];
-                appData.sensorData[1] = receiveBuffer[3];
-                appData.sensorData[2] = receiveBuffer[4];
-                appData.sensorData[3] = receiveBuffer[5];
-                appData.sensorData[4] = receiveBuffer[6];
-                appData.sensorData[5] = receiveBuffer[7];
-                appData.sensorData[6] = receiveBuffer[8];
+                appData.sensorData[0] = (int) receiveBuffer[2];
+                appData.sensorData[1] = (int) receiveBuffer[3];
+                appData.sensorData[2] = (int) receiveBuffer[4];
+                appData.sensorData[3] = (int) receiveBuffer[5];
+                appData.sensorData[4] = (int) receiveBuffer[6];
+                appData.sensorData[5] = (int) receiveBuffer[7];
                 
                 appData.readMode=0;
                 appData.state = APP_STATE_WRITE_TO_WIFI;
@@ -184,29 +194,6 @@ void ReadByte(void){
     }
 }
 
-float NeuralNetwork(float input1, float input2, float input3){
-    float weights[25] = {-0.640354, 0.315455, -0.047012, 0.432829, 0.82992, 0.712929, 0.132742, 0.161558, -0.851311, 0.271696, -0.388795, -0.659808, 0.273234, 0.339913, -0.261555, -0.758524, -0.087564, -0.758392, -0.982036, 0.051051, 0.704545, 0.101641, 0.956681, -0.822542, 0.121787};
-    int weightCounter = 0;
-    int i = 0;
-    float outputs[6] = {0,0,0,0,0,0};
-    float output = 0;
-    float input[3] = {input1, input2, input3};
-    for(i = 0; i < 6; i++){//For every weight of an input node that must connect to a hidden node (except bias))
-        int j  = 0;
-        for (j = 0; j < 3; j++){ //For every input node
-            outputs[i] = outputs[i] + input[j]*weights[weightCounter];
-            weightCounter++;
-        }
-        outputs[i] = outputs[i]/(1+fabs(outputs[i])); //"activate" the neuron
-    }
-    for (i = 0; i < 6; i++){//For every hidden node and the bias that must connect to the output node
-        output = output + outputs[i]*weights[weightCounter];
-        weightCounter++;
-    }
-    output = output + 1.0*weights[weightCounter];
-    output = output/7.0; // linear output
-    return output;
-}
 
 /* TODO:  Add any necessary local functions.
 */
@@ -292,7 +279,6 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Necessary local variables
-            char buffer[20] = ""; //buffer that will send message
             char ID = 0x00; //ID of this module
             char CMD = 0x01; //Command ID
             buffer[0] = ID;
@@ -300,6 +286,9 @@ void APP_Tasks ( void )
             appData.readMode=0;
             int k,l = 0; //Variables to store analog sensor readings
             int i = 0;
+
+            
+
             
             //Read sensors then get the average between them and then store them in buffer
             for(i = 0; i < 16; i++){
@@ -314,17 +303,34 @@ void APP_Tasks ( void )
             buffer[2] = k;
             
             if(appData.receivedData){
-                float sensorInput1 = appData.sensorData[0]*256 + appData.sensorData[1];
-                float R1 = 1000.0/((1023.0/(1023-sensorInput1))-1.0);
-                float T1 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)/45.0;
-                float sensorInput2 = appData.sensorData[2]*256 + appData.sensorData[3];
-                float R2 = 1000.0/((1023.0/(1023-sensorInput2))-1.0);
-                float T2 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)/45.0;
-                float time = (float) appData.sensorData[4]*256*256 + appData.sensorData[5]*256 + appData.sensorData[6]/86400.0;
-                int output = (int) (NeuralNetwork(T1,T2,time)*45.0*10000);
-                buffer[5] = output%256;
-                output = output/256;
-                buffer[4] = output;        
+                sensorInput1 = (float) appData.sensorData[0]*256 + appData.sensorData[1];
+                R1 = 1000.0/((1023.0/(1023-sensorInput1))-1.0);
+                T1 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)/45.0;
+                sensorInput2 = (float)appData.sensorData[2]*256 + appData.sensorData[3];
+                R2 = 1000.0/((1023.0/(1023-sensorInput2))-1.0);
+                T2 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)/45.0;
+                time = (float) (appData.sensorData[4]*256*256 + appData.sensorData[5]*256 + appData.sensorData[6])/86400.0;
+                //Neural Network starts here
+                input[0] = T1; input[1] = T2; input[2] = time;
+                
+                for(i = 0; i < 6; i++){//For every weight of an input node that must connect to a hidden node (except bias))
+                    for (j = 0; j < 3; j++){ //For every input node
+                        outputs[i] = outputs[i] + input[j]*weights[3*i+j];
+                    }
+                    outputs[i] = outputs[i]/(1+fabs(outputs[i])); //"activate" the neuron
+                }
+                for (i = 0; i < 6; i++){//For every hidden node and the bias that must connect to the output node
+                    output1 = output1 + outputs[i]*weights[18+i];
+                    weightCounter = weightCounter+1;
+                }
+                output1 = output1 + 1.0*weights[24];
+                output1 = output1*45.0; // linear output
+                output = output1*100;
+                
+                buffer[5] = output%100;
+                output = output/100;
+                buffer[4] = output; 
+                output1 = 0; for(i = 0; i < 6; i++){outputs[i] = 0;}
             }
             //Neural network
             
@@ -342,12 +348,16 @@ void APP_Tasks ( void )
             //WriteString("AT+CIPSTART=\"TCP\",\"192.168.4.1\",333\r\n\0"); for(i = 0; i < 1000000; i++){}
             WriteString("AT+CIPSEND=\0");
             for(i = 0; buffer[i] != '\0'; ++i){}            
-            if(i > 10){
+            if(i > 10){ //This is a piece of magic code that nobody knows what it does. Don't touch it.
                 length2[1] = (i%10)+'0'; 
                 length2[0] = (i/10)+'0'; 
                 WriteString(length2);
+            }else if (appData.receivedData){ //Write data with neural network output
+                length1[0] = 6 + '0';
+                length1[1] = '\0';
+                WriteString(length1);
             }
-            else{
+            else{ //write data with just sensor output
                 length1[0] = 4 + '0'; 
                 length1[1] = '\0';
                 WriteString(length1);
