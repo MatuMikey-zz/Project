@@ -3,11 +3,14 @@ import time
 import datetime
 import numpy as np
 import csv
+from pathlib import Path
 
-with open('TemperatureData.csv','a', newline='') as csvfile:
-    writer = csv.writer(csvfile, delimiter=';',
-    quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
+myFile = Path('TemperatureData.csv')
+if not myFile.exists():
+    with open('TemperatureData.csv','a', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=';',
+        quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
     
 ser = serial.Serial(
         port = "COM3",
