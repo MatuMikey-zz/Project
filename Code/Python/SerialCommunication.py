@@ -49,7 +49,7 @@ while 1:
             character=ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
             if (len(character) == 0 and (allConnected == True)):
                 retryCounter = retryCounter + 1
-            if retryCounter == 1:
+            if retryCounter == 3:
                 mode = "write"
                 retryCounter = 0
                 print("Retrying to sensor: ", sensorID) #//TODO implement neural net for
@@ -70,8 +70,9 @@ while 1:
                     #print ("Reading full message:", readMessage.decode('utf-8'))
                     sensorID = int(readMessage[0])
                     if (allConnected == False):#Assign initial WiFi ID's
+                        print(sensorID)
                         wifiArray.append([sensorID,messageWiFiID])
-                        #print("Length is: ", len(wifiArray))
+                        print("Length is: ", len(wifiArray))
                         if (len(wifiArray) == 3):
                             allConnected = True
                     else: #If a module disconnects and reconnects with a different ID, assign it.
@@ -104,16 +105,16 @@ while 1:
                         print ("Temperature sensor " +str(sensorID)+": " + str(T))
                         if sensorID == 0:
                             receivedValues[2] = T
-                            adcSensorValue[0] = readMessage[2]
-                            adcSensorValue[1] = readMessage[3]
+                            adcSensorValues[0] = readMessage[2]
+                            adcSensorValues[1] = readMessage[3]
                         if sensorID == 1:
                             receivedValues[3] = T
-                            adcSensorValue[2] = readMessage[2]
-                            adcSensorValue[3] = readMessage[3]
+                            adcSensorValues[2] = readMessage[2]
+                            adcSensorValues[3] = readMessage[3]
                         if sensorID == 2:
                             receivedValues[4] = T
-                            adcSensorValue[4] = readMessage[2]
-                            adcSensorValue[5] = readMessage[3]
+                            adcSensorValues[4] = readMessage[2]
+                            adcSensorValues[5] = readMessage[3]
                     else:
                         R_th = 0
                         T = 60
@@ -123,6 +124,7 @@ while 1:
                     if(allConnected):
                         mode = "write"
                     readingsCounter = readingsCounter + 1
+                    print("readingsCounter: ", readingsCounter)
                     if readingsCounter == 3:
                         readingsCounter = 0
                         numberOfReadingsTakenThisSession = numberOfReadingsTakenThisSession + 1
@@ -185,7 +187,7 @@ while 1:
 
             time.sleep(0.1)
             ser.write(sentBytes+"\r\n".encode())
-            print("Message sent!")
+            print("Message sent!\n")
             mode = "read"
     except:
         #print(character)

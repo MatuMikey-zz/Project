@@ -267,7 +267,7 @@ void APP_Tasks ( void )
         {
             int i = 0;
             //Initiate connection
-            for(i = 0; i< 90000000; i++){}     
+            for(i = 0; i< 120000000; i++){}     
             WriteString("AT+CWMODE=1\r\n\0");    for(i = 0; i < 10000000; i++){}   
             WriteString("AT+CIPMODE=0\r\n\0"); for(i = 0; i < 10000000; i++){}   
             //WriteString("AT+CWJAP_DEF=\"ESP Access Point 1\",\"\"\r\n\0"); for(i = 0; i < 80000000; i++){}   
@@ -279,7 +279,7 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Necessary local variables
-            char ID = 0x00; //ID of this module
+            char ID = 0x01; //ID of this module
             char CMD = 0x01; //Command ID
             buffer[0] = ID;
             buffer[1] = CMD;
