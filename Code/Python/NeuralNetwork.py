@@ -223,14 +223,14 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0
  #Randomly generate a new weight for a gene
             neuralnets.append(cNeuralNet)
-        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
+        #sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
         TrainingLoss.append(fitPopulation[0][1])
         TestLoss.append(fitPopulation[0][2])
         if (i == epochs-1):
             return (fitPopulation[0], TrainingLoss, TestLoss)
     
 counter = 0   
-best, TrainLoss, TestLoss = train(6,1,50,10,0)
+best, TrainLoss, TestLoss = train(6,1,100,100,0)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -245,9 +245,9 @@ plt.subplot(222).set_ylabel("Loss")
 plt.plot(TestLoss)
 plt.pause(0.05)
 
-print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+print("Weights for 0:",best[0].weights)
 
-best, TrainLoss, TestLoss = train(6,1,50,10,1)
+best, TrainLoss, TestLoss = train(6,1,100,100,1)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -262,9 +262,9 @@ plt.subplot(222).set_ylabel("Loss")
 plt.plot(TestLoss)
 plt.pause(0.05)
 
-print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+print("Weights for 1:", best[0].weights)
 
-best, TrainLoss, TestLoss = train(6,1,50,10,2)
+best, TrainLoss, TestLoss = train(6,1,100,100,2)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -279,7 +279,7 @@ plt.subplot(222).set_ylabel("Loss")
 plt.plot(TestLoss)
 plt.pause(0.05)
 
-print("\n" + str(best[0].predict([1.0,1.0,1.0])*45) + "\n")
+print("Weights for 2:",best[0].weights)
 """   
 for j in range(3,10+1): #1 to 5 hidden layers
     starttime = timer.time()
