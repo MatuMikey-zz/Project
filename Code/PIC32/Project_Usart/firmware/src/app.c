@@ -279,7 +279,7 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Necessary local variables
-            char ID = 0x01; //ID of this module
+            char ID = 0x02; //ID of this module
             char CMD = 0x01; //Command ID
             buffer[0] = ID;
             buffer[1] = CMD;
