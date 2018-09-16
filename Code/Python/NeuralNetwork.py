@@ -16,22 +16,22 @@ def normalise(time, s1,s2,s3):
     biggest3 = 0
     for i in range(0, len(time)):
         time[i] = time[i]/86400.0
-        if (smallest1 > s1[i]):
+        if (smallest1 > s1[i] and s1[i] != 0.0):
             smallest1 = s1[i]
         if (biggest1 < s1[i]):
             biggest1 = s1[i]
-        if (smallest2 > s2[i]):
+        if (smallest2 > s2[i] and s2[i] != 0.0):
             smallest2 = s2[i]
         if (biggest2 < s2[i]):
             biggest2 = s2[i]
-        if (smallest3 > s3[i]):
+        if (smallest3 > s3[i] and s3[i] != 0.0):
             smallest3 = s3[i]
         if (biggest3 < s3[i]):
             biggest3 = s3[i]
     for i in range(0, len(s1)):
-        s1[i] = s1[i]/45.0
-        s2[i] = s2[i]/45.0
-        s3[i] = s3[i]/45.0
+        s1[i] = (s1[i]-smallest1)/(biggest1-smallest1)
+        s2[i] = (s2[i]-smallest2)/(biggest2-smallest2)
+        s3[i] = (s3[i]-smallest3)/(biggest3-smallest3)
 
 class NeuralNetwork:
     inputNodes = 3 #time, sensor 1, sensor 2
@@ -193,7 +193,6 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 if smallest > trainingErrors[k]:
                     position = k
                     smallest = trainingErrors[k]
-
             fitPopulation.append([neuralnets.pop(position), trainingErrors.pop(position), testErrors.pop(position)])
         neuralnets = []
         trainingErrors = []
@@ -210,7 +209,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
             p2NeuralNet = fitPopulation[random.randint(0, len(fitPopulation)-1)]
             while(p1NeuralNet == p2NeuralNet): #ensure always two unique parents
                 p2NeuralNet = fitPopulation[random.randint(0, len(fitPopulation)-1)]
-            p1Probability = p1NeuralNet[1]/(p1NeuralNet[1]+p2NeuralNet[1])
+            p1Probability = 1.0-(p1NeuralNet[1]/(p1NeuralNet[1]+p2NeuralNet[1]))
             cNeuralNet = NeuralNetwork(nodes, layers)
             newWeight = []
             for k in range(0, len(cNeuralNet.weights)):
@@ -223,14 +222,14 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
                 cNeuralNet.weights[random.randint(0,len(cNeuralNet.weights)-1)] = round(random.uniform(-1.0,1.0)*1000000.0)/1000000.0
  #Randomly generate a new weight for a gene
             neuralnets.append(cNeuralNet)
-        #sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
+        sys.stdout.write('\rEpoch: ' + str(i+1) + ", Hidden Nodes: " + str(nodes)+", Training Loss: " + str(fitPopulation[0][1]) + ", Test Loss: " + str(fitPopulation[0][2]) + ", Elapsed Time: " + str(round(timer.time() - starttime)))
         TrainingLoss.append(fitPopulation[0][1])
         TestLoss.append(fitPopulation[0][2])
         if (i == epochs-1):
             return (fitPopulation[0], TrainingLoss, TestLoss)
     
 counter = 0   
-best, TrainLoss, TestLoss = train(6,1,100,100,0)
+best, TrainLoss, TestLoss = train(11,1,100,100,0)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -247,7 +246,7 @@ plt.pause(0.05)
 
 print("Weights for 0:",best[0].weights)
 
-best, TrainLoss, TestLoss = train(6,1,100,100,1)
+best, TrainLoss, TestLoss = train(11,1,100,100,1)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -264,7 +263,7 @@ plt.pause(0.05)
 
 print("Weights for 1:", best[0].weights)
 
-best, TrainLoss, TestLoss = train(6,1,100,100,2)
+best, TrainLoss, TestLoss = train(11,1,100,100,2)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
