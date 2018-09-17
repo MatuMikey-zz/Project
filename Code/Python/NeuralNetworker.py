@@ -20,11 +20,11 @@ def normalise(time, s1,s2,s3):
             smallest1 = s1[i]
         if (biggest1 < s1[i]):
             biggest1 = s1[i]
-        if (smallest2 > s2[i] and s2[i] != 0.0):
+        if (smallest2 > s2[i]  and s2[i] != 0.0):
             smallest2 = s2[i]
         if (biggest2 < s2[i]):
             biggest2 = s2[i]
-        if (smallest3 > s3[i] and s3[i] != 0.0):
+        if (smallest3 > s3[i]  and s3[i] != 0.0):
             smallest3 = s3[i]
         if (biggest3 < s3[i]):
             biggest3 = s3[i]
@@ -32,6 +32,8 @@ def normalise(time, s1,s2,s3):
         s1[i] = (s1[i]-smallest1)/(biggest1-smallest1)
         s2[i] = (s2[i]-smallest2)/(biggest2-smallest2)
         s3[i] = (s3[i]-smallest3)/(biggest3-smallest3)
+    print ("smallest:", smallest1, smallest2, smallest3)
+    print ("biggest:", biggest1, biggest2, biggest3)
 
 class NeuralNetwork:
     inputNodes = 3 #time, sensor 1, sensor 2
@@ -121,7 +123,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     sensor1 = []
     sensor2 = []
     sensor3 = []
-    with open('HouseData.csv', 'r') as csvfile:
+    with open('TemperatureData.csv', 'r') as csvfile:
         data = csv.reader(csvfile, delimiter=';', quotechar='"')
         data = list(data)
     for i in range(1, len(data)):
@@ -227,9 +229,9 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
         TestLoss.append(fitPopulation[0][2])
         if (i == epochs-1):
             return (fitPopulation[0], TrainingLoss, TestLoss)
-    
+"""    
 counter = 0   
-best, TrainLoss, TestLoss = train(11,1,100,100,0)
+best, TrainLoss, TestLoss = train(6,1,500,1000,0)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -246,7 +248,7 @@ plt.pause(0.05)
 
 print("Weights for 0:",best[0].weights)
 
-best, TrainLoss, TestLoss = train(11,1,100,100,1)
+best, TrainLoss, TestLoss = train(6,1,500,1000,1)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -263,7 +265,7 @@ plt.pause(0.05)
 
 print("Weights for 1:", best[0].weights)
 
-best, TrainLoss, TestLoss = train(11,1,100,100,2)
+best, TrainLoss, TestLoss = train(6,1,500,1000,2)
 plt.figure(counter)
 counter= counter+1
 plt.subplot(221).set_title(str(6) + " Nodes Training Loss")
@@ -279,7 +281,7 @@ plt.plot(TestLoss)
 plt.pause(0.05)
 
 print("Weights for 2:",best[0].weights)
-"""   
+"""   """
 for j in range(3,10+1): #1 to 5 hidden layers
     starttime = timer.time()
     best, TrainLoss, TestLoss = train(j,1,50,100,1)

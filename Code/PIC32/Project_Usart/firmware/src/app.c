@@ -72,9 +72,9 @@ volatile float output1= 0;
 float input[3] ={0};
 volatile int j  = 0;
 char buffer[20] = ""; //buffer that will send message
-float weights[25] = {-0.488584, -0.487506, 0.257308, 0.535324, 0.072668, 0.971318, -0.256243, -0.150798, -0.801023, 0.166424, -0.799493, 0.242513, -0.998435, 0.4894, -0.81544, 0.703735, -0.232988, 0.376172, 0.889129, 0.636903, -0.414912, -0.387571, 0.447373, -0.822581, 0.822224};
+float weights[25] = {-0.007042, 0.628156, -0.426134, 0.35204, 0.187817, 0.969249, -0.75489, -0.646138, -0.63035, -0.226662, 0.234046, 0.194701, 0.48472, -0.82152, 0.751298, 0.842414, -0.851511, -0.561992, -0.438633, 0.802997, -0.51524, 0.396969, 0.146189, 0.061056, 0.903092, 0.463148, -0.936068, -0.07838, 0.607266, -0.738747, -0.749364, -0.055261, -0.432039, 0.340964, 0.80217, -0.563075, -0.862667, 0.316258, 0.364808, -0.308235, -0.064679, 0.566619, 0.917303, -0.469896, -0.938537};
 volatile int weightCounter = 0;
-volatile float outputs[6] = {0,0,0,0,0,0};
+volatile float outputs[11] = {0,0,0,0,0,0,0,0,0,0,0};
 
 
 /* Application Data
@@ -305,32 +305,32 @@ void APP_Tasks ( void )
             if(appData.receivedData){
                 sensorInput1 = (float) appData.sensorData[0]*256 + appData.sensorData[1];
                 R1 = 1000.0/((1023.0/(1023-sensorInput1))-1.0);
-                T1 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)/45.0;
+                T1 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)-17.4)/(29.51-17.4)
                 sensorInput2 = (float)appData.sensorData[2]*256 + appData.sensorData[3];
                 R2 = 1000.0/((1023.0/(1023-sensorInput2))-1.0);
-                T2 = (1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)/45.0;
+                T2 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)-11.91)/(60.25-11.91)
                 time = (float) (appData.sensorData[4]*256*256 + appData.sensorData[5]*256 + appData.sensorData[6])/86400.0;
                 //Neural Network starts here
                 input[0] = T1; input[1] = T2; input[2] = time;
                 
-                for(i = 0; i < 6; i++){//For every weight of an input node that must connect to a hidden node (except bias))
+                for(i = 0; i < 11; i++){//For every weight of an input node that must connect to a hidden node (except bias))
                     for (j = 0; j < 3; j++){ //For every input node
                         outputs[i] = outputs[i] + input[j]*weights[3*i+j];
                     }
                     outputs[i] = outputs[i]/(1+fabs(outputs[i])); //"activate" the neuron
                 }
-                for (i = 0; i < 6; i++){//For every hidden node and the bias that must connect to the output node
-                    output1 = output1 + outputs[i]*weights[18+i];
+                for (i = 0; i < 11; i++){//For every hidden node and the bias that must connect to the output node
+                    output1 = output1 + outputs[i]*weights[33+i];
                     weightCounter = weightCounter+1;
                 }
                 output1 = output1 + 1.0*weights[24];
-                output1 = output1*45.0; // linear output
+                output1 = (output1/12.0)*(34.61-20.08)+20.08; // linear output
                 output = output1*100;
                 
                 buffer[5] = output%100;
                 output = output/100;
                 buffer[4] = output; 
-                output1 = 0; for(i = 0; i < 6; i++){outputs[i] = 0;}
+                output1 = 0; for(i = 0; i < 11; i++){outputs[i] = 0;}
             }
             //Neural network
             
