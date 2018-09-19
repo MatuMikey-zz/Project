@@ -2,6 +2,7 @@ from NeuralNetworker import NeuralNetwork
 from NeuralNetworker import normalise
 import csv
 import matplotlib.pyplot as plt
+import datetime
 
 
 n1 = NeuralNetwork(11,1)
@@ -11,7 +12,8 @@ n1.setWeights([-0.007042, 0.628156, -0.426134, 0.35204, 0.187817, 0.969249, -0.7
 n2.setWeights([0.066564, 0.237471, 0.184374, 0.961546, -0.856757, 0.921198, -0.525436, 0.000102, 0.658343, -0.844073, 0.79645, -0.673141, -0.907838, -0.831028, 0.917756, 0.947236, -0.891757, 0.228439, -0.667715, 0.906083, -0.843592, 0.370413, -0.434996, -0.749497, 0.254537, 0.199341, -0.351906, 0.974163, 0.699489, -0.141165, 0.869323, 0.928092, -0.349357, 0.759191, 0.999017, -0.432406, 0.482716, -0.8913, 0.953092, -0.706622, -0.151732, 0.476949, 0.580778, 0.26748, -0.362271])
 n3.setWeights([0.013373, -0.915817, 0.412601, 0.823739, 0.469707, -0.46401, 0.339413, -0.214234, -0.694641, -0.585485, 0.684884, -0.820952, 0.361889, 0.837617, 0.064206, 0.690608, -0.536863, -0.048534, -0.905908, -0.410414, 0.408748, 0.557286, 0.354094, -0.893229, 0.363733, 0.903854, -0.653997, 0.756079, -0.588926, -0.818353, -0.524351, -0.796832, 0.826206, -0.64618, 0.209543, 0.749865, -0.737982, 0.389879, -0.864875, 0.035057, 0.539101, 0.24315, 0.023871, -0.893089, 0.695303])
 
-time = []
+time1 = []
+time2 = []
 sensor1 = []
 sensor2 = []
 sensor3 = []
@@ -23,22 +25,21 @@ with open('HouseData.csv', 'r') as csvfile:
             data[i][j] = float(data[i][j])
         if (data[i][2] == 0.0 or data[i][3] == 0.0 or data[i][4] == 0.0):
             continue
-        time.append(data[i][1])
-        
+        time1.append(data[i][1])
+        time2.append(data[i][1] + 86399*(data[i][0]-3))
         sensor1.append(data[i][2])
         sensor2.append(data[i][3])
         sensor3.append(data[i][4])
-        
 
-normalise(time, sensor1, sensor2, sensor3)
+normalise(time1, sensor1, sensor2, sensor3)
     
 output1 = []
 output2 = []
 output3 = []
 for i in range(0, len(sensor1)):
-   output1.append(n1.predict([sensor2[i], sensor3[i], time[i]]))
-   output2.append(n2.predict([sensor1[i], sensor3[i], time[i]]))
-   output3.append(n3.predict([sensor1[i], sensor2[i], time[i]]))
+   output1.append(n1.predict([sensor2[i], sensor3[i], time1[i]]))
+   output2.append(n2.predict([sensor1[i], sensor3[i], time1[i]]))
+   output3.append(n3.predict([sensor1[i], sensor2[i], time1[i]]))
 
 
 
@@ -52,16 +53,23 @@ for i in range(0, len(output1)):
     output3[i]  = output3[i]*(60.25-11.91)+11.91
     sensor3[i] = sensor3[i]*(60.25-11.91)+11.91
     
-    
 plt.figure(6)
 plt.plot(output1, color='red')
+plt.xlabel("Time (days)")
+plt.ylabel("Temperature (degrees Celcius)")
+plt.title("Sensor and neural network temperature readings over a 5 day period")
 plt.plot(sensor1, color = 'green')
 
 plt.figure(7)
 plt.plot(output2, color='red')
 plt.plot(sensor2, color = 'green')
+plt.xlabel("Time (days)")
+plt.ylabel("Temperature (degrees Celcius)")
+plt.title("Sensor and neural network temperature readings over a 5 day period")
 
 plt.figure(8)
 plt.plot(output3, color='red')
 plt.plot(sensor3, color = 'green')
-
+plt.xlabel("Time (days)")
+plt.ylabel("Temperature (degrees Celcius)")
+plt.title("Sensor and neural network temperature readings over a 5 day period")
