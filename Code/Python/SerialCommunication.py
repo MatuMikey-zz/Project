@@ -43,7 +43,7 @@ retryCounter = 0
 receivedValues = [0,0,0,0,0]
 readingsCounter = 0
 numberOfReadingsTakenThisSession = 0
-adcSensorValues = [0,0,0,0,0,0]
+adcSensorValues = [2,0,0,0,2,0]
 
 
 while 1:
@@ -76,7 +76,7 @@ while 1:
                         print(sensorID)
                         wifiArray.append([sensorID,messageWiFiID])
                         print("Length is: ", len(wifiArray))
-                        if (len(wifiArray) == 3):
+                        if (len(wifiArray) == 1): #change for debug purposes
                             allConnected = True
                     else: #If a module disconnects and reconnects with a different ID, assign it.
                         for i in range(len(wifiArray)):
@@ -165,7 +165,7 @@ while 1:
                 sentBytes[4] = adcSensorValues[2]
                 sentBytes[5] = adcSensorValues[3]
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 2:
+                    if wifiArray[i][0] == 1:
                         currentWifiModule = str(wifiArray[i][1])
                 ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
