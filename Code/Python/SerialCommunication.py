@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 import csv
 from pathlib import Path
+import random as random
 
 myFile = Path('TemperatureData.csv')
 if not myFile.exists():
@@ -13,7 +14,7 @@ if not myFile.exists():
         writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
     
 ser = serial.Serial(
-        port = "COM3",
+        port = "COM7",
         baudrate=115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -76,7 +77,7 @@ while 1:
                         print(sensorID)
                         wifiArray.append([sensorID,messageWiFiID])
                         print("Length is: ", len(wifiArray))
-                        if (len(wifiArray) == 1): #change for debug purposes
+                        if (len(wifiArray) == 3): #change for debug purposes
                             allConnected = True
                     else: #If a module disconnects and reconnects with a different ID, assign it.
                         for i in range(len(wifiArray)):
@@ -130,6 +131,7 @@ while 1:
                     print("readingsCounter: ", readingsCounter)
                     if readingsCounter == 3:
                         readingsCounter = 0
+                        print ("The adc sensor values are:", adcSensorValues)
                         numberOfReadingsTakenThisSession = numberOfReadingsTakenThisSession + 1
                         print ("")
                         print ("Number of Readings taken so far:", numberOfReadingsTakenThisSession)
@@ -165,7 +167,7 @@ while 1:
                 sentBytes[4] = adcSensorValues[2]
                 sentBytes[5] = adcSensorValues[3]
                 for i in range(0, len(wifiArray)):
-                    if wifiArray[i][0] == 1:
+                    if wifiArray[i][0] == 2:
                         currentWifiModule = str(wifiArray[i][1])
                 ser.write(("AT+CIPSEND="+currentWifiModule+",10\r\n").encode()) #send request to Wifi ID
             elif (sensorID == 2):
