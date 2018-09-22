@@ -8,4 +8,7 @@ All relevant documents (i.e. journal articles and research papers) relating to t
 All documentation regarding the microcontrollers will be found in this folder.
 # Reports
 All written reports will be found in this folder.
+# Results
+All gathered results will be posted in this folder
 # Veroboard Design
+The veroboard design for the sensor node circuitry is placed in here. It uses the Fritzing open source app to develop circuitry
