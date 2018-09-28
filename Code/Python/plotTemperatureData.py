@@ -1,5 +1,5 @@
 import csv
-with open('TemperatureData.csv', 'r') as csvfile:
+with open('BigHouse.csv', 'r') as csvfile:
     so = csv.reader(csvfile, delimiter=';', quotechar='"')
     so = list(so)
 import matplotlib.pyplot as plt

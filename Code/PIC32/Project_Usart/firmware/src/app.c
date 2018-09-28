@@ -279,13 +279,15 @@ void APP_Tasks ( void )
         case APP_STATE_WRITE_TO_WIFI:
         {
             //Necessary local variables
-            char ID = 0x02; //ID of this module
+            int i = 0;
+            for(i = 0; i < 1000000; i++){}
+            char ID = 0x00; //ID of this module
             char CMD = 0x01; //Command ID
             buffer[0] = ID;
             buffer[1] = CMD;
             appData.readMode=0;
             int k,l = 0; //Variables to store analog sensor readings
-            int i = 0;
+
 
             
 

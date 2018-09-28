@@ -6,15 +6,15 @@ import csv
 from pathlib import Path
 import random as random
 
-myFile = Path('TemperatureData.csv')
+myFile = Path('BigHouse.csv')
 if not myFile.exists():
-    with open('TemperatureData.csv','a', newline='') as csvfile:
+    with open('BigHouse.csv','a', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=';',
         quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
     
 ser = serial.Serial(
-        port = "COM7",
+        port = "COM3",
         baudrate=115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -140,7 +140,7 @@ while 1:
                         now = datetime.datetime.now()
                         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
                         receivedValues[1] = (now - midnight).seconds
-                        with open('TemperatureData.csv','a', newline='') as csvfile:
+                        with open('BigHouse.csv','a', newline='') as csvfile:
                             writer = csv.writer(csvfile, delimiter=';',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
                             writer.writerow(receivedValues)
