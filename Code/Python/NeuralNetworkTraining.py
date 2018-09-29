@@ -1,8 +1,8 @@
 from NeuralNetwork import *
 import matplotlib.pyplot as plt
 
-Sensor0NeuralNetwork, trainLoss0, testLoss0 = train(11,1,100,500,0)
-print ("Sensor0 Test Loss:", testLoss0, "Train Loss:", trainLoss0)
+#Sensor0NeuralNetwork, trainLoss0, testLoss0 = train(11,1,100,500,0)
+#print ("Sensor0 Test Loss:", testLoss0, "Train Loss:", trainLoss0)
 Sensor1NeuralNetwork, trainLoss1, testLoss1 = train(11,1,100,500,1)
 print ("Sensor1 Test Loss:", testLoss1, "Train Loss:", trainLoss1)
 Sensor2NeuralNetwork, trainLoss2, testLoss2 = train(11,1,100,500,2)
