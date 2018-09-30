@@ -1,4 +1,5 @@
 import csv
+from KalmanFilter import KalmanFilter
 with open('BigHouse.csv', 'r') as csvfile:
     so = csv.reader(csvfile, delimiter=';', quotechar='"')
     so = list(so)
@@ -11,7 +12,9 @@ def meanFilter(array):
     return newArray
 
 
-
+kFilter1 = KalmanFilter(1,1,0.01)
+kFilter2 = KalmanFilter(1,1,0.01)
+kFilter3 = KalmanFilter(1,1,0.01)
 sensor1=[]
 sensor2=[]
 sensor3=[]
@@ -24,20 +27,27 @@ for i in range(1, len(so)):
     sensor1.append(float(so[i][2]))
     sensor2.append(float(so[i][3]))
     sensor3.append(float(so[i][4]))
-    
-    
-#plt.plot(sensor3)
-sensor1 = meanFilter(sensor1)
-sensor1 = meanFilter(sensor1)
-sensor2 = meanFilter(sensor2)
-sensor2 = meanFilter(sensor2)
-sensor3 = meanFilter(sensor3)
-sensor3 = meanFilter(sensor3)
+
+
 plt.subplot(2,2,1)
-plt.plot(meanFilter(sensor1))
+plt.plot(sensor1)
 plt.subplot(2,2,2)
-plt.plot(meanFilter(sensor2))
+plt.plot(sensor2)
 plt.subplot(2,2,3)
-plt.plot(meanFilter(sensor3))
+plt.plot(sensor3)
+
+for i in range(0, len(sensor1)):
+    sensor1[i] = kFilter1.updateEstimate(sensor1[i])
+    sensor2[i] = kFilter2.updateEstimate(sensor2[i])
+    sensor3[i] = kFilter3.updateEstimate(sensor3[i])
+
+plt.subplot(2,2,1)
+plt.plot(sensor1)
+plt.subplot(2,2,2)
+plt.plot(sensor2)
+plt.subplot(2,2,3)
+plt.plot(sensor3)
+   
+#plt.plot(sensor3)
 
 

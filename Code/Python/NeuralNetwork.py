@@ -4,6 +4,7 @@ from datetime import datetime
 import sys as sys
 import time as timer
 import matplotlib.pyplot as plt
+from KalmanFilter import KalmanFilter
 
 random.seed(datetime.now())
 
@@ -121,6 +122,9 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     sensor1 = []
     sensor2 = []
     sensor3 = []
+    kFilter1 = KalmanFilter(1,1,0.001)
+    kFilter2 = KalmanFilter(1,1,0.01)
+    kFilter3 = KalmanFilter(1,1,0.01)
     with open('BigHouse.csv', 'r') as csvfile:
         data = csv.reader(csvfile, delimiter=';', quotechar='"')
         data = list(data)
@@ -128,11 +132,10 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
         for j in range(0, len(data[i])):
             data[i][j] = float(data[i][j])
         time.append(data[i][1])
-        sensor1.append(data[i][2])
-        sensor2.append(data[i][3])
-        sensor3.append(data[i][4])
+        sensor1.append(kFilter1.updateEstimate(data[i][2]))
+        sensor2.append(kFilter2.updateEstimate(data[i][3]))
+        sensor3.append(kFilter3.updateEstimate(data[i][4]))
     normalise(time, sensor1, sensor2, sensor3)
-    
     trainingErrors = []
     testErrors = []
     neuralnets = []
