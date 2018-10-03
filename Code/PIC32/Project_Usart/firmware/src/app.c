@@ -307,10 +307,11 @@ void APP_Tasks ( void )
             if(appData.receivedData){
                 sensorInput1 = (float) appData.sensorData[0]*256 + appData.sensorData[1];
                 R1 = 1000.0/((1023.0/(1023-sensorInput1))-1.0);
-                T1 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)-20.08)/(35.84-20.08);
+                T1 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R1/1000.0)))-273.15)-24.372)/(28.981-24.372);
+                
                 sensorInput2 = (float)appData.sensorData[2]*256 + appData.sensorData[3];
                 R2 = 1000.0/((1023.0/(1023-sensorInput2))-1.0);
-                T2 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)-17.4)/(29.61-17.4);
+                T2 = ((1.0/((1.0/298.15)+(1.0/3800.0)*(log(R2/1000.0)))-273.15)-23.545)/(29.357-23.545);
                 time = (float) (appData.sensorData[4]*256*256 + appData.sensorData[5]*256 + appData.sensorData[6])/86400.0;
                 //Neural Network starts here
                 input[0] = T1; input[1] = T2; input[2] = time;
@@ -326,7 +327,7 @@ void APP_Tasks ( void )
                     weightCounter = weightCounter+1;
                 }
                 output1 = output1 + 1.0*weights[24];
-                output1 = (output1/12.0)*(34.61-20.08)+20.08; // linear output
+                output1 = (output1/12.0)*(35.515-20.995)+20.995; // linear output
                 output = output1*100;
                 
                 buffer[5] = output%100;

@@ -40,7 +40,7 @@ wifiArray = []
 currentWifiModule = 0
 sensorID = 0
 retryCounter = 0
-neuralNetworkReadings = [0,0,0]
+neuralNetworkReadings = [0,0]
 receivedValues = [0,0,0,0,0]
 readingsCounter = 0
 numberOfReadingsTakenThisSession = 0
@@ -117,17 +117,11 @@ while 1:
                             adcSensorValues[2] = readMessage[2]
                             adcSensorValues[3] = readMessage[3]
                             #special case
-                            adcValue0 = adcSensorValues[0]*256 + adcSensorValues[1]
-                            adcValue2 = adcSensorValues[4]*256 + adcSensorValues[5]
-                            R0 = 1000.0/((1023.0/(1023-adcValue0))-1.0)
-                            T0 = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R0/1000.0)))-273.15, 2) 
-                            R2 = 1000.0/((1023.0/(1023-adcValue2))-1.0)
-                            T2 = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R2/1000.0)))-273.15, 2) 
                         if sensorID == 2:
                             receivedValues[4] = T
                             adcSensorValues[4] = readMessage[2]
                             adcSensorValues[5] = readMessage[3]
-                            neuralNetworkReadings[2] = neuralNetReading
+                            neuralNetworkReadings[1] = neuralNetReading
                     else:
                         R_th = 0
                         T = 60
@@ -153,10 +147,10 @@ while 1:
                             writer = csv.writer(csvfile, delimiter=';',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
                             writer.writerow(receivedValues)
-                        if readingsCounter > 1:
-                            with open('BigHouseNeuralNetwork.csv', 'a', newline='') as csvfile:
-                                writer = csv.writer(csvfile,delimiter=';',quotechar='|', quoting = csv.QUOTE_MINIMAL)
-                                writeArray = [receivedValues[0], receivedValues[1], receivedValues[2], receivedValues[3],receivedValues[4], neuralNetworkReadings[0], neuralNetworkReadings[1], neuralNetworkReadings[2]]
+                        with open('BigHouseNeuralNetwork.csv', 'a', newline='') as csvfile:
+                            writer = csv.writer(csvfile, delimiter = ';',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                            writer.writerow(neuralNetworkReadings)
 
         elif mode=="write":
             print ("Sensor ID is: " + str(sensorID))
