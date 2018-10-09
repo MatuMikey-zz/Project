@@ -20,7 +20,7 @@ time2 = []
 sensor1 = []
 sensor2 = []
 sensor3 = []
-with open('BigHouse.csv', 'r') as csvfile:
+with open('SmallHouse.csv', 'r') as csvfile:
     data = csv.reader(csvfile, delimiter=';', quotechar='"')
     data = list(data)
     for i in range(5, len(data)-5):

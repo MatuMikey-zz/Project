@@ -6,9 +6,9 @@ import csv
 from pathlib import Path
 import random as random
 
-myFile = Path('SmallHouse.csv')
+myFile = Path('BigHouse.csv')
 if not myFile.exists():
-    with open('SmallHouse.csv','a', newline='') as csvfile:
+    with open('BigHouse.csv','a', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=';',
         quotechar='|', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(["Day", "Seconds", "Sensor 0", "Sensor 1", "Sensor2"])
@@ -143,14 +143,14 @@ while 1:
                         now = datetime.datetime.now()
                         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
                         receivedValues[1] = (now - midnight).seconds
-                        with open('SmallHouse.csv','a', newline='') as csvfile:
+                        with open('BigHouse.csv','a', newline='') as csvfile:
                             writer = csv.writer(csvfile, delimiter=';',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
                             writer.writerow(receivedValues)
-                        #with open('BigHouseNeuralNetwork.csv', 'a', newline='') as csvfile:
-                            #writer = csv.writer(csvfile, delimiter = ';',
-                            #quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                            #writer.writerow(neuralNetworkReadings)
+                        with open('BigHouseNeuralNetwork.csv', 'a', newline='') as csvfile:
+                            writer = csv.writer(csvfile, delimiter = ';',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                            writer.writerow(neuralNetworkReadings)
 
         elif mode=="write":
             print ("Sensor ID is: " + str(sensorID))
@@ -169,7 +169,7 @@ while 1:
                 
             elif (sensorID == 1):
                 print("Sending Request to Sensor 2")#, datetime.datetime.now.strftime("%Y-%m-%d %H:%M"))
-                sentBytes[2] = adcSensorValues[0]#1st and 2nd sensor ADC values sent
+                sentBytes[2] = adcSensorValues[0]#1st and 3rd sensor ADC values sent
                 sentBytes[3] = adcSensorValues[1]
                 sentBytes[4] = adcSensorValues[2]
                 sentBytes[5] = adcSensorValues[3]
