@@ -120,7 +120,7 @@ typedef struct
     char rx_byte;
     char buffer[100];
     char tx_byte;
-    int sensorData[7];
+    volatile int sensorData[7];
     int receivedCorrectByte;
     int storeBytePosition;
     int readMode;
