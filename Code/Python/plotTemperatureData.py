@@ -1,6 +1,6 @@
 import csv
 from KalmanFilter import KalmanFilter
-with open('SmallHouse.csv', 'r') as csvfile:
+with open('SmallHouseTest2.csv', 'r') as csvfile:
     so = csv.reader(csvfile, delimiter=';', quotechar='"')
     so = list(so)
 import matplotlib.pyplot as plt

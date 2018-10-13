@@ -66,7 +66,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 volatile char receiveBuffer[256] = "";
 volatile int receiveCount = 0;
 bool messageReceived = false;
-float sensorInput1, sensorInput2, time, R1, R2, T1, T2 = 0;
+volatile float sensorInput1, sensorInput2, time, R1, R2, T1, T2 = 0;
 volatile int output = 0;
 volatile float output1= 0;
 float input[3] ={0};
