@@ -22,7 +22,7 @@ time=[]
 #for i in range(1, len(so)):
     #if (so[i][2]  == 0.0 or so[i][3] == 0.0 or so[i][4] == 0.0):
      #   so.pop(i)
-for i in range(1, len(so)):
+for i in range(5, len(so)):
     time.append(float(so[i][1]))    
     sensor1.append(float(so[i][2]))
     sensor2.append(float(so[i][3]))
