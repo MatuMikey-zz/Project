@@ -31,9 +31,7 @@ sensor2Label = Label(root, text="Sensor 2").grid(row=4, column=0)
 sensor3Label = Label(root, text="Sensor 3").grid(row=6, column=0)
 historicalLabel = Label(root, text="Historical data", font = "Helvetica 10 bold").grid(row=9,column=0)
 #Buttons
-halfdayButton = Button(root, text="12 Hours", font = "Helvetica 10 bold").grid(row=9, column=2)
-dayButton = Button(root, text="24 Hours", font = "Helvetica 10 bold").grid(row=9, column=3)
-allTimeButton = Button(root, text = "All time data", font = "Helvetica 10 bold"). grid(row=9, column=4)
+allTimeButton = Button(root, text = "Past week", font = "Helvetica 10 bold"). grid(row=9, column=2)
 
 while 1:
     root.update()
