@@ -122,7 +122,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     sensor1 = []
     sensor2 = []
     sensor3 = []
-    kFilter1 = KalmanFilter(1,1,0.001)
+    kFilter1 = KalmanFilter(1,1,0.01)
     kFilter2 = KalmanFilter(1,1,0.01)
     kFilter3 = KalmanFilter(1,1,0.01)
     with open('SmallHouse.csv', 'r') as csvfile:
