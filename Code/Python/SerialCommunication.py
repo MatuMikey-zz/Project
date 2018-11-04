@@ -57,6 +57,86 @@ sensor2_nn.setWeights([-0.650728, 0.874079, 0.221358, -0.532183, 0.315071, -0.22
 #initiate neural networks here
 
 
+
+#######################################         GUI INTERFACE #####################################
+
+from tkinter import *
+
+root = Tk()
+
+import tkinter.ttk
+
+tkinter.ttk.Separator(root, orient=VERTICAL).grid(column=1, row=0, rowspan=8, sticky='ns')
+tkinter.ttk.Separator(root, orient=VERTICAL).grid(column=3, row = 0, rowspan=8, sticky='ns')
+tkinter.ttk.Separator(root, orient=VERTICAL).grid(column=5, row = 0, rowspan=8, sticky='ns')
+tkinter.ttk.Separator(root, orient=VERTICAL).grid(column=7, row = 0, rowspan=8, sticky='ns')
+
+
+
+tkinter.ttk.Separator(root, orient=HORIZONTAL).grid(column=0 ,row=1, columnspan=10, sticky='ew')
+tkinter.ttk.Separator(root, orient=HORIZONTAL).grid(column=1, row=3, columnspan=10, sticky='ew')
+tkinter.ttk.Separator(root, orient=HORIZONTAL).grid(column=1, row=5, columnspan=10, sticky='ew')
+tkinter.ttk.Separator(root, orient=HORIZONTAL).grid(column=0, row=7, columnspan=10, sticky='ew')
+tkinter.ttk.Separator(root, orient=HORIZONTAL).grid(column=0, row=8, columnspan=10, sticky='ew')
+
+
+
+#Labels
+sensorNumberLabel= Label(root, text="Sensor #", font = "Helvetica 10 bold").grid(row=0, column=0)
+sensorReadingLabel = Label(root, text="Sensor Temperature", font = "Helvetica 10 bold").grid(row=0, column=2)
+sensorNeuralNetworkLabel = Label(root, text="Virtual Sensor Temperature", font = "Helvetica 10 bold").grid(row=0,column=4)
+sensorErrorDifferenceLabel = Label(root, text="Error %", font = "Helvetica 10 bold").grid(row=0,column=6)
+sensorOnlineLabel = Label(root, text="Sensor Online", font = "Helvetica 10 bold").grid(row=0,column=8)
+
+sensor1Label = Label(root, text="Sensor 1").grid(row=2,column=0)
+sensor2Label = Label(root, text="Sensor 2").grid(row=4, column=0)
+sensor3Label = Label(root, text="Sensor 3").grid(row=6, column=0)
+historicalLabel = Label(root, text="Historical data", font = "Helvetica 10 bold").grid(row=9,column=0)
+#Buttons
+allTimeButton = Button(root, text = "Past week", font = "Helvetica 10 bold"). grid(row=9, column=2)
+
+s1r = StringVar()
+s2r = StringVar()
+s3r = StringVar()
+sensor1ReadingLabel = Label(root, textvariable=s1r).grid(row=2,column=2)
+sensor2ReadingLabel = Label(root, textvariable=s2r).grid(row=4,column=2)
+sensor3ReadingLabel = Label(root, textvariable=s3r).grid(row=6,column=2)
+
+n1r = StringVar()
+n2r = StringVar()
+n3r = StringVar() 
+neural1ReadingLabel = Label(root, textvariable=n1r).grid(row=2,column=4)
+neural2ReadingLabel = Label(root, textvariable=n2r).grid(row=4,column=4)
+neural3ReadingLabel = Label(root, textvariable=n3r).grid(row=6,column=4)
+
+e1r = StringVar()
+e2r = StringVar()
+e3r = StringVar()
+error1ReadingLabel = Label(root, textvariable=e1r).grid(row=2,column=6)
+error2ReadingLabel = Label(root, textvariable=e2r).grid(row=4,column=6)
+error3ReadingLabel = Label(root, textvariable=e3r).grid(row=6,column=6)
+
+sensor1Online = StringVar()
+sensor2Online = StringVar()
+sensor3Online = StringVar()
+sensor1Online.set("No")
+sensor2Online.set("No")
+sensor3Online.set("No")
+sensor1OnlineLabel = Label(root, textvariable=sensor1Online).grid(row=2, column=8)
+sensor2OnlineLabel = Label(root, textvariable=sensor2Online).grid(row=4, column=8)
+sensor3OnlineLabel = Label(root, textvariable=sensor3Online).grid(row=6, column=8)
+
+root.update()
+#####################################################################################################
+
+
+
+
+
+
+
+
+
 while 1:
     try:
         if mode=="read":
@@ -79,7 +159,9 @@ while 1:
                          value = sensor1_nn.predict([input0, input1, input2])*(30.789709748218648-23.82983524759436)+23.82983524759436
                          print("Sensor 1 imputed value:", value)
                          sensorID = 1
-                         
+                         n2r.set(str(value))
+                         sensor2Online.set("No")
+                         root.update()
                 elif(sensorID == 1):
                     print("Imputing sensor: 2")
                     if(canImpute == True):
@@ -93,6 +175,9 @@ while 1:
                          value = sensor1_nn.predict([input0, input1, input2])*(32.85368195780572-22.72858779740199)+22.72858779740199
                          print("Sensor 2 imputed value:", value)
                          sensorID = 2
+                         n3r.set(str(value))
+                         sensor3Online.set("No")
+                         root.update()
                 elif(sensorID == 2):
                     print("Imputing sensor: 0")
                     if(canImpute == True):
@@ -106,6 +191,9 @@ while 1:
                          value = sensor1_nn.predict([input0, input1, input2])*(36.584528199197784-21.541071413197535)+21.541071413197535
                          print("Sensor 0 imputed value:", value)
                          sensorID = 0
+                         n1r.set(str(value))
+                         sensor1Online.set("No")
+                         root.update()
             if (character == "+"):
                 character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
@@ -155,21 +243,31 @@ while 1:
                         R_th = 1000.0/((1023.0/(1023-adcValue))-1.0)
                         T = round(1.0/((1.0/298.15)+(1.0/3800.0)*(np.log(R_th/1000.0)))-273.15, 2) 
                         print ("Temperature sensor " +str(sensorID)+": " + str(T))
+                        
                         if sensorID == 0:
                             receivedValues[2] = T
                             adcSensorValues[0] = readMessage[2]
                             adcSensorValues[1] = readMessage[3]
                             neuralNetworkReadings[0] = neuralNetReading
+                            s1r.set(str(T))
+                            sensor1Online.set("Yes")
+                            root.update()
                         if sensorID == 1:
                             receivedValues[3] = T
                             adcSensorValues[2] = readMessage[2]
                             adcSensorValues[3] = readMessage[3]
+                            s2r.set(str(T))
+                            sensor2Online.set("Yes")
+                            root.update()
                             #special case
                         if sensorID == 2:
                             receivedValues[4] = T
                             adcSensorValues[4] = readMessage[2]
                             adcSensorValues[5] = readMessage[3]
                             neuralNetworkReadings[1] = neuralNetReading
+                            s3r.set(str(T))
+                            sensor3Online.set("Yes")
+                            root.update()
                     else:
                         R_th = 0
                         T = 60
