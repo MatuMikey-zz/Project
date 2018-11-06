@@ -25,7 +25,7 @@ sensor3 = []
 accuracy1 = []
 accuracy2 = []
 accuracy3 = []
-with open('BigHouse.csv', 'r') as csvfile:
+with open('ProjectDemonstration.csv', 'r') as csvfile:
     data = csv.reader(csvfile, delimiter=';', quotechar='"')
     data = list(data)
     for i in range(5, len(data)-5):
