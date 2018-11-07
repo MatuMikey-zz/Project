@@ -141,7 +141,60 @@ root.update()
 
 
 
-
+############################################## TEST DEFINITIONS ######################################
+def impute0(receivedValues, val):
+     input0 = (receivedValues[3]-23.82983524759436)/(30.789709748218648-23.82983524759436)
+     input1 = (receivedValues[4]-22.72858779740199)/(32.85368195780572-22.72858779740199)
+     now = datetime.datetime.now()
+     midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+     secondsPastMidnight = float((now - midnight).seconds)
+     secondsPastMidnight = secondsPastMidnight/86400.0
+     input2 = secondsPastMidnight
+     value = sensor0_nn.predict([input0, input1, input2])*(36.584528199197784-21.541071413197535)+21.541071413197535
+     if (val == 0):
+         print("Sensor 0 imputed value:", value)
+     else:
+         print ("Sensor 0 MLP value:", value)
+     sensorID = 0
+     n1r.set(str(value))
+     sensor1Online.set("No")
+     root.update()
+def impute1(receivedValues, val):
+     input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
+     input1 = (receivedValues[4]-22.72858779740199)/(32.85368195780572-22.72858779740199)
+     now = datetime.datetime.now()
+     midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+     secondsPastMidnight = float((now - midnight).seconds)
+     secondsPastMidnight = secondsPastMidnight/86400.0
+     input2 = secondsPastMidnight
+     value = sensor1_nn.predict([input0, input1, input2])*(30.789709748218648-23.82983524759436)+23.82983524759436
+     if(val == 0):
+         print("Sensor 1 imputed value:", value)
+     else:
+         print("Sensor 1 MLP value:", value)
+     sensorID = 1
+     n2r.set(str(value))
+     sensor2Online.set("No")
+     root.update()
+def impute2(receivedValues, val):
+     input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
+     input1 = (receivedValues[3]-23.82983524759436)/(30.789709748218648-23.82983524759436)
+     now = datetime.datetime.now()
+     midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
+     secondsPastMidnight = float((now - midnight).seconds)
+     secondsPastMidnight = secondsPastMidnight/86400.0
+     input2 = secondsPastMidnight
+     value = sensor2_nn.predict([input0, input1, input2])*(32.85368195780572-22.72858779740199)+22.72858779740199
+     if (val == 0):
+         print("Sensor 2 imputed value:", value)
+     else:
+         print("Sensor 2 MLP value:", value)
+     sensorID = 2
+     n3r.set(str(value))
+     sensor3Online.set("No")
+     root.update()
+     
+######################################################### END OF TEST DEFINITIONS ###############################
 
 
 
@@ -159,49 +212,22 @@ while 1:
                 if(sensorID == 0):
                     print("Imputing sensor: 1") #instead of retry use neural net?
                     if(canImpute == True):
-                         input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
-                         input1 = (receivedValues[4]-22.72858779740199)/(32.85368195780572-22.72858779740199)
-                         now = datetime.datetime.now()
-                         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-                         secondsPastMidnight = float((now - midnight).seconds)
-                         secondsPastMidnight = secondsPastMidnight/86400.0
-                         input2 = secondsPastMidnight
-                         value = sensor1_nn.predict([input0, input1, input2])*(30.789709748218648-23.82983524759436)+23.82983524759436
-                         print("Sensor 1 imputed value:", value)
-                         sensorID = 1
-                         n2r.set(str(value))
-                         sensor2Online.set("No")
-                         root.update()
+                        impute1(receivedValues,0)
+                        sensorID = 1
+                        sensor2Online.set("No")
+                        root.update()
                 elif(sensorID == 1):
                     print("Imputing sensor: 2")
                     if(canImpute == True):
-                         input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
-                         input1 = (receivedValues[3]-23.82983524759436)/(30.789709748218648-23.82983524759436)
-                         now = datetime.datetime.now()
-                         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-                         secondsPastMidnight = float((now - midnight).seconds)
-                         secondsPastMidnight = secondsPastMidnight/86400.0
-                         input2 = secondsPastMidnight
-                         value = sensor1_nn.predict([input0, input1, input2])*(32.85368195780572-22.72858779740199)+22.72858779740199
-                         print("Sensor 2 imputed value:", value)
-                         sensorID = 2
-                         n3r.set(str(value))
+                         impute2(receivedValues,0)
+                         sensorID= 2
                          sensor3Online.set("No")
                          root.update()
                 elif(sensorID == 2):
                     print("Imputing sensor: 0")
                     if(canImpute == True):
-                         input0 = (receivedValues[3]-23.82983524759436)/(30.789709748218648-23.82983524759436)
-                         input1 = (receivedValues[4]-22.72858779740199)/(32.85368195780572-22.72858779740199)
-                         now = datetime.datetime.now()
-                         midnight = now.replace(hour=0, minute=0, second=0, microsecond=0)
-                         secondsPastMidnight = float((now - midnight).seconds)
-                         secondsPastMidnight = secondsPastMidnight/86400.0
-                         input2 = secondsPastMidnight
-                         value = sensor1_nn.predict([input0, input1, input2])*(36.584528199197784-21.541071413197535)+21.541071413197535
-                         print("Sensor 0 imputed value:", value)
+                         impute0(receivedValues,0)
                          sensorID = 0
-                         n1r.set(str(value))
                          sensor1Online.set("No")
                          root.update()
             if (character == "+"):
@@ -243,7 +269,7 @@ while 1:
                     print("sensor ID:", sensorID)
                     if(allConnected == True):
                         neuralNetReading = float(readMessage[4]) + float(readMessage[5]/100.0)
-                        print("Sensor " + str(sensorID) + " MLP reading:", neuralNetReading)
+                        #print("Sensor " + str(sensorID) + " MLP reading:", neuralNetReading)
                     
                     #print("Sensor reading is:", sensorReading)
                     #print (sensorReading)
@@ -261,6 +287,8 @@ while 1:
                             adcSensorValues[1] = readMessage[3]
                             neuralNetworkReadings[0] = neuralNetReading
                             T = round(kFilter1.updateEstimate(T),2)
+                            if(canImpute == True):
+                                impute0(receivedValues, 1)
                             print("Sensor 0 filtered temperature: " + str(T))
                             s1r.set(str(T))
                             sensor1Online.set("Yes")
@@ -270,6 +298,8 @@ while 1:
                             adcSensorValues[2] = readMessage[2]
                             adcSensorValues[3] = readMessage[3]
                             T = round(kFilter2.updateEstimate(T),2)
+                            if (canImpute == True):
+                                impute1(receivedValues, 1)
                             print("Sensor 1 filtered temperature: " + str(T))
 
                             s2r.set(str(T))
@@ -282,7 +312,8 @@ while 1:
                             adcSensorValues[5] = readMessage[3]
                             neuralNetworkReadings[1] = neuralNetReading
                             T = round(kFilter3.updateEstimate(T),2)
-
+                            if(canImpute == True):
+                                impute2(receivedValues, 1)
                             print("Sensor 2 filtered temperature: " + str(T))
                             s3r.set(str(T))
                             sensor3Online.set("Yes")
@@ -369,3 +400,5 @@ while 1:
     except:
         #print(character)
         continue;
+        
+        
