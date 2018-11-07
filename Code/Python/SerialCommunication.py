@@ -159,6 +159,7 @@ def impute0(receivedValues, val):
      n1r.set(str(value))
      sensor1Online.set("No")
      root.update()
+     return value
 def impute1(receivedValues, val):
      input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
      input1 = (receivedValues[4]-22.72858779740199)/(32.85368195780572-22.72858779740199)
@@ -176,6 +177,7 @@ def impute1(receivedValues, val):
      n2r.set(str(value))
      sensor2Online.set("No")
      root.update()
+     return value
 def impute2(receivedValues, val):
      input0 = (receivedValues[2]-21.541071413197535)/(36.584528199197784-21.541071413197535)
      input1 = (receivedValues[3]-23.82983524759436)/(30.789709748218648-23.82983524759436)
@@ -193,6 +195,7 @@ def impute2(receivedValues, val):
      n3r.set(str(value))
      sensor3Online.set("No")
      root.update()
+     return value
      
 ######################################################### END OF TEST DEFINITIONS ###############################
 
@@ -216,6 +219,7 @@ while 1:
                         sensorID = 1
                         sensor2Online.set("No")
                         root.update()
+                        s1r.set("No reading")
                 elif(sensorID == 1):
                     print("Imputing sensor: 2")
                     if(canImpute == True):
@@ -223,6 +227,7 @@ while 1:
                          sensorID= 2
                          sensor3Online.set("No")
                          root.update()
+                         s3r.set("No reading")
                 elif(sensorID == 2):
                     print("Imputing sensor: 0")
                     if(canImpute == True):
@@ -230,6 +235,7 @@ while 1:
                          sensorID = 0
                          sensor1Online.set("No")
                          root.update()
+                         s1r.set("No reading")
             if (character == "+"):
                 character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
@@ -288,7 +294,9 @@ while 1:
                             neuralNetworkReadings[0] = neuralNetReading
                             T = round(kFilter1.updateEstimate(T),2)
                             if(canImpute == True):
-                                impute0(receivedValues, 1)
+                                error1 = round(abs(impute0(receivedValues, 1) - T)/(T)*100.0, 2)
+                                print("Sensor 0 error: " + str(error1))
+                                e1r.set(str(error1))
                             print("Sensor 0 filtered temperature: " + str(T))
                             s1r.set(str(T))
                             sensor1Online.set("Yes")
@@ -299,7 +307,9 @@ while 1:
                             adcSensorValues[3] = readMessage[3]
                             T = round(kFilter2.updateEstimate(T),2)
                             if (canImpute == True):
-                                impute1(receivedValues, 1)
+                                error2 = round(abs(impute1(receivedValues, 1) - T)/(T)*100.0, 2)
+                                print("Sensor 1 error: " + str(error2))
+                                e2r.set(str(error2))
                             print("Sensor 1 filtered temperature: " + str(T))
 
                             s2r.set(str(T))
@@ -313,7 +323,9 @@ while 1:
                             neuralNetworkReadings[1] = neuralNetReading
                             T = round(kFilter3.updateEstimate(T),2)
                             if(canImpute == True):
-                                impute2(receivedValues, 1)
+                                error3 = round(abs(impute2(receivedValues, 1) - T)/(T)*100.0, 2)
+                                print("Sensor 2 error: " + str(error3))
+                                e3r.set(str(error3))
                             print("Sensor 2 filtered temperature: " + str(T))
                             s3r.set(str(T))
                             sensor3Online.set("Yes")
