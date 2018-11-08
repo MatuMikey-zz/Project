@@ -123,7 +123,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     sensor1 = []
     sensor2 = []
     sensor3 = []
-    with open('TemperatureData.csv', 'r') as csvfile:
+    with open('ProjectDemonstration.csv', 'r') as csvfile:
         data = csv.reader(csvfile, delimiter=';', quotechar='"')
         data = list(data)
     for i in range(1, len(data)):

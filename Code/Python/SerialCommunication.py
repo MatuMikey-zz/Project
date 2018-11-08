@@ -98,9 +98,9 @@ sensorNeuralNetworkLabel = Label(root, text="Virtual Sensor Temperature", font =
 sensorErrorDifferenceLabel = Label(root, text="Error %", font = "Helvetica 10 bold").grid(row=0,column=6)
 sensorOnlineLabel = Label(root, text="Sensor Online", font = "Helvetica 10 bold").grid(row=0,column=8)
 
-sensor1Label = Label(root, text="Sensor 1").grid(row=2,column=0)
-sensor2Label = Label(root, text="Sensor 2").grid(row=4, column=0)
-sensor3Label = Label(root, text="Sensor 3").grid(row=6, column=0)
+sensor1Label = Label(root, text="Sensor 0").grid(row=2,column=0)
+sensor2Label = Label(root, text="Sensor 1").grid(row=4, column=0)
+sensor3Label = Label(root, text="Sensor 2").grid(row=6, column=0)
 historicalLabel = Label(root, text="Historical data", font = "Helvetica 10 bold").grid(row=9,column=0)
 #Buttons
 allTimeButton = Button(root, text = "Past week", font = "Helvetica 10 bold"). grid(row=9, column=2)
@@ -152,7 +152,7 @@ def impute0(receivedValues, val):
      input2 = secondsPastMidnight
      value = sensor0_nn.predict([input0, input1, input2])*(36.584528199197784-21.541071413197535)+21.541071413197535
      if (val == 0):
-         print("Sensor 0 imputed value:", value)
+         print("Sensor 0 imputed value:", round(value,2))
      else:
          print ("Sensor 0 MLP value:", value)
      sensorID = 0
@@ -170,7 +170,7 @@ def impute1(receivedValues, val):
      input2 = secondsPastMidnight
      value = sensor1_nn.predict([input0, input1, input2])*(30.789709748218648-23.82983524759436)+23.82983524759436
      if(val == 0):
-         print("Sensor 1 imputed value:", value)
+         print("Sensor 1 imputed value:", round(value,2))
      else:
          print("Sensor 1 MLP value:", value)
      sensorID = 1
@@ -188,7 +188,7 @@ def impute2(receivedValues, val):
      input2 = secondsPastMidnight
      value = sensor2_nn.predict([input0, input1, input2])*(32.85368195780572-22.72858779740199)+22.72858779740199
      if (val == 0):
-         print("Sensor 2 imputed value:", value)
+         print("Sensor 2 imputed value:", round(value,2))
      else:
          print("Sensor 2 MLP value:", value)
      sensorID = 2
@@ -218,24 +218,26 @@ while 1:
                         impute1(receivedValues,0)
                         sensorID = 1
                         sensor2Online.set("No")
-                        root.update()
                         s1r.set("No reading")
+                        root.update()
+
                 elif(sensorID == 1):
                     print("Imputing sensor: 2")
                     if(canImpute == True):
                          impute2(receivedValues,0)
                          sensorID= 2
                          sensor3Online.set("No")
-                         root.update()
                          s3r.set("No reading")
+                         root.update()
+
                 elif(sensorID == 2):
                     print("Imputing sensor: 0")
                     if(canImpute == True):
                          impute0(receivedValues,0)
                          sensorID = 0
                          sensor1Online.set("No")
-                         root.update()
                          s1r.set("No reading")
+                         root.update()
             if (character == "+"):
                 character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
@@ -261,9 +263,9 @@ while 1:
                         for i in range(len(wifiArray)):
                             if (wifiArray[i][0] == sensorID): 
                                 if(wifiArray[i][1] != messageWiFiID):
-                                    print("WiFi has changed for this module. Reassigning!")
-                                    print("Old WiFi:", wifiArray[i][1])
-                                    print("New WiFi:", messageWiFiID)
+                                    print("WiFi ID has changed for this module. Reassigning!")
+                                    print("Old WiFi ID:", wifiArray[i][1])
+                                    print("New WiFi ID:", messageWiFiID)
                                     wifiArray[i][1] = messageWiFiID
                                     for j in range(len(wifiArray)):
                                         if (wifiArray[j][1] == messageWiFiID and i != j):
