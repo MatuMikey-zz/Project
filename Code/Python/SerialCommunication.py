@@ -153,10 +153,12 @@ def impute0(receivedValues, val):
      value = sensor0_nn.predict([input0, input1, input2])*(36.584528199197784-21.541071413197535)+21.541071413197535
      if (val == 0):
          print("Sensor 0 imputed value:", round(value,2))
+         n1r.set(str(round(value,2)))
      else:
          print ("Sensor 0 MLP value:", value)
+         n1r.set(str(value))
      sensorID = 0
-     n1r.set(str(value))
+     
      sensor1Online.set("No")
      root.update()
      return value
@@ -171,10 +173,12 @@ def impute1(receivedValues, val):
      value = sensor1_nn.predict([input0, input1, input2])*(30.789709748218648-23.82983524759436)+23.82983524759436
      if(val == 0):
          print("Sensor 1 imputed value:", round(value,2))
+         n2r.set(str(value))
      else:
-         print("Sensor 1 MLP value:", value)
+         print("Sensor 1 MLP value:", round(value,2))
+         n2r.set(str(round(value,2)))
      sensorID = 1
-     n2r.set(str(value))
+     
      sensor2Online.set("No")
      root.update()
      return value
@@ -189,10 +193,12 @@ def impute2(receivedValues, val):
      value = sensor2_nn.predict([input0, input1, input2])*(32.85368195780572-22.72858779740199)+22.72858779740199
      if (val == 0):
          print("Sensor 2 imputed value:", round(value,2))
+         n3r.set(str(round(value,2)))
      else:
          print("Sensor 2 MLP value:", value)
+         n3r.set(str(value))
      sensorID = 2
-     n3r.set(str(value))
+     
      sensor3Online.set("No")
      root.update()
      return value

@@ -125,7 +125,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     kFilter1 = KalmanFilter(1,1,0.01)
     kFilter2 = KalmanFilter(1,1,0.01)
     kFilter3 = KalmanFilter(1,1,0.01)
-    with open('SmallHouse.csv', 'r') as csvfile:
+    with open('ProjectDemonstration.csv', 'r') as csvfile:
         data = csv.reader(csvfile, delimiter=';', quotechar='"')
         data = list(data)
     for i in range(1, len(data)):
