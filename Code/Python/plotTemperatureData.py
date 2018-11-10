@@ -15,7 +15,7 @@ def meanFilter(array):
 
 kFilter1 = KalmanFilter(1,1,0.1)
 kFilter2 = KalmanFilter(1,1,0.1)
-kFilter3 = KalmanFilter(1,1,1)
+kFilter3 = KalmanFilter(1,1,0.1)
 sensor1=[]
 sensor2=[]
 sensor3=[]

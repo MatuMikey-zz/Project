@@ -1,11 +1,11 @@
 from NeuralNetwork import *
 import matplotlib.pyplot as plt
 
-Sensor0NeuralNetwork, trainLoss0, testLoss0 = train(11,1,100,500,0)
+Sensor0NeuralNetwork, trainLoss0, testLoss0 = train(11,1,100,1000,0)
 #print ("Sensor0 Test Loss:", testLoss0, "Train Loss:", trainLoss0)
-Sensor1NeuralNetwork, trainLoss1, testLoss1 = train(11,1,100,500,1)
+Sensor1NeuralNetwork, trainLoss1, testLoss1 = train(11,1,100,1000,1)
 #print ("Sensor1 Test Loss:", testLoss1, "Train Loss:", trainLoss1)
-Sensor2NeuralNetwork, trainLoss2, testLoss2 = train(11,1,100,500,2)
+Sensor2NeuralNetwork, trainLoss2, testLoss2 = train(11,1,100,1000,2)
 #print ("Sensor2 Test Loss:", testLoss2, "Train Loss:", trainLoss2)
 
 print("Weights:")

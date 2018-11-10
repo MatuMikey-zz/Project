@@ -217,7 +217,6 @@ while 1:
                     if(canImpute == True):
                         storeValue = impute1(receivedValues,0)
                         receivedValues[3] = storeValue
-                        readingsCounter = readingsCounter + 1
                         sensorID = 1
                         sensor2Online.set("No")
                         s2r.set("No reading")
@@ -229,7 +228,6 @@ while 1:
                     if(canImpute == True):
                          storeValue = impute2(receivedValues,0)
                          receivedValues[4] = storeValue
-                         readingsCounter = readingsCounter + 1
                          sensorID= 2
                          sensor3Online.set("No")
                          s3r.set("No reading")
@@ -241,8 +239,6 @@ while 1:
                     if(canImpute == True):
                          storeValue = impute0(receivedValues,0)
                          receivedValues[2] = storeValue
-                         readingsCounter = readingsCounter + 1
-
                          sensorID = 0
                          sensor1Online.set("No")
                          s1r.set("No reading")
@@ -353,7 +349,7 @@ while 1:
                         mode = "write"
                     readingsCounter = readingsCounter + 1
                     #print("readingsCounter: ", readingsCounter)
-                    if readingsCounter >= 3:
+                    if readingsCounter == 3:
                         readingsCounter = 0
                         canImpute = True
                         print ("\nThe ADC sensor values are:", adcSensorValues)
