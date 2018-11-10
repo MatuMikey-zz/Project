@@ -215,7 +215,9 @@ while 1:
                 if(sensorID == 0):
                     print("Imputing sensor: 1") #instead of retry use neural net?
                     if(canImpute == True):
-                        impute1(receivedValues,0)
+                        storeValue = impute1(receivedValues,0)
+                        receivedValues[3] = storeValue
+                        readingsCounter = readingsCounter + 1
                         sensorID = 1
                         sensor2Online.set("No")
                         s2r.set("No reading")
@@ -225,7 +227,9 @@ while 1:
                 elif(sensorID == 1):
                     print("Imputing sensor: 2")
                     if(canImpute == True):
-                         impute2(receivedValues,0)
+                         storeValue = impute2(receivedValues,0)
+                         receivedValues[4] = storeValue
+                         readingsCounter = readingsCounter + 1
                          sensorID= 2
                          sensor3Online.set("No")
                          s3r.set("No reading")
@@ -235,7 +239,10 @@ while 1:
                 elif(sensorID == 2):
                     print("Imputing sensor: 0")
                     if(canImpute == True):
-                         impute0(receivedValues,0)
+                         storeValue = impute0(receivedValues,0)
+                         receivedValues[2] = storeValue
+                         readingsCounter = readingsCounter + 1
+
                          sensorID = 0
                          sensor1Online.set("No")
                          s1r.set("No reading")
@@ -346,7 +353,7 @@ while 1:
                         mode = "write"
                     readingsCounter = readingsCounter + 1
                     #print("readingsCounter: ", readingsCounter)
-                    if readingsCounter == 3:
+                    if readingsCounter >= 3:
                         readingsCounter = 0
                         canImpute = True
                         print ("\nThe ADC sensor values are:", adcSensorValues)
