@@ -218,7 +218,8 @@ while 1:
                         impute1(receivedValues,0)
                         sensorID = 1
                         sensor2Online.set("No")
-                        s1r.set("No reading")
+                        s2r.set("No reading")
+                        e2r.set("N/A")
                         root.update()
 
                 elif(sensorID == 1):
@@ -228,6 +229,7 @@ while 1:
                          sensorID= 2
                          sensor3Online.set("No")
                          s3r.set("No reading")
+                         e3r.set("N/A")
                          root.update()
 
                 elif(sensorID == 2):
@@ -237,7 +239,9 @@ while 1:
                          sensorID = 0
                          sensor1Online.set("No")
                          s1r.set("No reading")
+                         e1r.set("N/A")
                          root.update()
+                         
             if (character == "+"):
                 character = ser.read(1).decode('utf-8') #TODO: TIMEOUT CHECK
                 if (character == "I"):
