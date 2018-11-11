@@ -174,8 +174,6 @@ def plotGraphs():
     print("Average accuracy VS 3:", 100-np.average(acc3))
     print("Best accuracy VS 3:", 100-s3)
     print("Worst accuracy VS 3:", 100-b3)
-    
-    print (store1)
 #########################################################################################################
 
 #Labels
