@@ -32,8 +32,8 @@ def normalise(time, s1,s2,s3):
         s1[i] = (s1[i]-smallest1)/(biggest1-smallest1)
         s2[i] = (s2[i]-smallest2)/(biggest2-smallest2)
         s3[i] = (s3[i]-smallest3)/(biggest3-smallest3)
-    print ("smallest:", smallest1, smallest2, smallest3)
-    print ("biggest:", biggest1, biggest2, biggest3)
+    #print ("smallest:", smallest1, smallest2, smallest3)
+    #print ("biggest:", biggest1, biggest2, biggest3)
 
 class NeuralNetwork:
     inputNodes = 3 #time, sensor 1, sensor 2
