@@ -128,7 +128,7 @@ def train(nodes, layers, n_neuralnets, epochs, sensorNumber):
     with open('ProjectDemonstration.csv', 'r') as csvfile:
         data = csv.reader(csvfile, delimiter=';', quotechar='"')
         data = list(data)
-    for i in range(1, len(data)):
+    for i in range(7000, len(data)):
         for j in range(0, len(data[i])):
             data[i][j] = float(data[i][j])
         time.append(data[i][1])

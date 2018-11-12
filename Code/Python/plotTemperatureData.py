@@ -13,9 +13,9 @@ def meanFilter(array):
     return newArray
 
 
-kFilter1 = KalmanFilter(1,1,0.1)
-kFilter2 = KalmanFilter(1,1,0.1)
-kFilter3 = KalmanFilter(1,1,0.1)
+kFilter1 = KalmanFilter(1,1,0.01)
+kFilter2 = KalmanFilter(1,1,0.01)
+kFilter3 = KalmanFilter(1,1,0.01)
 sensor1=[]
 sensor2=[]
 sensor3=[]
@@ -31,11 +31,11 @@ for i in range(2, len(so)):
 
 
 plt.subplot(2,2,1)
-#plt.plot(sensor1)
+plt.plot(sensor1)
 plt.subplot(2,2,2)
-#plt.plot(sensor2)
+plt.plot(sensor2)
 plt.subplot(2,2,3)
-#plt.plot(sensor3)
+plt.plot(sensor3)
 #addseconds = []
 #k = 0
 #for i in range(0, len(time)):

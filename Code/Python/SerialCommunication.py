@@ -101,9 +101,9 @@ sensorOnlineLabel = Label(root, text="Sensor Online", font = "Helvetica 10 bold"
 sensor1Label = Label(root, text="Sensor 0").grid(row=2,column=0)
 sensor2Label = Label(root, text="Sensor 1").grid(row=4, column=0)
 sensor3Label = Label(root, text="Sensor 2").grid(row=6, column=0)
-historicalLabel = Label(root, text="Historical data", font = "Helvetica 10 bold").grid(row=9,column=0)
+#historicalLabel = Label(root, text="Historical data", font = "Helvetica 10 bold").grid(row=9,column=0)
 #Buttons
-allTimeButton = Button(root, text = "Past week", font = "Helvetica 10 bold"). grid(row=9, column=2)
+#allTimeButton = Button(root, text = "Past week", font = "Helvetica 10 bold"). grid(row=9, column=2)
 
 s1r = StringVar()
 s2r = StringVar()
